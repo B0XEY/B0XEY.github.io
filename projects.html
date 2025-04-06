@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - B0XEY</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="index.html" class="logo">
+                <img src="logo.svg" alt="B0XEY Logo">
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="projects.html" class="active">Projects</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="paper-texture"></div>
+        <section class="page-header">
+            <div class="section-content">
+                <div class="handcrafted-title">
+                    <div class="title-decoration left"></div>
+                    <h1>Projects</h1>
+                    <div class="title-decoration right"></div>
+                </div>
+                <p>Explore my game development journey</p>
+            </div>
+        </section>
+
+        <section class="projects">
+            <div class="section-content">
+                <div class="project-filters">
+                    <span class="filter-label">Filter by status:</span>
+                    <select id="status-filter" class="status-filter">
+                        <option value="all">All Projects</option>
+                        <option value="concept">Concept Phase</option>
+                        <option value="planning">Planning</option>
+                        <option value="development">In Development</option>
+                        <option value="testing">Testing</option>
+                        <option value="completed">Completed</option>
+                        <option value="paused">Paused</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="project-grid">
+                    <!-- Project cards will be dynamically loaded here -->
+                    <div class="loading-indicator">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading projects...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-decoration"></div>
+        <p>&copy; 2024 B0XEY. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 

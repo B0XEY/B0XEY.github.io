@@ -1,0 +1,20 @@
+{
+    "projects": [
+        {
+            "title": "Pixel Adventure",
+            "description": "A retro-style platformer with modern mechanics. Explore vibrant pixel worlds, solve puzzles, and battle unique enemies in this handcrafted adventure.",
+            "link": "#",
+            "status": "In Development",
+            "platforms": ["Windows", "macOS"],
+            "tags": ["Platformer", "Retro", "Puzzle"]
+        },
+        {
+            "title": "Space Explorer",
+            "description": "An open-world space exploration game where you discover new planets, gather resources, and build your own intergalactic empire.",
+            "link": "#",
+            "status": "Concept Phase",
+            "platforms": ["Windows", "Linux"],
+            "tags": ["Open World", "Space", "Exploration"]
+        }
+    ]
+} 
