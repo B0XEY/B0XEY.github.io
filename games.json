@@ -1,0 +1,36 @@
+{
+    "games": [
+        {
+            "title": "Devil Defense",
+            "description": "A turn-based strategy game made for Mini Jam: 110. While in-game you can Sacrifice your team to get stronger.",
+            "link": "https://b0xey.itch.io/dd",
+            "genre": "Strategy",
+            "platforms": ["Windows", "HTML5"],
+            "tags": ["Turn-based", "Strategy", "Mini Jam", "Unity"]
+        },
+        {
+            "title": "Solar System",
+            "description": "An unfinished solar system simulation game with a custom solar system maker (feature in development).",
+            "link": "https://b0xey.itch.io/solar-system-game",
+            "genre": "Simulation",
+            "platforms": ["Windows"],
+            "tags": ["Space", "Simulation", "2D", "Space Sim"]
+        },
+        {
+            "title": "Solar Smash",
+            "description": "A game made for Brackeys Game Jam 2021.2. Features enemy spawning mechanics that increase difficulty, creating lots of replayability!",
+            "link": "https://b0xey.itch.io/solor-smash",
+            "genre": "Shooter",
+            "platforms": ["Windows", "HTML5"],
+            "tags": ["Space", "Shooter", "Game Jam", "Unity"]
+        },
+        {
+            "title": "Car Vroom",
+            "description": "You are a car trying to get away from the cops! A somewhat finished driving simulation game.",
+            "link": "https://b0xey.itch.io/car-vroom",
+            "genre": "Simulation",
+            "platforms": ["Windows"],
+            "tags": ["Driving", "Simulation", "vroom"]
+        }
+    ]
+} 

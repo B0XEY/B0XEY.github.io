@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects - B0XEY</title>
+    <title>Games - B0XEY</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -17,8 +17,8 @@
             </a>
             <div class="nav-links">
                 <a href="index.html">Home</a>
-                <a href="projects.html" class="active">Projects</a>
-                <a href="games.html">Games</a>
+                <a href="projects.html">Projects</a>
+                <a href="games.html" class="active">Games</a>
             </div>
         </div>
     </nav>
@@ -28,33 +28,29 @@
             <div class="section-content">
                 <div class="handcrafted-title">
                     <div class="title-decoration left"></div>
-                    <h1>Projects</h1>
+                    <h1>Games</h1>
                     <div class="title-decoration right"></div>
                 </div>
-                <p>Explore my game development journey</p>
+                <p>Explore my game collection</p>
             </div>
         </section>
 
-        <section class="projects">
+        <section class="games">
             <div class="section-content">
-                <div class="project-filters">
-                    <span class="filter-label">Filter by status:</span>
-                    <select id="status-filter" class="status-filter">
-                        <option value="all">All Projects</option>
-                        <option value="concept">Concept Phase</option>
-                        <option value="planning">Planning</option>
-                        <option value="development">In Development</option>
-                        <option value="testing">Testing</option>
-                        <option value="completed">Completed</option>
-                        <option value="paused">Paused</option>
-                        <option value="cancelled">Cancelled</option>
-                    </select>
+                <div class="game-filters">
+                    <div class="search-container">
+                        <span class="filter-label">Search games:</span>
+                        <div class="search-input-container">
+                            <input type="text" id="game-search" class="search-input" placeholder="Type to search...">
+                            <button id="clear-search" class="clear-search-btn"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
                 </div>
-                <div class="project-grid">
-                    <!-- Project cards will be dynamically loaded here -->
+                <div class="games-grid">
+                    <!-- Game cards will be dynamically loaded here -->
                     <div class="loading-indicator">
                         <i class="fas fa-spinner fa-spin"></i>
-                        <p>Loading projects...</p>
+                        <p>Loading games...</p>
                     </div>
                 </div>
             </div>

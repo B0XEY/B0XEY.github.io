@@ -54,13 +54,16 @@ async function createProjectCards(statusFilter = 'all') {
         return; // Only run on pages with project grid
     }
     
-    // Clear existing content including loading indicator
-    projectGrid.innerHTML = '';
+    // Show loading indicator
+    projectGrid.innerHTML = '<div class="loading-indicator"><i class="fas fa-spinner fa-spin"></i><p>Loading projects...</p></div>';
     
     try {
         // Load projects from JSON
         const projects = await loadProjects();
         console.log(`Loaded ${projects.length} projects`);
+        
+        // Clear loading indicator
+        projectGrid.innerHTML = '';
         
         // If no projects, show message
         if (!projects || projects.length === 0) {
@@ -78,7 +81,8 @@ async function createProjectCards(statusFilter = 'all') {
             ? projects 
             : projects.filter(project => {
                 const projectStatus = project.status?.toLowerCase() || '';
-                return projectStatus.includes(statusFilter);
+                // More flexible matching - check if status contains the filter value
+                return projectStatus.includes(statusFilter.toLowerCase());
             });
         
         console.log(`Filtered to ${filteredProjects.length} projects`);
@@ -88,8 +92,23 @@ async function createProjectCards(statusFilter = 'all') {
             console.warn(`No projects match the filter: ${statusFilter}`);
             const emptyMessage = document.createElement('div');
             emptyMessage.className = 'empty-message';
-            emptyMessage.innerHTML = `<p>No projects with status "${statusFilter}" found.</p>`;
+            emptyMessage.innerHTML = `
+                <p>No projects with status "${statusFilter}" found.</p>
+                <button class="reset-filter-btn">Show all projects</button>
+            `;
             projectGrid.appendChild(emptyMessage);
+            
+            // Add event listener to reset filter button
+            const resetButton = emptyMessage.querySelector('.reset-filter-btn');
+            if (resetButton) {
+                resetButton.addEventListener('click', () => {
+                    const statusFilter = document.getElementById('status-filter');
+                    if (statusFilter) {
+                        statusFilter.value = 'all';
+                        createProjectCards('all');
+                    }
+                });
+            }
             return;
         }
         
@@ -99,8 +118,10 @@ async function createProjectCards(statusFilter = 'all') {
             const card = document.createElement('div');
             card.className = 'project-card';
             
-            // Make visible immediately to avoid animation issues
-            card.classList.add('visible');
+            // Add a slight delay to each card for a staggered appearance
+            setTimeout(() => {
+                card.classList.add('visible');
+            }, index * 150);
             
             // Get status class based on the project status
             let statusClass = '';
@@ -148,12 +169,297 @@ function setupProjectFilters() {
     const statusFilter = document.getElementById('status-filter');
     if (!statusFilter) return; // Only run on pages with status filter
     
+    // Store the previous filter value to check if it actually changed
+    let previousFilter = 'all';
+    
     statusFilter.addEventListener('change', function() {
-        createProjectCards(this.value);
+        const newFilter = this.value;
+        
+        // Only reload if the filter actually changed
+        if (newFilter !== previousFilter) {
+            previousFilter = newFilter;
+            
+            // Fade out current projects
+            const projectCards = document.querySelectorAll('.project-card');
+            projectCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+            });
+            
+            // Wait for fade out animation, then load new cards
+            setTimeout(() => {
+                createProjectCards(newFilter);
+            }, 300);
+        }
+    });
+    
+    // Add filter reset button
+    const filtersContainer = document.querySelector('.project-filters');
+    if (filtersContainer) {
+        const resetButton = document.createElement('button');
+        resetButton.className = 'filter-reset-btn';
+        resetButton.textContent = 'Reset Filter';
+        resetButton.addEventListener('click', () => {
+            if (statusFilter.value !== 'all') {
+                statusFilter.value = 'all';
+                previousFilter = 'all';
+                
+                // Trigger fade animation
+                const projectCards = document.querySelectorAll('.project-card');
+                projectCards.forEach(card => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                });
+                
+                // Wait for fade out animation, then load new cards
+                setTimeout(() => {
+                    createProjectCards('all');
+                }, 300);
+            }
+        });
+        filtersContainer.appendChild(resetButton);
+    }
+}
+
+// Function to load games from JSON file
+async function loadGames() {
+    try {
+        console.log("Attempting to load games from games.json");
+        // Use a timestamp to prevent caching
+        const timestamp = new Date().getTime();
+        const response = await fetch(`games.json?t=${timestamp}`, {
+            cache: 'no-store',
+            headers: {
+                'pragma': 'no-cache',
+                'cache-control': 'no-cache'
+            }
+        });
+        
+        if (!response.ok) {
+            console.error(`Failed to fetch games.json: ${response.status} ${response.statusText}`);
+            throw new Error('Failed to fetch games.json');
+        }
+        
+        const text = await response.text();
+        console.log("Raw JSON text:", text);
+        
+        try {
+            const data = JSON.parse(text);
+            console.log("Games loaded successfully:", data.games);
+            return data.games;
+        } catch (parseError) {
+            console.error("Error parsing JSON:", parseError);
+            throw new Error('Failed to parse games.json');
+        }
+    } catch (error) {
+        console.error('Error loading games:', error);
+        // Fallback games if JSON loading fails
+        console.log("Using hardcoded fallback games");
+        return [
+            {
+                "title": "Error",
+                "description": "Error loading games.json",
+                "link": "#",
+                "genre": "Adventure",
+                "platforms": ["Windows", "macOS"],
+                "tags": ["Error", "Loading"]
+            }
+        ];
+    }
+}
+
+// Function to create game cards
+async function createGameCards(searchTerm = '') {
+    console.log(`Creating game cards with search: "${searchTerm}"`);
+    const gamesGrid = document.querySelector('.games-grid');
+    if (!gamesGrid) {
+        console.error("Games grid element not found");
+        return; // Only run on pages with games grid
+    }
+    
+    // Show loading indicator
+    gamesGrid.innerHTML = '<div class="loading-indicator"><i class="fas fa-spinner fa-spin"></i><p>Loading games...</p></div>';
+    
+    try {
+        // Load games from JSON
+        const games = await loadGames();
+        console.log(`Loaded ${games.length} games`);
+        
+        // Clear loading indicator
+        gamesGrid.innerHTML = '';
+        
+        // If no games, show message
+        if (!games || games.length === 0) {
+            console.warn("No games available");
+            const emptyMessage = document.createElement('div');
+            emptyMessage.className = 'empty-message';
+            emptyMessage.innerHTML = '<p>No games available yet. Check back soon!</p>';
+            gamesGrid.appendChild(emptyMessage);
+            return;
+        }
+        
+        // Filter games by search term
+        console.log(`Filtering games by search: "${searchTerm}"`);
+        const filteredGames = searchTerm === '' 
+            ? games 
+            : games.filter(game => {
+                const searchLower = searchTerm.toLowerCase();
+                const titleMatch = game.title?.toLowerCase().includes(searchLower) || false;
+                const descMatch = game.description?.toLowerCase().includes(searchLower) || false;
+                const genreMatch = game.genre?.toLowerCase().includes(searchLower) || false;
+                const tagMatch = Array.isArray(game.tags) && game.tags.some(tag => 
+                    tag.toLowerCase().includes(searchLower)
+                );
+                return titleMatch || descMatch || genreMatch || tagMatch;
+            });
+        
+        console.log(`Filtered to ${filteredGames.length} games`);
+        
+        // Show message if no games match the search
+        if (filteredGames.length === 0) {
+            console.warn(`No games match the search: "${searchTerm}"`);
+            const emptyMessage = document.createElement('div');
+            emptyMessage.className = 'empty-message';
+            emptyMessage.innerHTML = `
+                <p>No games matching "${searchTerm}" found.</p>
+                <button class="reset-filter-btn">Show all games</button>
+            `;
+            gamesGrid.appendChild(emptyMessage);
+            
+            // Add event listener to reset filter button
+            const resetButton = emptyMessage.querySelector('.reset-filter-btn');
+            if (resetButton) {
+                resetButton.addEventListener('click', () => {
+                    const searchInput = document.getElementById('game-search');
+                    if (searchInput) {
+                        searchInput.value = '';
+                        createGameCards('');
+                    }
+                });
+            }
+            return;
+        }
+        
+        // Create a card for each game
+        filteredGames.forEach((game, index) => {
+            console.log(`Creating card for game: ${game.title}`);
+            const card = document.createElement('div');
+            card.className = 'project-card game-card'; // Use same styling as project cards
+            
+            // Add a slight delay to each card for a staggered appearance
+            setTimeout(() => {
+                card.classList.add('visible');
+            }, index * 150);
+            
+            // Create the HTML
+            card.innerHTML = `
+                <div class="card-decoration top-left"></div>
+                <div class="card-decoration top-right"></div>
+                <h3>${game.title || 'Untitled Game'}</h3>
+                <p>${game.description || 'No description available.'}</p>
+                ${game.tags ? `<div class="project-tags">${game.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>` : ''}
+                ${game.platforms ? `<div class="project-platforms">${game.platforms.map(platform => `<span class="platform">${platform}</span>`).join('')}</div>` : ''}
+                <a href="${game.link || '#'}" class="project-link">Play Game</a>
+                <div class="card-decoration bottom-left"></div>
+                <div class="card-decoration bottom-right"></div>
+            `;
+            gamesGrid.appendChild(card);
+        });
+    } catch (error) {
+        console.error("Error creating game cards:", error);
+        // Show error message
+        const errorMessage = document.createElement('div');
+        errorMessage.className = 'empty-message';
+        errorMessage.innerHTML = '<p>Error loading games. Please try again later.</p>';
+        gamesGrid.appendChild(errorMessage);
+    }
+}
+
+// Function to setup game search functionality
+function setupGameSearch() {
+    const searchInput = document.getElementById('game-search');
+    const clearSearchBtn = document.getElementById('clear-search');
+    
+    if (!searchInput) return; // Only run on pages with search input
+    
+    // Add debounce to prevent too many reloads while typing
+    let searchTimeout;
+    
+    searchInput.addEventListener('input', function() {
+        clearTimeout(searchTimeout);
+        
+        // Show/hide clear button based on input content
+        if (this.value.length > 0) {
+            clearSearchBtn.style.display = 'flex';
+        } else {
+            clearSearchBtn.style.display = 'none';
+        }
+        
+        // Debounce the search to avoid too many reloads
+        searchTimeout = setTimeout(() => {
+            // Fade out current games
+            const gameCards = document.querySelectorAll('.game-card');
+            gameCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+            });
+            
+            // Wait for fade out animation, then load new cards
+            setTimeout(() => {
+                createGameCards(searchInput.value.trim());
+            }, 300);
+        }, 500); // 500ms debounce time
+    });
+    
+    // Clear search button functionality
+    if (clearSearchBtn) {
+        // Initially hide the clear button
+        clearSearchBtn.style.display = 'none';
+        
+        clearSearchBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            clearSearchBtn.style.display = 'none';
+            
+            // Clear the search and reload all games
+            // Fade out current games
+            const gameCards = document.querySelectorAll('.game-card');
+            gameCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+            });
+            
+            // Wait for fade out animation, then load new cards
+            setTimeout(() => {
+                createGameCards('');
+            }, 300);
+            
+            // Focus the search input again
+            searchInput.focus();
+        });
+    }
+    
+    // Add search on Enter key
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            clearTimeout(searchTimeout);
+            
+            // Fade out current games
+            const gameCards = document.querySelectorAll('.game-card');
+            gameCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+            });
+            
+            // Wait for fade out animation, then load new cards
+            setTimeout(() => {
+                createGameCards(searchInput.value.trim());
+            }, 300);
+        }
     });
 }
 
-// Smooth scrolling for navigation links
+// Enhanced smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         const href = this.getAttribute('href');
@@ -162,6 +468,12 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
+            // Add a subtle flash effect to the target section
+            target.classList.add('highlight-section');
+            setTimeout(() => {
+                target.classList.remove('highlight-section');
+            }, 1000);
+            
             target.scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
@@ -174,24 +486,108 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 function getCurrentPage() {
     const path = window.location.pathname;
     if (path.endsWith('projects.html')) return 'projects';
+    if (path.endsWith('games.html')) return 'games';
     return 'home';
 }
 
-// Add subtle parallax effect to paper texture
+// Enhanced parallax effect for paper texture and decorations
 function setupParallax() {
     const paperTexture = document.querySelector('.paper-texture');
     if (!paperTexture) return;
     
+    // Track mouse position for parallax effect
     window.addEventListener('mousemove', (e) => {
-        const x = e.clientX / window.innerWidth;
-        const y = e.clientY / window.innerHeight;
+        const mouseX = e.clientX / window.innerWidth;
+        const mouseY = e.clientY / window.innerHeight;
         
-        paperTexture.style.transform = `translate(${x * 20}px, ${y * 20}px)`;
+        // Move paper texture based on mouse position (subtle effect)
+        paperTexture.style.transform = `translate(${mouseX * 15}px, ${mouseY * 15}px)`;
+        
+        // Apply subtle rotation to decorative elements
+        document.querySelectorAll('.title-decoration').forEach(el => {
+            el.style.transform = `rotate(${(mouseX - 0.5) * 5}deg)`;
+        });
+        
+        // Move hero decorations
+        document.querySelectorAll('.hero-decoration').forEach(el => {
+            const isTop = el.classList.contains('top');
+            el.style.transform = isTop 
+                ? `scaleY(1) translateY(${mouseY * 10}px)` 
+                : `scaleY(-1) translateY(${-mouseY * 10}px)`;
+        });
     });
     
-    // Add subtle animation to decorative elements
-    document.querySelectorAll('.title-decoration, .card-decoration, .hero-decoration').forEach(el => {
-        el.style.animationDelay = Math.random() * 2 + 's';
+    // Animate section content on scroll
+    const sections = document.querySelectorAll('section');
+    
+    window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            const sectionTitle = section.querySelector('.handcrafted-title');
+            
+            // Calculate how far the section is from the viewport center
+            const distanceFromCenter = (sectionTop - scrollY - window.innerHeight / 2) / window.innerHeight;
+            
+            // Add subtle parallax to section titles
+            if (sectionTitle) {
+                sectionTitle.style.transform = `translateY(${distanceFromCenter * -40}px)`;
+            }
+        });
+    });
+}
+
+// Add a handwritten-style cursor effect
+function setupCustomCursor() {
+    // Only use custom cursor on larger screens
+    if (window.innerWidth < 768) return;
+    
+    const body = document.body;
+    
+    // Create custom cursor element
+    const cursor = document.createElement('div');
+    cursor.className = 'custom-cursor';
+    body.appendChild(cursor);
+    
+    // Add a trail effect
+    const trail = document.createElement('div');
+    trail.className = 'cursor-trail';
+    body.appendChild(trail);
+    
+    // Track mouse position with requestAnimationFrame for smoother updates
+    let mouseX = 0;
+    let mouseY = 0;
+    
+    document.addEventListener('mousemove', e => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        
+        // Apply cursor position immediately for more responsiveness
+        cursor.style.left = mouseX + 'px';
+        cursor.style.top = mouseY + 'px';
+    });
+    
+    // Use requestAnimationFrame for the trail to get smoother animation
+    function updateTrail() {
+        trail.style.left = mouseX + 'px';
+        trail.style.top = mouseY + 'px';
+        requestAnimationFrame(updateTrail);
+    }
+    requestAnimationFrame(updateTrail);
+    
+    // Change cursor appearance on clickable elements
+    document.querySelectorAll('a, button, .cta-button, .project-card').forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursor.classList.add('hovering');
+            trail.classList.add('hovering');
+        });
+        
+        el.addEventListener('mouseleave', () => {
+            cursor.classList.remove('hovering');
+            trail.classList.remove('hovering');
+        });
     });
 }
 
@@ -203,16 +599,30 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (currentPage === 'projects') {
         await createProjectCards(); // Start with all projects
         setupProjectFilters();
+    } else if (currentPage === 'games') {
+        await createGameCards(''); // Start with all games
+        setupGameSearch();
     }
     
     // Setup parallax and animations
     setupParallax();
+    
+    // Setup custom cursor effect
+    setupCustomCursor();
     
     // Add scroll-based animations
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
+                
+                // Stagger child animations
+                const children = entry.target.querySelectorAll('.handcrafted-title, h2, h3, p, .cta-button, .social-link');
+                children.forEach((child, index) => {
+                    setTimeout(() => {
+                        child.classList.add('visible');
+                    }, 150 * index);
+                });
             }
         });
     }, {
@@ -222,4 +632,48 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.querySelectorAll('section').forEach(section => {
         observer.observe(section);
     });
+    
+    // Add typewriter effect to the hero title with fallback
+    const heroTitle = document.querySelector('.hero h1');
+    if (heroTitle) {
+        // Store the original text
+        const originalText = "Crafting Unique Unity Games";
+        
+        // Set it as visible immediately to avoid flicker
+        heroTitle.classList.add('visible');
+        
+        try {
+            // Clear and start typing
+            heroTitle.textContent = '';
+            heroTitle.classList.add('typing');
+            
+            let i = 0;
+            const typeWriter = () => {
+                if (i < originalText.length) {
+                    heroTitle.textContent += originalText.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, Math.random() * 50 + 50);
+                } else {
+                    heroTitle.classList.remove('typing');
+                }
+            }
+            
+            // Start typing after a short delay
+            setTimeout(typeWriter, 500);
+        } catch (error) {
+            // Fallback if typewriter effect fails
+            console.error("Typewriter effect failed:", error);
+            heroTitle.textContent = originalText;
+            heroTitle.classList.remove('typing');
+        }
+        
+        // Fallback timer - if after 3 seconds the title is empty, reset it
+        setTimeout(() => {
+            if (!heroTitle.textContent) {
+                console.log("Applying fallback for empty hero title");
+                heroTitle.textContent = originalText;
+                heroTitle.classList.remove('typing');
+            }
+        }, 3000);
+    }
 }); 
