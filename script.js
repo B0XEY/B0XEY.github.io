@@ -298,53 +298,33 @@ async function createGameCards(searchTerm = '') {
             return;
         }
         
-        // Filter games by search term
-        console.log(`Filtering games by search: "${searchTerm}"`);
-        const filteredGames = searchTerm === '' 
-            ? games 
-            : games.filter(game => {
-                const searchLower = searchTerm.toLowerCase();
-                const titleMatch = game.title?.toLowerCase().includes(searchLower) || false;
-                const descMatch = game.description?.toLowerCase().includes(searchLower) || false;
-                const genreMatch = game.genre?.toLowerCase().includes(searchLower) || false;
-                const tagMatch = Array.isArray(game.tags) && game.tags.some(tag => 
-                    tag.toLowerCase().includes(searchLower)
-                );
-                return titleMatch || descMatch || genreMatch || tagMatch;
-            });
+        // Whether we have a search term or not
+        const hasSearch = searchTerm.trim() !== '';
         
-        console.log(`Filtered to ${filteredGames.length} games`);
-        
-        // Show message if no games match the search
-        if (filteredGames.length === 0) {
-            console.warn(`No games match the search: "${searchTerm}"`);
-            const emptyMessage = document.createElement('div');
-            emptyMessage.className = 'empty-message';
-            emptyMessage.innerHTML = `
-                <p>No games matching "${searchTerm}" found.</p>
-                <button class="reset-filter-btn">Show all games</button>
-            `;
-            gamesGrid.appendChild(emptyMessage);
+        // Create cards for all games, but highlight or style them differently based on search
+        games.forEach((game, index) => {
+            console.log(`Processing game: ${game.title}`);
             
-            // Add event listener to reset filter button
-            const resetButton = emptyMessage.querySelector('.reset-filter-btn');
-            if (resetButton) {
-                resetButton.addEventListener('click', () => {
-                    const searchInput = document.getElementById('game-search');
-                    if (searchInput) {
-                        searchInput.value = '';
-                        createGameCards('');
-                    }
-                });
-            }
-            return;
-        }
-        
-        // Create a card for each game
-        filteredGames.forEach((game, index) => {
-            console.log(`Creating card for game: ${game.title}`);
+            // Check if the game matches the search criteria
+            const searchLower = searchTerm.toLowerCase();
+            const titleMatch = game.title?.toLowerCase().includes(searchLower) || false;
+            const descMatch = game.description?.toLowerCase().includes(searchLower) || false;
+            const genreMatch = game.genre?.toLowerCase().includes(searchLower) || false;
+            const tagMatch = Array.isArray(game.tags) && game.tags.some(tag => 
+                tag.toLowerCase().includes(searchLower)
+            );
+            
+            // If we have a search term and no matches, make the card dimmed but still visible
+            const isMatch = !hasSearch || titleMatch || descMatch || genreMatch || tagMatch;
+            
+            // Create the card
             const card = document.createElement('div');
             card.className = 'project-card game-card'; // Use same styling as project cards
+            
+            // Add match/no-match class
+            if (hasSearch) {
+                card.classList.add(isMatch ? 'search-match' : 'search-no-match');
+            }
             
             // Add a slight delay to each card for a staggered appearance
             setTimeout(() => {
@@ -365,6 +345,14 @@ async function createGameCards(searchTerm = '') {
             `;
             gamesGrid.appendChild(card);
         });
+        
+        // Show a message if search has no results but still showing all games
+        if (hasSearch && document.querySelectorAll('.search-match').length === 0) {
+            const searchMessage = document.createElement('div');
+            searchMessage.className = 'search-message';
+            searchMessage.innerHTML = `<p>No exact matches for "${searchTerm}". Showing all games.</p>`;
+            gamesGrid.insertBefore(searchMessage, gamesGrid.firstChild);
+        }
     } catch (error) {
         console.error("Error creating game cards:", error);
         // Show error message
@@ -395,20 +383,54 @@ function setupGameSearch() {
             clearSearchBtn.style.display = 'none';
         }
         
-        // Debounce the search to avoid too many reloads
-        searchTimeout = setTimeout(() => {
-            // Fade out current games
-            const gameCards = document.querySelectorAll('.game-card');
+        // Get the current search term
+        const searchTerm = this.value.trim().toLowerCase();
+        
+        // Check if we're already showing all games (no need to reload)
+        const gameCards = document.querySelectorAll('.game-card');
+        
+        if (gameCards.length > 0) {
+            // First try to filter the existing cards for instant feedback
+            let matchFound = false;
+            
             gameCards.forEach(card => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const description = card.querySelector('p').textContent.toLowerCase();
+                const tags = Array.from(card.querySelectorAll('.tag')).map(tag => tag.textContent.toLowerCase());
+                
+                const isMatch = searchTerm === '' || 
+                    title.includes(searchTerm) || 
+                    description.includes(searchTerm) || 
+                    tags.some(tag => tag.includes(searchTerm));
+                
+                // Update card classes for styling
+                card.classList.remove('search-match', 'search-no-match');
+                if (searchTerm !== '') {
+                    card.classList.add(isMatch ? 'search-match' : 'search-no-match');
+                }
+                
+                if (isMatch) matchFound = true;
             });
             
-            // Wait for fade out animation, then load new cards
-            setTimeout(() => {
-                createGameCards(searchInput.value.trim());
-            }, 300);
-        }, 500); // 500ms debounce time
+            // Remove any existing search message
+            const existingMessage = document.querySelector('.search-message');
+            if (existingMessage) existingMessage.remove();
+            
+            // Add message if needed
+            if (searchTerm !== '' && !matchFound) {
+                const searchMessage = document.createElement('div');
+                searchMessage.className = 'search-message';
+                searchMessage.innerHTML = `<p>No exact matches for "${searchTerm}". Showing all games.</p>`;
+                const gamesGrid = document.querySelector('.games-grid');
+                gamesGrid.insertBefore(searchMessage, gamesGrid.firstChild);
+            }
+        } else {
+            // If no cards yet, do a full reload (first load)
+            // Debounce the search to avoid too many reloads
+            searchTimeout = setTimeout(() => {
+                createGameCards(searchTerm);
+            }, 300); // Reduced debounce time for better responsiveness
+        }
     });
     
     // Clear search button functionality
@@ -420,18 +442,15 @@ function setupGameSearch() {
             searchInput.value = '';
             clearSearchBtn.style.display = 'none';
             
-            // Clear the search and reload all games
-            // Fade out current games
+            // Clear search classes and show all games
             const gameCards = document.querySelectorAll('.game-card');
             gameCards.forEach(card => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
+                card.classList.remove('search-match', 'search-no-match');
             });
             
-            // Wait for fade out animation, then load new cards
-            setTimeout(() => {
-                createGameCards('');
-            }, 300);
+            // Remove any search message
+            const searchMessage = document.querySelector('.search-message');
+            if (searchMessage) searchMessage.remove();
             
             // Focus the search input again
             searchInput.focus();
@@ -444,17 +463,12 @@ function setupGameSearch() {
             e.preventDefault();
             clearTimeout(searchTimeout);
             
-            // Fade out current games
-            const gameCards = document.querySelectorAll('.game-card');
-            gameCards.forEach(card => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-            });
-            
-            // Wait for fade out animation, then load new cards
-            setTimeout(() => {
-                createGameCards(searchInput.value.trim());
-            }, 300);
+            // Apply the current search term
+            const searchTerm = this.value.trim();
+            if (document.querySelectorAll('.game-card').length === 0) {
+                // Only reload if no cards are showing
+                createGameCards(searchTerm);
+            }
         }
     });
 }
