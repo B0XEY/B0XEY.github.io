@@ -6,7 +6,7 @@
             "link": "#",
             "status": "In Development",
             "platforms": ["Windows", "macOS"],
-            "tags": ["Platformer", "Retro", "Puzzle"]
+            "tags": ["<#4e9a06>Platformer", "<#ad7fa8>Retro", "<#3465a4>Puzzle"]
         },
         {
             "title": "Space Explorer",
@@ -14,7 +14,7 @@
             "link": "#",
             "status": "Concept Phase",
             "platforms": ["Windows", "Linux"],
-            "tags": ["Open World", "Space", "Exploration"]
+            "tags": ["<#729fcf>Open World", "<#87c45d>Space", "<#f57900>Exploration"]
         }
     ]
 } 

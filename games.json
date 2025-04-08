@@ -1,4 +1,22 @@
 {
+    "tagColorReference": {
+        "2D": "#7f8c8d",
+        "Dungeon Crawler": "#e74c3c",
+        "Driving": "#e67e22",
+        "Game Jam": "#464e54",
+        "Mini Jam": "#3498db",
+        "Pixel Art": "#27ae60",
+        "Procedural": "#3498db",
+        "Roguelike": "#9b59b6",
+        "Shooter": "#5d97c4",
+        "Simulation": "#2ecc71",
+        "Space": "#87c45d",
+        "Space Sim": "#5d97c4",
+        "Strategy": "#8e44ad",
+        "Turn-based": "#ff453a",
+        "Unity": "#e31463",
+        "vroom": "#f39c12"
+    },
     "games": [
         {
             "title": "Devil Defense",
@@ -6,7 +24,7 @@
             "link": "https://b0xey.itch.io/dd",
             "genre": "Strategy",
             "platforms": ["Windows", "HTML5"],
-            "tags": ["Turn-based", "Strategy", "Mini Jam", "Unity"]
+            "tags": ["<#ff453a>Turn-based", "<#8e44ad>Strategy", "<#3498db>Mini Jam", "<#e31463>Unity"]
         },
         {
             "title": "Solar System",
@@ -14,7 +32,7 @@
             "link": "https://b0xey.itch.io/solar-system-game",
             "genre": "Simulation",
             "platforms": ["Windows"],
-            "tags": ["Space", "Simulation", "2D", "Space Sim"]
+            "tags": ["<#87c45d>Space", "<#2ecc71>Simulation", "<#7f8c8d>2D", "<#5d97c4>Space Sim"]
         },
         {
             "title": "Solar Smash",
@@ -22,7 +40,7 @@
             "link": "https://b0xey.itch.io/solor-smash",
             "genre": "Shooter",
             "platforms": ["Windows", "HTML5"],
-            "tags": ["Space", "Shooter", "Game Jam", "Unity"]
+            "tags": ["<#87c45d>Space", "<#5d97c4>Shooter", "<#464e54>Game Jam", "<#e31463>Unity"]
         },
         {
             "title": "Car Vroom",
@@ -30,7 +48,7 @@
             "link": "https://b0xey.itch.io/car-vroom",
             "genre": "Simulation",
             "platforms": ["Windows"],
-            "tags": ["Driving", "Simulation", "vroom"]
+            "tags": ["<#e67e22>Driving", "<#2ecc71>Simulation", "<#f39c12>vroom"]
         }
     ]
 } 

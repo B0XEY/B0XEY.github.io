@@ -39,10 +39,28 @@ async function loadProjects() {
                 "link": "#",
                 "status": "In Development",
                 "platforms": ["Windows", "macOS"],
-                "tags": ["Platformer", "Retro", "Puzzle"]
+                "tags": ["<#729fcf>Error", "<#3465a4>Loading"]
             }
         ];
     }
+}
+
+// Function to parse a tag that might contain a color code
+function parseTag(tag) {
+    // Check if the tag starts with a color code <#XXXXXX>
+    const colorMatch = tag.match(/^<#([0-9A-Fa-f]{3,6})>(.+)$/);
+    if (colorMatch) {
+        // Return an object with the color and the clean tag text
+        return {
+            color: `#${colorMatch[1]}`,
+            text: colorMatch[2].trim()
+        };
+    }
+    // Return the original tag with no special color
+    return {
+        color: null,
+        text: tag
+    };
 }
 
 // Function to create project cards
@@ -120,7 +138,7 @@ async function createProjectCards(statusFilter = 'all') {
             
             // Add a slight delay to each card for a staggered appearance
             setTimeout(() => {
-                card.classList.add('visible');
+            card.classList.add('visible');
             }, index * 150);
             
             // Get status class based on the project status
@@ -137,18 +155,36 @@ async function createProjectCards(statusFilter = 'all') {
                 console.log(`Status class for "${project.status}": ${statusClass}`);
             }
             
+            // Parse tags if they exist
+            let tagsHTML = '';
+            if (project.tags && project.tags.length > 0) {
+                tagsHTML = `<div class="project-tags">
+                    ${project.tags.map(tag => {
+                        const parsedTag = parseTag(tag);
+                        const colorStyle = parsedTag.color ? `style="background-color: ${parsedTag.color}; border-color: ${parsedTag.color}; color: white;"` : '';
+                        return `<span class="tag" ${colorStyle}>${parsedTag.text}</span>`;
+                    }).join('')}
+                </div>`;
+            }
+            
             // Create the HTML
             card.innerHTML = `
+                <div class="card-inner">
+                    <div class="card-accent"></div>
+                    <div class="card-content">
+                        <div class="project-header">
+                            ${project.status ? `<span class="project-status ${statusClass}">${project.status}</span>` : ''}
+                        </div>
+                        <h3>${project.title || 'Untitled Project'}</h3>
+                        <p>${project.description || 'No description available.'}</p>
+                        ${tagsHTML}
+                        ${project.platforms ? `<div class="project-platforms">${project.platforms.map(platform => `<span class="platform">${platform}</span>`).join('')}</div>` : ''}
+                        <a href="${project.link || '#'}" class="project-link">Learn More</a>
+                    </div>
+                </div>
+                <div class="card-bg"></div>
                 <div class="card-decoration top-left"></div>
                 <div class="card-decoration top-right"></div>
-                <div class="project-header">
-                    ${project.status ? `<span class="project-status ${statusClass}">${project.status}</span>` : ''}
-                </div>
-                <h3>${project.title || 'Untitled Project'}</h3>
-                <p>${project.description || 'No description available.'}</p>
-                ${project.tags ? `<div class="project-tags">${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>` : ''}
-                ${project.platforms ? `<div class="project-platforms">${project.platforms.map(platform => `<span class="platform">${platform}</span>`).join('')}</div>` : ''}
-                <a href="${project.link || '#'}" class="project-link">Learn More</a>
                 <div class="card-decoration bottom-left"></div>
                 <div class="card-decoration bottom-right"></div>
             `;
@@ -262,7 +298,7 @@ async function loadGames() {
                 "link": "#",
                 "genre": "Adventure",
                 "platforms": ["Windows", "macOS"],
-                "tags": ["Error", "Loading"]
+                "tags": ["<#729fcf>Error", "<#3465a4>Loading"]
             }
         ];
     }
@@ -310,9 +346,23 @@ async function createGameCards(searchTerm = '') {
             const titleMatch = game.title?.toLowerCase().includes(searchLower) || false;
             const descMatch = game.description?.toLowerCase().includes(searchLower) || false;
             const genreMatch = game.genre?.toLowerCase().includes(searchLower) || false;
-            const tagMatch = Array.isArray(game.tags) && game.tags.some(tag => 
-                tag.toLowerCase().includes(searchLower)
+            
+            // Parse tags and check if any match the search
+            const parsedTags = game.tags ? game.tags.map(tag => parseTag(tag)) : [];
+            const tagMatch = parsedTags.some(tag => 
+                tag.text.toLowerCase().includes(searchLower)
             );
+            
+            // Prepare the tags HTML
+            let tagsHTML = '';
+            if (parsedTags.length > 0) {
+                tagsHTML = `<div class="project-tags">
+                    ${parsedTags.map(tag => {
+                        const colorStyle = tag.color ? `style="background-color: ${tag.color}; border-color: ${tag.color}; color: white;"` : '';
+                        return `<span class="tag" ${colorStyle}>${tag.text}</span>`;
+                    }).join('')}
+                </div>`;
+            }
             
             // If we have a search term and no matches, make the card dimmed but still visible
             const isMatch = !hasSearch || titleMatch || descMatch || genreMatch || tagMatch;
@@ -333,13 +383,19 @@ async function createGameCards(searchTerm = '') {
             
             // Create the HTML
             card.innerHTML = `
+                <div class="card-inner">
+                    <div class="card-accent"></div>
+                    <div class="card-content">
+                        <h3>${game.title || 'Untitled Game'}</h3>
+                        <p>${game.description || 'No description available.'}</p>
+                        ${tagsHTML}
+                        ${game.platforms ? `<div class="project-platforms">${game.platforms.map(platform => `<span class="platform">${platform}</span>`).join('')}</div>` : ''}
+                        <a href="${game.link || '#'}" class="project-link">Play Game</a>
+                    </div>
+                </div>
+                <div class="card-bg"></div>
                 <div class="card-decoration top-left"></div>
                 <div class="card-decoration top-right"></div>
-                <h3>${game.title || 'Untitled Game'}</h3>
-                <p>${game.description || 'No description available.'}</p>
-                ${game.tags ? `<div class="project-tags">${game.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>` : ''}
-                ${game.platforms ? `<div class="project-platforms">${game.platforms.map(platform => `<span class="platform">${platform}</span>`).join('')}</div>` : ''}
-                <a href="${game.link || '#'}" class="project-link">Play Game</a>
                 <div class="card-decoration bottom-left"></div>
                 <div class="card-decoration bottom-right"></div>
             `;
@@ -396,7 +452,11 @@ function setupGameSearch() {
             gameCards.forEach(card => {
                 const title = card.querySelector('h3').textContent.toLowerCase();
                 const description = card.querySelector('p').textContent.toLowerCase();
-                const tags = Array.from(card.querySelectorAll('.tag')).map(tag => tag.textContent.toLowerCase());
+                
+                // Get tags without the color code prefixes
+                const tags = Array.from(card.querySelectorAll('.tag')).map(tag => 
+                    tag.textContent.toLowerCase()
+                );
                 
                 const isMatch = searchTerm === '' || 
                     title.includes(searchTerm) || 
