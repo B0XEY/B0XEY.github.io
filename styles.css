@@ -65,13 +65,35 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   color: var(--text-primary);
-  background: var(--bg-primary);
   overflow-x: hidden;
   font-size: 1rem;
   min-height: 100%;
   
-  /* Create a subtle radial gradient for depth */
-  background: radial-gradient(ellipse at top, #121214, var(--bg-primary));
+  /* Create a smoother, more continuous background */
+  background: linear-gradient(135deg, #121214 0%, var(--bg-primary) 25%, #0c0c0e 50%, var(--bg-primary) 75%, #121214 100%);
+  background-attachment: fixed;
+  background-size: 400% 400%;
+  animation: gradientBackground 30s ease infinite;
+}
+
+@keyframes gradientBackground {
+  0% { background-position: 0% 50% }
+  50% { background-position: 100% 50% }
+  100% { background-position: 0% 50% }
+}
+
+/* Paper texture overlay for subtle visual interest */
+.paper-texture {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23ffffff' fill-opacity='0.4' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+  background-attachment: fixed;
 }
 
 /* Custom scrollbar */
@@ -1207,20 +1229,22 @@ section {
 /* === ABOUT SECTION === */
 .about-content {
   position: relative;
-  background: var(--glass-bg);
+  background: rgba(28, 28, 30, 0.8);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-radius: var(--radius-lg);
-  padding: var(--space-xl);
+  border-radius: 12px;
+  padding: 2.5rem;
   max-width: 800px;
   margin: 0 auto;
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   z-index: 1;
   overflow: hidden;
-  opacity: 0;
-  transform: translateY(30px);
-  animation: fade-in-up 1s var(--transition-medium) forwards 0.2s;
+  opacity: 1;
+  animation: none;
+  background-image: 
+    url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E"),
+    linear-gradient(135deg, rgba(28, 28, 30, 0.8) 0%, rgba(20, 20, 22, 0.9) 100%);
 }
 
 .about-content p {
@@ -1229,6 +1253,9 @@ section {
   margin-bottom: var(--space-md);
   line-height: 1.8;
   color: var(--text-secondary);
+  font-size: 1.05rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  opacity: 1;
 }
 
 .about-content p:last-child {
@@ -1287,11 +1314,16 @@ section {
   margin: 0 auto;
 }
 
+.contact-content p {
+  margin-top: 2.5rem;
+  font-size: 1.1rem;
+}
+
 .social-links {
   display: flex;
   justify-content: center;
   gap: var(--space-lg);
-  margin-top: var(--space-xl);
+  margin-bottom: var(--space-xl);
 }
 
 .social-link {
