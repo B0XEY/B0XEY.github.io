@@ -108,52 +108,67 @@ function parseCSV(csv) {
     return result;
 }
 
-// Display updates in the container
+// Function to display updates in the container
 function displayUpdates(updates) {
     const container = document.getElementById('updates-container');
-    container.innerHTML = '';
+    if (!container) return;
+
+    // Sort updates by date (newest first)
+    updates.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     if (updates.length === 0) {
-        container.innerHTML = '<div class="no-updates">No updates available at the moment. Check back soon!</div>';
+        container.innerHTML = '<div class="no-updates">No updates available at the moment.</div>';
         return;
     }
 
-    updates.forEach(update => {
-        const updateCard = createUpdateCard(update.date, update.title, update.content);
-        container.appendChild(updateCard);
-    });
+    container.innerHTML = updates.map(update => createUpdateCard(update)).join('');
 }
 
-// Create an update card element
-function createUpdateCard(date, title, content) {
-    const card = document.createElement('div');
-    card.className = 'update-card';
+// Function to create an update card element
+function createUpdateCard(update) {
+    const date = new Date(update.date);
+    const formattedDate = date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
 
-    // Format the date
-    let formattedDate;
-    try {
-        formattedDate = new Date(date).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
-        
-        // If the date is invalid, use the original string
-        if (formattedDate === 'Invalid Date') {
-            formattedDate = date;
+    // Parse tags with color codes
+    const tags = update.tags ? update.tags.split(',').map(tag => {
+        const match = tag.match(/<#([0-9A-Fa-f]{6})>(.*)/);
+        if (match) {
+            return {
+                color: match[1],
+                text: match[2].trim()
+            };
         }
-    } catch (e) {
-        formattedDate = date; // Use as-is if parsing fails
-    }
-    
-    // Create the HTML for the card
-    card.innerHTML = `
-        <div class="update-date">${formattedDate}</div>
-        <h3 class="update-title">${title}</h3>
-        <div class="update-content">${content}</div>
-    `;
+        return {
+            color: null,
+            text: tag.trim()
+        };
+    }) : [];
 
-    return card;
+    return `
+        <div class="update-card">
+            <div class="update-header">
+                <div class="update-date">
+                    <i class="fas fa-calendar-alt"></i>
+                    ${formattedDate}
+                </div>
+                <div class="update-tags">
+                    ${tags.map(tag => `
+                        <span class="update-tag" style="${tag.color ? `background-color: #${tag.color}` : ''}">
+                            ${tag.text}
+                        </span>
+                    `).join('')}
+                </div>
+            </div>
+            <div class="update-content">
+                <h3 class="update-title">${update.title}</h3>
+                <div class="update-text">${update.content}</div>
+            </div>
+        </div>
+    `;
 }
 
 // Show error message
