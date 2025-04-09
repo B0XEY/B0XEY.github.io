@@ -28,7 +28,7 @@
 
     <main>
         <section class="page-header">
-            <div class="container">
+            <div class="section-content">
                 <div class="handcrafted-title">
                     <div class="title-decoration left"></div>
                     <h1>Latest Updates</h1>
@@ -36,21 +36,11 @@
                 </div>
                 <p>Stay up to date with my latest projects, announcements, and updates</p>
             </div>
-        </section>
-
-        <section id="updates" class="section section-background">
-            <div class="section-content">
-                <div class="handcrafted-title">
-                    <div class="title-decoration left"></div>
-                    <h2>Updates Feed</h2>
-                    <div class="title-decoration right"></div>
-                </div>
-                <div id="updates-container" class="section-container">
-                    <!-- Updates will be loaded here -->
-                    <div class="loading-indicator">
-                        <i class="fas fa-spinner fa-spin"></i>
-                        <p>Loading updates...</p>
-                    </div>
+            <div id="updates-container">
+                <!-- Updates will be dynamically loaded here -->
+                <div class="loading-indicator">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading updates...</p>
                 </div>
             </div>
         </section>
@@ -58,9 +48,7 @@
 
     <footer>
         <div class="footer-decoration"></div>
-        <div class="container">
-            <p>&copy; 2025 B0XEY. All rights reserved.</p>
-        </div>
+        <p>&copy; 2025 B0XEY. All rights reserved.</p>
     </footer>
 
     <script src="script.js"></script>
