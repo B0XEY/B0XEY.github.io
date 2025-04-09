@@ -49,9 +49,9 @@ function parseCSV(csv) {
         // For tab-separated data, simply split by tabs
         if (delimiter === '\t') {
             const values = lines[i].split('\t');
-            const date = values[0];
-            const title = values[1];
-            const content = values[2];
+            const date = values[0]?.trim();
+            const title = values[1]?.trim();
+            const content = values[2]?.trim();
             
             if (date && title && content) {
                 result.push({ date, title, content });
@@ -70,7 +70,7 @@ function parseCSV(csv) {
                 if (char === '"') {
                     inQuotes = !inQuotes;
                 } else if (char === ',' && !inQuotes) {
-                    entries.push(currentEntry);
+                    entries.push(currentEntry.trim());
                     currentEntry = '';
                 } else {
                     currentEntry += char;
@@ -78,7 +78,7 @@ function parseCSV(csv) {
             }
             
             // Don't forget to push the last entry
-            entries.push(currentEntry);
+            entries.push(currentEntry.trim());
             
             // Extract date, title, content
             const date = entries[0];
@@ -93,12 +93,41 @@ function parseCSV(csv) {
     
     // Sort by date (newest first)
     result.sort((a, b) => {
-        // Try to parse dates, if parsing fails, use string comparison
-        const dateA = new Date(a.date);
-        const dateB = new Date(b.date);
+        // Parse dates correctly, handling YYYY-MM-DD format
+        const parseDateString = (dateStr) => {
+            // If it's already in YYYY-MM-DD format
+            if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+                return new Date(dateStr);
+            }
+            
+            // Try parsing with Date object
+            const date = new Date(dateStr);
+            if (!isNaN(date)) {
+                return date;
+            }
+            
+            // Handle format like "2024-03-15" manually
+            const parts = dateStr.split(/[-\/]/);
+            if (parts.length === 3) {
+                // Assuming YYYY-MM-DD or similar
+                const year = parseInt(parts[0], 10);
+                const month = parseInt(parts[1], 10) - 1; // Months are 0-indexed in JS
+                const day = parseInt(parts[2], 10);
+                
+                if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
+                    return new Date(year, month, day);
+                }
+            }
+            
+            // Return invalid date if all else fails
+            return new Date(NaN);
+        };
+        
+        const dateA = parseDateString(a.date);
+        const dateB = parseDateString(b.date);
         
         if (!isNaN(dateA) && !isNaN(dateB)) {
-            return dateB - dateA;
+            return dateB - dateA; // Newest first
         }
         
         // Fallback to string comparison if date parsing fails
@@ -108,67 +137,78 @@ function parseCSV(csv) {
     return result;
 }
 
-// Function to display updates in the container
+// Display updates in the container
 function displayUpdates(updates) {
     const container = document.getElementById('updates-container');
-    if (!container) return;
-
-    // Sort updates by date (newest first)
-    updates.sort((a, b) => new Date(b.date) - new Date(a.date));
+    container.innerHTML = '';
 
     if (updates.length === 0) {
-        container.innerHTML = '<div class="no-updates">No updates available at the moment.</div>';
+        container.innerHTML = '<div class="no-updates">No updates available at the moment. Check back soon!</div>';
         return;
     }
 
-    container.innerHTML = updates.map(update => createUpdateCard(update)).join('');
+    updates.forEach(update => {
+        const updateCard = createUpdateCard(update.date, update.title, update.content);
+        container.appendChild(updateCard);
+    });
 }
 
-// Function to create an update card element
-function createUpdateCard(update) {
-    const date = new Date(update.date);
-    const formattedDate = date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    });
+// Create an update card element
+function createUpdateCard(date, title, content) {
+    const card = document.createElement('div');
+    card.className = 'update-card';
 
-    // Parse tags with color codes
-    const tags = update.tags ? update.tags.split(',').map(tag => {
-        const match = tag.match(/<#([0-9A-Fa-f]{6})>(.*)/);
-        if (match) {
-            return {
-                color: match[1],
-                text: match[2].trim()
-            };
+    // Format the date
+    let formattedDate;
+    try {
+        // Parse date with better handling
+        const parsedDate = new Date(date);
+        
+        if (!isNaN(parsedDate)) {
+            formattedDate = parsedDate.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        } else {
+            // Try parsing manually if standard parsing fails
+            const parts = date.split(/[-\/]/);
+            if (parts.length === 3) {
+                const year = parseInt(parts[0], 10);
+                const month = parseInt(parts[1], 10) - 1; // Months are 0-indexed in JS
+                const day = parseInt(parts[2], 10);
+                
+                if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
+                    const manualDate = new Date(year, month, day);
+                    formattedDate = manualDate.toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                } else {
+                    formattedDate = date; // Use original if parsing fails
+                }
+            } else {
+                formattedDate = date; // Use original if parsing fails
+            }
         }
-        return {
-            color: null,
-            text: tag.trim()
-        };
-    }) : [];
-
-    return `
-        <div class="update-card">
-            <div class="update-header">
-                <div class="update-date">
-                    <i class="fas fa-calendar-alt"></i>
-                    ${formattedDate}
-                </div>
-                <div class="update-tags">
-                    ${tags.map(tag => `
-                        <span class="update-tag" style="${tag.color ? `background-color: #${tag.color}` : ''}">
-                            ${tag.text}
-                        </span>
-                    `).join('')}
-                </div>
-            </div>
-            <div class="update-content">
-                <h3 class="update-title">${update.title}</h3>
-                <div class="update-text">${update.content}</div>
+    } catch (e) {
+        formattedDate = date; // Use as-is if parsing fails completely
+        console.error('Error formatting date:', e);
+    }
+    
+    // Create the HTML for the card with improved layout
+    card.innerHTML = `
+        <div class="update-header">
+            <div class="update-date">
+                <i class="fas fa-calendar-alt"></i> ${formattedDate}
             </div>
         </div>
+        <h3 class="update-title">${title}</h3>
+        <div class="update-content">${content}</div>
     `;
+
+    return card;
 }
 
 // Show error message
