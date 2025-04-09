@@ -172,14 +172,14 @@ async function createProjectCards(statusFilter = 'all') {
                 <div class="card-inner">
                     <div class="card-accent"></div>
                     <div class="card-content">
-                        <div class="project-header">
-                            ${project.status ? `<span class="project-status ${statusClass}">${project.status}</span>` : ''}
-                        </div>
-                        <h3>${project.title || 'Untitled Project'}</h3>
-                        <p>${project.description || 'No description available.'}</p>
+                <div class="project-header">
+                    ${project.status ? `<span class="project-status ${statusClass}">${project.status}</span>` : ''}
+                </div>
+                <h3>${project.title || 'Untitled Project'}</h3>
+                <p>${project.description || 'No description available.'}</p>
                         ${tagsHTML}
-                        ${project.platforms ? `<div class="project-platforms">${project.platforms.map(platform => `<span class="platform">${platform}</span>`).join('')}</div>` : ''}
-                        <a href="${project.link || '#'}" class="project-link">Learn More</a>
+                ${project.platforms ? `<div class="project-platforms">${project.platforms.map(platform => `<span class="platform">${platform}</span>`).join('')}</div>` : ''}
+                <a href="${project.link || '#'}" class="project-link">Learn More</a>
                     </div>
                 </div>
                 <div class="card-bg"></div>

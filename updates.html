@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects - B0XEY</title>
+    <title>Updates - B0XEY</title>
     <link rel="icon" href="logo.svg" type="image/svg+xml">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="paper-texture"></div>
@@ -18,45 +19,37 @@
             </a>
             <div class="nav-links">
                 <a href="index.html">Home</a>
-                <a href="projects.html" class="active">Projects</a>
+                <a href="projects.html">Projects</a>
                 <a href="games.html">Games</a>
-                <a href="updates.html">Updates</a>
+                <a href="updates.html" class="active">Updates</a>
             </div>
         </div>
     </nav>
 
     <main>
         <section class="page-header">
-            <div class="section-content">
+            <div class="container">
                 <div class="handcrafted-title">
                     <div class="title-decoration left"></div>
-                    <h1>Projects</h1>
+                    <h1>Latest Updates</h1>
                     <div class="title-decoration right"></div>
                 </div>
-                <p>Explore my game development journey</p>
+                <p>Stay up to date with my latest projects, announcements, and updates</p>
             </div>
         </section>
 
-        <section class="projects">
+        <section id="updates" class="section section-background">
             <div class="section-content">
-                <div class="project-filters">
-                    <span class="filter-label">Filter by status:</span>
-                    <select id="status-filter" class="status-filter">
-                        <option value="all">All Projects</option>
-                        <option value="concept">Concept Phase</option>
-                        <option value="planning">Planning</option>
-                        <option value="development">In Development</option>
-                        <option value="testing">Testing</option>
-                        <option value="completed">Completed</option>
-                        <option value="paused">Paused</option>
-                        <option value="cancelled">Cancelled</option>
-                    </select>
+                <div class="handcrafted-title">
+                    <div class="title-decoration left"></div>
+                    <h2>Updates Feed</h2>
+                    <div class="title-decoration right"></div>
                 </div>
-                <div class="project-grid">
-                    <!-- Project cards will be dynamically loaded here -->
+                <div id="updates-container" class="section-container">
+                    <!-- Updates will be loaded here -->
                     <div class="loading-indicator">
                         <i class="fas fa-spinner fa-spin"></i>
-                        <p>Loading projects...</p>
+                        <p>Loading updates...</p>
                     </div>
                 </div>
             </div>
@@ -65,9 +58,12 @@
 
     <footer>
         <div class="footer-decoration"></div>
-        <p>&copy; 2025 B0XEY. All rights reserved.</p>
+        <div class="container">
+            <p>&copy; 2025 B0XEY. All rights reserved.</p>
+        </div>
     </footer>
 
     <script src="script.js"></script>
+    <script src="updates.js"></script>
 </body>
 </html> 
