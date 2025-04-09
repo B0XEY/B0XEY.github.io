@@ -2518,3 +2518,83 @@ main::after {
   margin-right: 0.5rem;
   font-size: 0.9rem;
 }
+
+/* Force skills section styling with !important to fix publishing issues */
+#skills.skills.section, 
+#skills .skills-content,
+#skills .skills-grid,
+#skills .skill-category,
+#skills .skill-tags,
+#skills .skill-tag {
+  display: block !important;
+}
+
+#skills .skills-content {
+  max-width: 800px !important;
+  margin: 0 auto !important;
+  padding: 2.5rem !important;
+  background: rgba(28, 28, 30, 0.8) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+  position: relative !important;
+  z-index: 1 !important;
+  overflow: hidden !important;
+  background-image: linear-gradient(135deg, rgba(28, 28, 30, 0.8) 0%, rgba(20, 20, 22, 0.9) 100%) !important;
+}
+
+#skills .skills-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+  gap: 2rem !important;
+  margin-top: 2rem !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+#skills .skill-category {
+  background: rgba(0, 0, 0, 0.2) !important;
+  padding: 1.5rem !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+#skills .skill-category h3 {
+  color: #fff !important;
+  margin-bottom: 1rem !important;
+  font-size: 1.2rem !important;
+  position: relative !important;
+  padding-left: 1rem !important;
+}
+
+#skills .skill-category h3::before {
+  content: '' !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 3px !important;
+  height: 70% !important;
+  background: var(--accent) !important;
+  border-radius: 3px !important;
+}
+
+#skills .skill-tags {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0.5rem !important;
+}
+
+#skills .skill-tag {
+  background: rgba(255, 255, 255, 0.1) !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 20px !important;
+  font-size: 0.9rem !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  transition: all 0.3s ease !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  display: inline-block !important;
+}
