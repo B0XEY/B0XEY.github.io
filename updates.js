@@ -157,7 +157,42 @@ function displayUpdates(updates) {
 function createUpdateCard(date, title, content) {
     const card = document.createElement('div');
     card.className = 'update-card';
-
+    
+    // Add card background and decoration elements
+    const cardBg = document.createElement('div');
+    cardBg.className = 'card-bg';
+    card.appendChild(cardBg);
+    
+    // Add accent line
+    const cardAccent = document.createElement('div');
+    cardAccent.className = 'card-accent';
+    card.appendChild(cardAccent);
+    
+    // Add decorative elements
+    const topLeftDecoration = document.createElement('div');
+    topLeftDecoration.className = 'card-decoration top-left';
+    card.appendChild(topLeftDecoration);
+    
+    const topRightDecoration = document.createElement('div');
+    topRightDecoration.className = 'card-decoration top-right';
+    card.appendChild(topRightDecoration);
+    
+    const bottomLeftDecoration = document.createElement('div');
+    bottomLeftDecoration.className = 'card-decoration bottom-left';
+    card.appendChild(bottomLeftDecoration);
+    
+    const bottomRightDecoration = document.createElement('div');
+    bottomRightDecoration.className = 'card-decoration bottom-right';
+    card.appendChild(bottomRightDecoration);
+    
+    // Create inner card with 3D effect
+    const cardInner = document.createElement('div');
+    cardInner.className = 'card-inner';
+    
+    // Create content container
+    const cardContent = document.createElement('div');
+    cardContent.className = 'card-content';
+    
     // Format the date
     let formattedDate;
     try {
@@ -198,7 +233,7 @@ function createUpdateCard(date, title, content) {
     }
     
     // Create the HTML for the card with improved layout
-    card.innerHTML = `
+    cardContent.innerHTML = `
         <div class="update-header">
             <div class="update-date">
                 <i class="fas fa-calendar-alt"></i> ${formattedDate}
@@ -207,6 +242,15 @@ function createUpdateCard(date, title, content) {
         <h3 class="update-title">${title}</h3>
         <div class="update-content">${content}</div>
     `;
+    
+    // Assemble the card
+    cardInner.appendChild(cardContent);
+    card.appendChild(cardInner);
+    
+    // Add visibility class after a small delay for animation
+    setTimeout(() => {
+        card.classList.add('visible');
+    }, 100);
 
     return card;
 }
