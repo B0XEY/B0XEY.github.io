@@ -52,10 +52,9 @@ function parseCSV(csv) {
             const date = values[0]?.trim();
             const title = values[1]?.trim();
             const content = values[2]?.trim();
-            const image = values[3]?.trim(); // Add image field
             
             if (date && title && content) {
-                result.push({ date, title, content, image });
+                result.push({ date, title, content });
             }
         } 
         // For comma-separated, handle quoted fields
@@ -81,14 +80,13 @@ function parseCSV(csv) {
             // Don't forget to push the last entry
             entries.push(currentEntry.trim());
             
-            // Extract date, title, content, and image
+            // Extract date, title, content
             const date = entries[0];
             const title = entries[1];
             const content = entries[2];
-            const image = entries[3]; // Add image field
             
             if (date && title && content) {
-                result.push({ date, title, content, image });
+                result.push({ date, title, content });
             }
         }
     }
@@ -150,13 +148,13 @@ function displayUpdates(updates) {
     }
 
     updates.forEach(update => {
-        const updateCard = createUpdateCard(update.date, update.title, update.content, update.image);
+        const updateCard = createUpdateCard(update.date, update.title, update.content);
         container.appendChild(updateCard);
     });
 }
 
 // Create an update card element
-function createUpdateCard(date, title, content, image) {
+function createUpdateCard(date, title, content) {
     const card = document.createElement('div');
     card.className = 'update-card';
     
@@ -200,6 +198,7 @@ function createUpdateCard(date, title, content, image) {
     try {
         // Parse date with better handling
         const parsedDate = new Date(date);
+        
         if (!isNaN(parsedDate)) {
             formattedDate = parsedDate.toLocaleDateString('en-US', {
                 year: 'numeric',
@@ -207,49 +206,52 @@ function createUpdateCard(date, title, content, image) {
                 day: 'numeric'
             });
         } else {
-            formattedDate = date; // Use original string if parsing fails
+            // Try parsing manually if standard parsing fails
+            const parts = date.split(/[-\/]/);
+            if (parts.length === 3) {
+                const year = parseInt(parts[0], 10);
+                const month = parseInt(parts[1], 10) - 1; // Months are 0-indexed in JS
+                const day = parseInt(parts[2], 10);
+                
+                if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
+                    const manualDate = new Date(year, month, day);
+                    formattedDate = manualDate.toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                } else {
+                    formattedDate = date; // Use original if parsing fails
+                }
+            } else {
+                formattedDate = date; // Use original if parsing fails
+            }
         }
     } catch (e) {
-        formattedDate = date; // Use original string if parsing fails
+        formattedDate = date; // Use as-is if parsing fails completely
+        console.error('Error formatting date:', e);
     }
     
-    // Create date element
-    const dateElement = document.createElement('div');
-    dateElement.className = 'update-date';
-    dateElement.innerHTML = `<i class="far fa-calendar"></i>${formattedDate}`;
-    
-    // Create title element
-    const titleElement = document.createElement('h3');
-    titleElement.className = 'update-title';
-    titleElement.textContent = title;
-    
-    // Create content element
-    const contentElement = document.createElement('p');
-    contentElement.textContent = content;
-    
-    // Add image if provided
-    if (image && image.startsWith('@')) {
-        const imageUrl = image.substring(1); // Remove the @ symbol
-        const imageContainer = document.createElement('div');
-        imageContainer.className = 'update-image-container';
-        
-        const img = document.createElement('img');
-        img.src = imageUrl;
-        img.alt = title;
-        img.className = 'update-image';
-        
-        imageContainer.appendChild(img);
-        cardContent.appendChild(imageContainer);
-    }
+    // Create the HTML for the card with improved layout
+    cardContent.innerHTML = `
+        <div class="update-header">
+            <div class="update-date">
+                <i class="fas fa-calendar-alt"></i> ${formattedDate}
+            </div>
+        </div>
+        <h3 class="update-title">${title}</h3>
+        <div class="update-content">${content}</div>
+    `;
     
     // Assemble the card
-    cardContent.appendChild(dateElement);
-    cardContent.appendChild(titleElement);
-    cardContent.appendChild(contentElement);
-    
     cardInner.appendChild(cardContent);
     card.appendChild(cardInner);
     
+    // Add visibility class after a small delay for animation
+    setTimeout(() => {
+        card.classList.add('visible');
+    }, 100);
+
     return card;
 }
 
@@ -300,14 +302,10 @@ function createFakeUpdates() {
 
 // Show error message
 function showError(message) {
-    const container = document.getElementById('updates-container');
-    container.innerHTML = `
-        <div class="error-message">
-            <i class="fas fa-exclamation-circle"></i>
-            <p>${message}</p>
-        </div>
-    `;
+    console.error(message);
+    // Instead of showing an error message, display sample updates
+    createFakeUpdates();
 }
 
-// Initialize updates when the page loads
+// Load updates on page load
 document.addEventListener('DOMContentLoaded', fetchUpdates); 

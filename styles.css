@@ -1883,7 +1883,7 @@ footer {
   margin: var(--space-xl) 0 !important;
   position: relative;
   z-index: 1;
-  opacity: 0;
+        opacity: 0;
   animation: fade-in 1s ease forwards 0.4s;
   width: 100% !important;
   max-width: 1200px !important;
@@ -2074,10 +2074,10 @@ footer {
 
 /* Loading indicator styling */
 .loading-indicator {
-  display: flex;
+    display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+    justify-content: center;
   padding: 3rem;
   color: rgba(255, 255, 255, 0.7);
 }
@@ -2110,7 +2110,7 @@ footer {
 .update-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+    align-items: center;
   margin-bottom: 1rem;
 }
 
@@ -2128,8 +2128,8 @@ footer {
 }
 
 .update-date i {
-  margin-right: 0.5rem;
-  font-size: 0.9rem;
+    margin-right: 0.5rem;
+    font-size: 0.9rem;
 }
 
 /* Force skills section styling with !important to fix publishing issues */
@@ -2312,43 +2312,4 @@ footer {
               radial-gradient(circle at bottom left, rgba(28, 28, 30, 0.15), transparent 70%);
   opacity: 0.6;
   z-index: -1;
-}
-
-/* Update Card Image Styles */
-.update-image-container {
-    margin: 1rem 0;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    background: rgba(0, 0, 0, 0.1);
-    position: relative;
-}
-
-.update-image {
-    width: 100%;
-    height: auto;
-    display: block;
-    transition: transform 0.3s ease;
-}
-
-.update-image:hover {
-    transform: scale(1.02);
-}
-
-/* Update existing update card styles */
-.update-card {
-    position: relative;
-    margin: 2rem 0;
-    padding: 1.5rem;
-    background: rgba(28, 28, 30, 0.8);
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.update-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
-}
+} 
