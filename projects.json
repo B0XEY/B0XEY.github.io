@@ -2,13 +2,13 @@
     "projects": [
         {
             "title": "Fragmenta",
-            "description": "A stylized sci-fi exploration game set on fully editable voxel planets. Featuring dynamic terrain, procedural biomes, and drone-based crafting in a fragmented alien world.",
+            "description": "A stylized sci-fi exploration game set on fully editable voxel planets. Featuring dynamic terrain, procedural biomes, in a fragmented world.",
             "link": "#",
             "status": "In Development"
         },
         {
             "title": "Unity Atmosphere",
-            "description": "A physically-based atmospheric scattering shader for Unity, supporting transparent rendering on meshes and realistic visuals for planetary skies, sunsets, and layered fog.",
+            "description": "A physically-based atmospheric scattering shader for Unity, supporting transparent rendering on meshes and realistic visuals for planetary skies, and sunsets",
             "link": "#",
             "status": "Testing"
         },
