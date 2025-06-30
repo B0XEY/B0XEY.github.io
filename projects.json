@@ -1,20 +1,44 @@
 {
     "projects": [
         {
-            "title": "Pixel Adventure",
-            "description": "A retro-style platformer with modern mechanics. Explore vibrant pixel worlds, solve puzzles, and battle unique enemies in this handcrafted adventure.",
-            "link": "#",
+            "title": "Unity Stars",
+            "description": "A high-quality procedural star shader for Unity's Universal Render Pipeline (URP) that generates a dynamic, realistic starfield with physically-based features.\n\n",
+            "link": "https://github.com/B0XEY/Unity-Stars",
             "status": "In Development",
-            "platforms": ["Windows", "macOS"],
-            "tags": ["<#4e9a06>Platformer", "<#ad7fa8>Retro", "<#3465a4>Puzzle"]
+            "platforms": ["Unity"],
+            "tags": ["<#87c45d>Github", "<#8e44ad>C#", "<#ff453a>Unreleased"]
         },
         {
-            "title": "Space Explorer",
-            "description": "An open-world space exploration game where you discover new planets, gather resources, and build your own intergalactic empire.",
-            "link": "#",
-            "status": "Concept Phase",
-            "platforms": ["Windows", "Linux"],
-            "tags": ["<#729fcf>Open World", "<#87c45d>Space", "<#f57900>Exploration"]
+            "title": "Boxey Utils",
+            "description": "A modular utility library for Unity featuring optimized extension methods, runtime helpers, scene tools, and editor utilities designed to speed up development workflows.",
+            "link": "https://github.com/B0XEY/Boxey-Utils",
+            "status": "In Development",
+            "platforms": ["Unity"],
+            "tags": ["<#87c45d>Github", "<#8e44ad>C#", "<#ff453a>Unreleased"]
+        },
+        {
+            "title": "Boxey Attributes",
+            "description": "A lightweight set of custom C# attributes for Unity to enhance the Inspector with foldouts, headers, validation, conditional visibility, and more—streamlining the editor experience.",
+            "link": "https://github.com/B0XEY/Boxey-Attributes",
+            "status": "Completed",
+            "platforms": ["Unity"],
+            "tags": ["<#87c45d>Github", "<#8e44ad>C#"]
+        },
+        {
+            "title": "Unity Planets",
+            "description": "A procedural planet generation system built in Unity, featuring voxel-based terrain, spherical LOD with octrees, atmospheric scattering, and support for terraforming and biome blending.",
+            "link": "https://github.com/B0XEY/Unity-Planets",
+            "status": "Paused",
+            "platforms": ["Unity"],
+            "tags": ["<#87c45d>Github", "<#8e44ad>C#"]
+        },
+        {
+            "title": "Boxey Dev Website",
+            "description": "A personal developer portfolio website created using HTML, CSS, and JavaScript, showcasing projects, contact information, and interactive design elements. Hosted with GitHub Pages.",
+            "link": "https://github.com/B0XEY/B0XEY.github.io",
+            "status": "Completed",
+            "platforms": ["Web"],
+            "tags": ["<#87c45d>Github"]
         }
     ]
 } 
