@@ -52,8 +52,7 @@
             "title": "Boxey Dev Website",
             "description": "A personal developer portfolio website created using HTML, CSS, and JavaScript, showcasing projects, contact information, and interactive design elements. Hosted with GitHub Pages.",
             "link": "https://github.com/B0XEY/B0XEY.github.io",
-            "status": "Testing",
-            "platforms": ["Web"]
+            "status": "Testing"
         }
     ]
 } 
