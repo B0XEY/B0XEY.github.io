@@ -556,6 +556,44 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
+// Theme management
+function initializeTheme() {
+    // Create theme toggle button
+    const themeToggle = document.createElement('button');
+    themeToggle.className = 'theme-toggle';
+    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    themeToggle.setAttribute('aria-label', 'Toggle theme');
+    document.body.appendChild(themeToggle);
+    
+    // Check for saved theme preference or default to dark
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+    
+    // Theme toggle functionality
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+        
+        // Add a subtle animation to indicate theme change
+        document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
+        setTimeout(() => {
+            document.body.style.transition = '';
+        }, 300);
+    });
+}
+
+function updateThemeIcon(theme) {
+    const themeToggle = document.querySelector('.theme-toggle i');
+    if (themeToggle) {
+        themeToggle.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    }
+}
+
 // Determine current page
 function getCurrentPage() {
     const path = window.location.pathname;
@@ -667,6 +705,9 @@ function setupCustomCursor() {
 
 // Initialize the page
 document.addEventListener('DOMContentLoaded', async () => {
+    // Initialize theme
+    initializeTheme();
+    
     const currentPage = getCurrentPage();
     
     // Initialize based on current page
