@@ -968,7 +968,7 @@ body {
     display: flex;
     align-items: center;
     gap: var(--space-6);
-    margin-bottom: var(--space-8);
+    margin: var(--space-8) 0 var(--space-8) 0;
     padding: var(--space-6);
     background: var(--surface);
     border-radius: var(--radius-xl);
