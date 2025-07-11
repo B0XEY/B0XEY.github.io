@@ -179,7 +179,7 @@ async function createProjectCards(statusFilter = 'all') {
                 <p>${project.description || 'No description available.'}</p>
                         ${tagsHTML}
                 ${project.platforms ? `<div class="project-platforms">${project.platforms.map(platform => `<span class="platform">${platform}</span>`).join('')}</div>` : ''}
-                <a href="${project.link || '#'}" class="project-link">Learn More</a>
+                <a href="${project.link || '#'}" class="project-link" ${project.link && project.link !== '#' ? 'target="_blank" rel="noopener noreferrer"' : ''}>Learn More</a>
                     </div>
                 </div>
                 <div class="card-bg"></div>
@@ -390,7 +390,7 @@ async function createGameCards(searchTerm = '') {
                         <p>${game.description || 'No description available.'}</p>
                         ${tagsHTML}
                         ${game.platforms ? `<div class="project-platforms">${game.platforms.map(platform => `<span class="platform">${platform}</span>`).join('')}</div>` : ''}
-                        <a href="${game.link || '#'}" class="project-link">Play Game</a>
+                        <a href="${game.link || '#'}" class="project-link" ${game.link && game.link !== '#' ? 'target="_blank" rel="noopener noreferrer"' : ''}>Play Game</a>
                     </div>
                 </div>
                 <div class="card-bg"></div>
@@ -652,56 +652,6 @@ function setupParallax() {
 }
 
 // Add a handwritten-style cursor effect
-function setupCustomCursor() {
-    // Only use custom cursor on larger screens
-    if (window.innerWidth < 768) return;
-    
-    const body = document.body;
-    
-    // Create custom cursor element
-    const cursor = document.createElement('div');
-    cursor.className = 'custom-cursor';
-    body.appendChild(cursor);
-    
-    // Add a trail effect
-    const trail = document.createElement('div');
-    trail.className = 'cursor-trail';
-    body.appendChild(trail);
-    
-    // Track mouse position with requestAnimationFrame for smoother updates
-    let mouseX = 0;
-    let mouseY = 0;
-    
-    document.addEventListener('mousemove', e => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        
-        // Apply cursor position immediately for more responsiveness
-        cursor.style.left = mouseX + 'px';
-        cursor.style.top = mouseY + 'px';
-    });
-    
-    // Use requestAnimationFrame for the trail to get smoother animation
-    function updateTrail() {
-        trail.style.left = mouseX + 'px';
-        trail.style.top = mouseY + 'px';
-        requestAnimationFrame(updateTrail);
-    }
-    requestAnimationFrame(updateTrail);
-    
-    // Change cursor appearance on clickable elements
-    document.querySelectorAll('a, button, .cta-button, .project-card').forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            cursor.classList.add('hovering');
-            trail.classList.add('hovering');
-        });
-        
-        el.addEventListener('mouseleave', () => {
-            cursor.classList.remove('hovering');
-            trail.classList.remove('hovering');
-        });
-    });
-}
 
 // Initialize the page
 document.addEventListener('DOMContentLoaded', async () => {
@@ -722,8 +672,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Setup parallax and animations
     setupParallax();
     
-    // Setup custom cursor effect
-    setupCustomCursor();
     
     // Add scroll-based animations
     const observer = new IntersectionObserver((entries) => {
