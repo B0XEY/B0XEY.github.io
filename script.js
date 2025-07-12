@@ -558,12 +558,9 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 // Theme management
 function initializeTheme() {
-    // Create theme toggle button
-    const themeToggle = document.createElement('button');
-    themeToggle.className = 'theme-toggle';
-    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-    themeToggle.setAttribute('aria-label', 'Toggle theme');
-    document.body.appendChild(themeToggle);
+    // Get theme toggle button from navbar
+    const themeToggle = document.querySelector('.theme-toggle-nav');
+    if (!themeToggle) return;
     
     // Check for saved theme preference or default to dark
     const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -588,7 +585,7 @@ function initializeTheme() {
 }
 
 function updateThemeIcon(theme) {
-    const themeToggle = document.querySelector('.theme-toggle i');
+    const themeToggle = document.querySelector('.theme-toggle-nav i');
     if (themeToggle) {
         themeToggle.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
     }
