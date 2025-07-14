@@ -156,42 +156,7 @@ function displayUpdates(updates) {
 // Create an update card element
 function createUpdateCard(date, title, content) {
     const card = document.createElement('div');
-    card.className = 'update-card';
-    
-    // Add card background and decoration elements
-    const cardBg = document.createElement('div');
-    cardBg.className = 'card-bg';
-    card.appendChild(cardBg);
-    
-    // Add accent line
-    const cardAccent = document.createElement('div');
-    cardAccent.className = 'card-accent';
-    card.appendChild(cardAccent);
-    
-    // Add decorative elements
-    const topLeftDecoration = document.createElement('div');
-    topLeftDecoration.className = 'card-decoration top-left';
-    card.appendChild(topLeftDecoration);
-    
-    const topRightDecoration = document.createElement('div');
-    topRightDecoration.className = 'card-decoration top-right';
-    card.appendChild(topRightDecoration);
-    
-    const bottomLeftDecoration = document.createElement('div');
-    bottomLeftDecoration.className = 'card-decoration bottom-left';
-    card.appendChild(bottomLeftDecoration);
-    
-    const bottomRightDecoration = document.createElement('div');
-    bottomRightDecoration.className = 'card-decoration bottom-right';
-    card.appendChild(bottomRightDecoration);
-    
-    // Create inner card with 3D effect
-    const cardInner = document.createElement('div');
-    cardInner.className = 'card-inner';
-    
-    // Create content container
-    const cardContent = document.createElement('div');
-    cardContent.className = 'card-content';
+    card.className = 'project-card update-card';
     
     // Format the date
     let formattedDate;
@@ -232,20 +197,26 @@ function createUpdateCard(date, title, content) {
         console.error('Error formatting date:', e);
     }
     
-    // Create the HTML for the card with improved layout
-    cardContent.innerHTML = `
-        <div class="update-header">
-            <div class="update-date">
-                <i class="fas fa-calendar-alt"></i> ${formattedDate}
+    // Create the HTML using the same structure as project/game cards
+    card.innerHTML = `
+        <div class="card-inner">
+            <div class="card-accent"></div>
+            <div class="card-content">
+                <div class="project-header">
+                    <span class="project-status update-date">
+                        <i class="fas fa-calendar-alt"></i> ${formattedDate}
+                    </span>
+                </div>
+                <h3>${title}</h3>
+                <div class="update-content">${content}</div>
             </div>
         </div>
-        <h3 class="update-title">${title}</h3>
-        <div class="update-content">${content}</div>
+        <div class="card-bg"></div>
+        <div class="card-decoration top-left"></div>
+        <div class="card-decoration top-right"></div>
+        <div class="card-decoration bottom-left"></div>
+        <div class="card-decoration bottom-right"></div>
     `;
-    
-    // Assemble the card
-    cardInner.appendChild(cardContent);
-    card.appendChild(cardInner);
     
     // Add visibility class after a small delay for animation
     setTimeout(() => {
