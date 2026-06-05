@@ -3,152 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B0XEY - Indie Game Developer</title>
-    <link rel="icon" href="logo.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="styles.css" type="text/css" media="all">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+    <title>Boxey Dev — Game Developer & Tool Creator</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="icon" type="image/png" href="assets/images/icon.png">
 </head>
 <body>
-    <div class="paper-texture"></div>
-    
-    <nav class="navbar">
-        <div class="nav-content">
-            <a href="#" class="logo">
-                <img src="logo.svg" alt="B0XEY Logo">
-            </a>
-            <div class="nav-links">
-                <a href="index.html" class="active">Home</a>
-                <a href="projects.html">Projects</a>
-                <a href="games.html">Games</a>
-                <a href="updates.html">Updates</a>
-                <button class="theme-toggle-nav" aria-label="Toggle theme">
-                    <i class="fas fa-sun"></i>
-                </button>
+    <canvas id="stars-canvas"></canvas>
+    <header>
+        <div class="header-content">
+            <div class="logo-section">
+                <img src="assets/images/icon.png" alt="Boxey Dev" class="logo">
+                <div class="logo-text"><h1>Boxey Dev</h1></div>
             </div>
+            <nav class="nav">
+                <a href="#games" class="nav-link">Games</a>
+                <a href="#tools" class="nav-link">Tools</a>
+                <a href="#connect" class="nav-link">Connect</a>
+            </nav>
         </div>
-    </nav>
+    </header>
 
     <main>
+
+        <!-- Hero -->
         <section class="hero">
-            <div class="floating-sketch sketch-1"></div>
-            <div class="floating-sketch sketch-2"></div>
-            <div class="floating-sketch sketch-3"></div>
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1>Crafting <span class="highlight">Unique</span> Unity Games</h1>
-                    <div class="separator"></div>
-                    <p>Independent developer building immersive experiences with passion and creativity. Every game tells a story, every mechanic has purpose.</p>
-                    
-                    <a href="projects.html" class="cta-button">Explore My Work</a>
+            <p class="hero-eyebrow"><span></span>Boxey Dev</p>
+            <h2 class="hero-title">Making games<br>and <em>tools</em> for creators</h2>
+            <p class="hero-sub">Indie game developer and toolmaker. Building immersive worlds and the software that powers them.</p>
+        </section>
+
+        <!-- Games -->
+        <section id="games" class="section">
+            <p class="section-label">Games</p>
+            <div class="project-card">
+                <div class="project-media">
+                    <div class="app-chrome" data-title="Untethered"></div>
+                    <img src="assets/images/untethered.png" alt="Untethered planet surface" class="project-screenshot">
+                    <div class="media-disclaimer">Early development — visuals subject to change</div>
                 </div>
-                
-                <div class="hero-visual">
-                    <div class="handcrafted-frame">
-                        <div class="decorative-corners top-left"></div>
-                        <div class="decorative-corners top-right"></div>
-                        <div class="decorative-corners bottom-left"></div>
-                        <div class="decorative-corners bottom-right"></div>
-                        
-                        <div class="sketch-lines">
-                            <div class="sketch-line line-1"></div>
-                            <div class="sketch-line line-2"></div>
-                            <div class="sketch-line line-3"></div>
-                            <div class="sketch-line line-4"></div>
-                        </div>
-                        
-                        <div class="frame-content">
-                            <div class="frame-logo">
-                                <img src="logo.svg" alt="B0XEY Logo">
-                            </div>
-                            <div class="frame-title">Game Developer</div>
-                            <div class="frame-subtitle">Indie Dev</div>
-                        </div>
+                <div class="project-info">
+                    <p class="project-kicker">Open Solar System Game</p>
+                    <h3 class="project-title">Untethered</h3>
+                    <p class="project-desc">A robot test pilot crashes their ship on a planet lightyears from home. Stranded in an unfamiliar solar system, you must explore planets, gather resources, and piece together a way back one planet at a time.</p>
+                    <div class="tags">
+                        <span class="tag">Solar System</span>
+                        <span class="tag">Survival</span>
+                        <span class="tag">Exploration</span>
+                        <span class="tag">Unity</span>
                     </div>
+                    <a href="untethered.html" class="get-button">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                        </svg>
+                        Learn More
+                    </a>
                 </div>
             </div>
         </section>
 
-        <section id="about" class="section about section-background">
-            <div class="section-content">
-                <div class="handcrafted-title">
-                    <div class="title-decoration left"></div>
-                    <h2>About Me</h2>
-                    <div class="title-decoration right"></div>
+        <!-- Tools -->
+        <section id="tools" class="section">
+            <p class="section-label">Tools</p>
+            <div class="project-card">
+                <div class="project-media tool-media">
+                    <div class="app-chrome" data-title="FastNoise Studio"></div>
+                    <div class="image-carousel">
+                        <img src="assets/images/fastnoise-nodes.png" alt="FastNoise Studio node graph" class="carousel-image active">
+                        <img src="assets/images/fastnoise-unity.png" alt="FastNoise Studio in Unity" class="carousel-image">
+                    </div>
+                    <div class="carousel-controls">
+                        <button class="carousel-dot active" data-index="0"></button>
+                        <button class="carousel-dot" data-index="1"></button>
+                    </div>
                 </div>
-                <div class="about-content section-container">
-                    <p>I'm a passionate game developer with a love for creating unique and engaging experiences. My journey in game development has led me to explore various aspects of game design, from mechanics to storytelling.</p>
-                    <p>When I'm not coding, you can find me playing games, studying game design, or working on new projects. I believe in the power of games to tell stories and create memorable experiences.</p>
+                <div class="project-info">
+                    <p class="project-kicker">Procedural Generation</p>
+                    <div class="project-title-row">
+                        <img src="assets/images/fastnoise-icon.png" alt="FastNoise Studio" class="project-icon">
+                        <h3 class="project-title">FastNoise Studio</h3>
+                    </div>
+                    <p class="project-desc">A visual node-graph editor built on FastNoise2. Wire together 45+ generator and operator nodes to craft procedural noise for terrain and textures with realtime previews.</p>
+                    <div class="node-grid">
+                        <div class="node-group">
+                            <h4>Basic Generators</h4>
+                            <p>Constant, White Noise, Checkerboard, Sine Wave, Position Output</p>
+                        </div>
+                        <div class="node-group">
+                            <h4>Coherent Noise</h4>
+                            <p>OpenSimplex2, OpenSimplex2S, Perlin, Value</p>
+                        </div>
+                        <div class="node-group">
+                            <h4>Cellular</h4>
+                            <p>Cellular Distance, Cellular Value, Cellular Lookup</p>
+                        </div>
+                        <div class="node-group">
+                            <h4>Fractals</h4>
+                            <p>FBm, Ridged, Ping Pong</p>
+                        </div>
+                        <div class="node-group">
+                            <h4>Domain Warp</h4>
+                            <p>Gradient, Fractal Progressive, Fractal Independent</p>
+                        </div>
+                        <div class="node-group">
+                            <h4>Modifiers & Blends</h4>
+                            <p>Scale, Offset, Rotate, Remap, Terrace, Add, Multiply, Min/Max</p>
+                        </div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag">Unity</span>
+                        <span class="tag">Node-Based</span>
+                        <span class="tag">45+ Nodes</span>
+                        <span class="tag">FastNoise2</span>
+                        <span class="tag icon-only-tag" title="macOS">
+                            <svg width="12" height="12" viewBox="0 -32 384 512" fill="currentColor"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-16.9 75.8-16.9 31.8 0 48.3 16.9 76.4 16.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+                        </span>
+                        <span class="tag icon-only-tag" title="Windows">
+                            <svg width="12" height="12" viewBox="0 4 448 448" fill="currentColor"><path d="M0 93.7l183.6-25.3v177.4H0V93.7zm0 324.6l183.6 25.3V268.4H0v149.9zm203.8 28L448 480V268.4H203.8v177.9zm0-380.6v180.1H448V32L203.8 65.7z"/></svg>
+                        </span>
+                        <span class="tag icon-only-tag" title="Linux">
+                            <svg width="12" height="12" viewBox="0 -1 16 16" fill="currentColor"><path d="M0 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3zm9.5 5.5h-3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1zm-6.354-.354a.5.5 0 1 0 .708.708l2-2a.5.5 0 0 0 0-.708l-2-2a.5.5 0 1 0-.708.708L4.793 6.5 3.146 8.146z"/></svg>
+                        </span>
+                    </div>
+                    <a href="https://github.com/B0XEY" class="get-button" target="_blank">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        Get FastNoise Studio
+                    </a>
                 </div>
             </div>
         </section>
 
-        <section id="skills" class="section skills section-background">
-            <div class="section-content">
-                <div class="handcrafted-title">
-                    <div class="title-decoration left"></div>
-                    <h2>Skills & Tools</h2>
-                    <div class="title-decoration right"></div>
-                </div>
-                <div class="skills-content section-container">
-                    <div class="skills-grid">
-                        <div class="skill-category">
-                            <h3>Game Development</h3>
-                            <div class="skill-tags">
-                                <span class="skill-tag">Unity</span>
-                                <span class="skill-tag">C#</span>
-                                <span class="skill-tag">Game Design</span>
-                                <span class="skill-tag">Level Design</span>
-                                <span class="skill-tag">Game Mechanics</span>
-                            </div>
-                        </div>
-                        <div class="skill-category">
-                            <h3>Programming</h3>
-                            <div class="skill-tags">
-                                <span class="skill-tag">C#</span>
-                                <span class="skill-tag">HTML/CSS</span>
-                                <span class="skill-tag">Python</span>
-                                <span class="skill-tag">Git</span>
-                            </div>
-                        </div>
-                        <div class="skill-category">
-                            <h3>Design & Art</h3>
-                            <div class="skill-tags">
-                                <span class="skill-tag">Blender</span>
-                                <span class="skill-tag">UI/UX Design</span>
-                                <span class="skill-tag">Photoshop</span>
-                                <span class="skill-tag">Aseprite</span>
-                            </div>
-                        </div>
+        <!-- Connect -->
+        <section id="connect" class="section">
+            <p class="section-label">Connect</p>
+            <div class="connect-grid">
+                <a href="https://github.com/B0XEY" class="connect-card" target="_blank">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    <div>
+                        <span class="connect-card-name">GitHub</span>
+                        <span class="connect-card-handle">@B0XEY</span>
                     </div>
-                </div>
+                    <span class="connect-card-arrow">→</span>
+                </a>
+                <a href="https://www.youtube.com/@boxeydev5715" class="connect-card" target="_blank">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                    <div>
+                        <span class="connect-card-name">YouTube</span>
+                        <span class="connect-card-handle">@boxeydev5715</span>
+                    </div>
+                    <span class="connect-card-arrow">→</span>
+                </a>
+                <a href="https://b0xey.itch.io/" class="connect-card" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
+                        <path d="M71.9 34.8C50.2 47.7 7.4 96.8 7 109.7l0 21.3c0 27.1 25.3 50.8 48.2 50.8 27.6 0 50.5-22.8 50.5-50 0 27.1 22.2 50 49.8 50s49-22.8 49-50c0 27.1 23.6 50 51.2 50l.5 0c27.6 0 51.2-22.8 51.2-50 0 27.1 21.5 50 49 50s49.8-22.8 49.8-50c0 27.1 23 50 50.5 50 23 0 48.3-23.8 48.3-50.8l0-21.3c-.4-12.9-43.2-62.1-64.9-75-67.4-2.3-114.2-2.7-184-2.7S91.1 33.1 71.9 34.8zM204.2 169.2c-22 38.4-77.9 38.7-99.8 .2-13.2 23.1-43.2 32.1-56 27.7-3.9 40.2-13.7 237.1 17.7 269.2 80 18.7 302.1 18.1 379.8 0 31.6-32.3 21.3-232 17.7-269.2-12.9 4.4-42.9-4.6-56-27.7-22 38.5-77.8 38.1-99.8-.2-7.1 12.5-23 28.9-51.8 28.9-10.4 .3-20.8-2.2-29.9-7.3s-16.7-12.6-21.9-21.6l0 0zm-41.6 53.8c16.5 0 31.1 0 49.2 19.8 29.3-3 58.9-3 88.2 0 18.2-19.7 32.8-19.7 49.2-19.7 52.3 0 65.2 77.5 83.9 144.4 17.3 62.2-5.5 63.7-34 63.7-42.1-1.6-65.5-32.2-65.5-62.8-39.3 6.4-101.9 8.8-155.6 0 0 30.6-23.3 61.2-65.5 62.8-28.4-.1-51.2-1.6-33.9-63.7 18.7-67 31.6-144.4 83.9-144.4l0-.1zM256 270.8s-44.4 40.8-52.4 55.2l29-1.2 0 25.3c0 1.5 21.3 .2 23.3 .2 11.6 .5 23.3 1 23.3-.2l0-25.3 29 1.2c-8-14.5-52.4-55.2-52.4-55.2l.1 0z"/>
+                    </svg>
+                    <div>
+                        <span class="connect-card-name">itch.io</span>
+                        <span class="connect-card-handle">b0xey.itch.io</span>
+                    </div>
+                    <span class="connect-card-arrow">→</span>
+                </a>
+                <a href="https://discord.com/invite/gya2UxAexc" class="connect-card" target="_blank">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.211.375-.445.865-.607 1.252a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.252.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.027c.462-.63.873-1.295 1.226-1.994a.076.076 0 0 0-.042-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.294.075.075 0 0 1 .078-.01c3.928 1.793 8.18 1.793 12.062 0a.075.075 0 0 1 .079.009c.12.098.246.198.373.295a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.076.076 0 0 0-.041.107c.36.698.77 1.364 1.225 1.994a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.057c.5-4.467.151-8.343-2.118-12.64a.06.06 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-.965-2.157-2.156 0-1.193.93-2.157 2.157-2.157 1.226 0 2.157.964 2.157 2.157 0 1.19-.93 2.155-2.157 2.155zm7.975 0c-1.183 0-2.157-.965-2.157-2.156 0-1.193.955-2.157 2.157-2.157 1.226 0 2.157.964 2.157 2.157 0 1.19-.93 2.155-2.157 2.155z"/>
+                    </svg>
+                    <div>
+                        <span class="connect-card-name">Discord</span>
+                        <span class="connect-card-handle">Join the server</span>
+                    </div>
+                    <span class="connect-card-arrow">→</span>
+                </a>
             </div>
         </section>
 
-        <section id="contact" class="section contact section-background">
-            <div class="section-content">
-                <div class="handcrafted-title">
-                    <div class="title-decoration left"></div>
-                    <h2>Get in Touch</h2>
-                    <div class="title-decoration right"></div>
-                </div>
-                <div class="contact-content section-container">
-                    <div class="social-links">
-                        <a href="https://github.com/B0XEY" class="social-link" target="_blank"><i class="fab fa-github"></i></a>
-                        <a href="https://discord.com/invite/gya2UxAexc" class="social-link" target="_blank"><i class="fab fa-discord"></i></a>
-                        <a href="https://www.youtube.com/@boxeydev5715" class="social-link" target="_blank"><i class="fab fa-youtube"></i></a>
-                    </div>
-                    <p>Email: <a href="mailto:boxeydev@gmail.com" class="highlight-text">boxeydev@gmail.com</a></p>
-                </div>
-            </div>
-        </section>
     </main>
 
     <footer>
-        <div class="footer-decoration"></div>
-        <p>&copy; 2025 B0XEY. All rights reserved.</p>
+        <p>© 2026 Boxey Dev</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="assets/js/script.js"></script>
 </body>
-</html> 
+</html>

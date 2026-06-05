@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untethered — Boxey Dev</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/untethered.css">
+    <link rel="icon" type="image/png" href="assets/images/icon.png">
+</head>
+<body>
+    <canvas id="stars-canvas"></canvas>
+
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo-section" style="text-decoration:none;">
+                <img src="assets/images/icon.png" alt="Boxey Dev" class="logo">
+                <div class="logo-text"><h1>Boxey Dev</h1></div>
+            </a>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">← Back</a>
+                <a href="#story" class="nav-link">Story</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#screenshots" class="nav-link">Screenshots</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="ut-main">
+
+        <!-- Hero -->
+        <section class="ut-hero">
+            <div class="ut-hero-bg">
+                <img src="assets/images/untethered.png" alt="Untethered" class="ut-hero-img">
+                <div class="ut-hero-overlay"></div>
+            </div>
+            <div class="ut-hero-content">
+                <p class="hero-eyebrow"><span></span>Boxey Dev</p>
+                <h1 class="ut-title">Untethered</h1>
+                <p class="ut-tagline">Find your home</p>
+                <div class="tags" style="justify-content:center; margin-bottom: 2rem;">
+                    <span class="tag">Solar System</span>
+                    <span class="tag">Survival</span>
+                    <span class="tag">Exploration</span>
+                    <span class="tag">Unity</span>
+                </div>
+                <div class="ut-status-badge">
+                    <span class="ut-status-dot"></span>
+                    In Development
+                </div>
+            </div>
+        </section>
+
+        <!-- Story -->
+        <section id="story" class="ut-section">
+            <div class="ut-section-inner">
+                <p class="section-label">The Story</p>
+                <div class="ut-story-grid">
+                    <div class="ut-story-text">
+                        <h2 class="ut-section-title">[ Add title here ]</h2>
+                        <p class="ut-placeholder-text">[ Add opening paragraph — set the scene, who the player is, what happened ]</p>
+                        <p class="ut-placeholder-text">[ Add second paragraph — the stakes, what's lost, what's needed ]</p>
+                        <p class="ut-placeholder-text">[ Add closing paragraph — the goal, the journey ahead ]</p>
+                    </div>
+                    <div class="ut-story-aside">
+                        <div class="ut-placeholder ut-placeholder-ratio">
+                            <div class="ut-placeholder-inner">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                                <span>Coming Soon</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section id="features" class="ut-section">
+            <div class="ut-section-inner">
+                <p class="section-label">Gameplay</p>
+                <h2 class="ut-section-title">Core systems</h2>
+                <div class="ut-feature-list">
+                    <div class="ut-feature-row">
+                        <span class="ut-feature-num">01</span>
+                        <div class="ut-feature-body">
+                            <div class="ut-feature-head">
+                                <h3>Open Solar System</h3>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="21.17" y1="8" x2="12" y2="8"/><line x1="3.95" y1="6.06" x2="8.54" y2="14"/><line x1="10.88" y1="21.94" x2="15.46" y2="14"/></svg>
+                            </div>
+                            <p>Explore an entire solar system of unique planets, each with their own terrain, atmosphere, and resources. No loading screens — fly between worlds freely.</p>
+                        </div>
+                    </div>
+                    <div class="ut-feature-row">
+                        <span class="ut-feature-num">02</span>
+                        <div class="ut-feature-body">
+                            <div class="ut-feature-head">
+                                <h3>Resource Gathering</h3>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                            </div>
+                            <p>Mine minerals, harvest compounds, and collect rare materials from across different worlds. Every planet holds something you'll need to progress.</p>
+                        </div>
+                    </div>
+                    <div class="ut-feature-row">
+                        <span class="ut-feature-num">03</span>
+                        <div class="ut-feature-body">
+                            <div class="ut-feature-head">
+                                <h3>Crafting & Building</h3>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                            </div>
+                            <p>Use gathered materials to craft tools, repair ship components, and build outposts. Piece your vessel back together from wreckage scattered across the planet.</p>
+                        </div>
+                    </div>
+                    <div class="ut-feature-row">
+                        <span class="ut-feature-num">04</span>
+                        <div class="ut-feature-body">
+                            <div class="ut-feature-head">
+                                <h3>Survival Systems</h3>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                            </div>
+                            <p>Manage power, oxygen, and structural integrity. Each planet has its own hazards — toxic atmospheres, extreme temperatures, and unstable terrain.</p>
+                        </div>
+                    </div>
+                    <div class="ut-feature-row">
+                        <span class="ut-feature-num">05</span>
+                        <div class="ut-feature-body">
+                            <div class="ut-feature-head">
+                                <h3>Procedural Worlds</h3>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            </div>
+                            <p>Every planet is shaped by procedural noise — unique terrain, biomes, and resource distribution. No two playthroughs are identical.</p>
+                        </div>
+                    </div>
+                    <div class="ut-feature-row">
+                        <span class="ut-feature-num">06</span>
+                        <div class="ut-feature-body">
+                            <div class="ut-feature-head">
+                                <h3>Find a Home</h3>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            </div>
+                            <p>Somewhere in this solar system is a way back. Chart each planet, piece together what happened, and work toward an answer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Screenshots -->
+        <section id="screenshots" class="ut-section">
+            <div class="ut-section-inner">
+                <p class="section-label">Screenshots</p>
+                <h2 class="ut-section-title">In-game visuals</h2>
+                <p class="ut-section-sub">Screenshots will be added as development progresses.</p>
+                <div class="ut-screenshot-grid">
+                    <!-- Wide hero shot -->
+                    <div class="ut-ss-box ut-ss-wide">
+                        <div class="app-chrome" data-title="Unknown"></div>
+                        <div class="ut-placeholder-inner">
+                            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                            <span>Coming Soon</span>
+                        </div>
+                    </div>
+                    <!-- Three smaller -->
+                    <div class="ut-ss-box">
+                        <div class="app-chrome" data-title="Unknown"></div>
+                        <div class="ut-placeholder-inner"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Coming Soon</span></div>
+                    </div>
+                    <div class="ut-ss-box">
+                        <div class="app-chrome" data-title="Unknown"></div>
+                        <div class="ut-placeholder-inner"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Coming Soon</span></div>
+                    </div>
+                    <div class="ut-ss-box">
+                        <div class="app-chrome" data-title="Unknown"></div>
+                        <div class="ut-placeholder-inner"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Coming Soon</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dev Status -->
+        <section class="ut-section ut-devstatus-section">
+            <div class="ut-section-inner">
+                <p class="section-label">Development Status</p>
+                <div class="ut-devstatus">
+                    <div class="ut-devstatus-top">
+                        <div class="ut-devstatus-badge">
+                            <span class="ut-status-dot"></span>
+                            <span>Actively building</span>
+                        </div>
+                        <h2 class="ut-devstatus-title">Early development</h2>
+                        <p class="ut-devstatus-desc">Core systems like terrain generation, resource gathering, and player movement are in progress. Follow along for updates as the game takes shape.</p>
+                    </div>
+                    <div class="ut-devstatus-actions">
+                        <a href="https://www.youtube.com/@boxeydev5715" class="ut-devbtn" target="_blank">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                            Watch Devlogs
+                        </a>
+                        <a href="https://discord.com/invite/gya2UxAexc" class="ut-devbtn ut-devbtn-discord" target="_blank">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.211.375-.445.865-.607 1.252a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.252.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.027c.462-.63.873-1.295 1.226-1.994a.076.076 0 0 0-.042-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.294.075.075 0 0 1 .078-.01c3.928 1.793 8.18 1.793 12.062 0a.075.075 0 0 1 .079.009c.12.098.246.198.373.295a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.076.076 0 0 0-.041.107c.36.698.77 1.364 1.225 1.994a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.057c.5-4.467.151-8.343-2.118-12.64a.06.06 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-.965-2.157-2.156 0-1.193.93-2.157 2.157-2.157 1.226 0 2.157.964 2.157 2.157 0 1.19-.93 2.155-2.157 2.155zm7.975 0c-1.183 0-2.157-.965-2.157-2.156 0-1.193.955-2.157 2.157-2.157 1.226 0 2.157.964 2.157 2.157 0 1.19-.93 2.155-2.157 2.155z"/></svg>
+                            Join Discord
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>© 2026 Boxey Dev</p>
+    </footer>
+
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
