@@ -140,6 +140,10 @@
     align-items: center;
 }
 
+.ut-story-text {
+    min-width: 0;
+}
+
 .ut-story-text p {
     color: var(--text-muted);
     line-height: 1.8;
@@ -152,6 +156,7 @@
 .ut-story-aside {
     position: sticky;
     top: 80px;
+    min-width: 0;
 }
 
 .ut-story-image {
