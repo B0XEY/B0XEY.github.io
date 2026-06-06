@@ -168,6 +168,8 @@
     flex-direction: column;
     aspect-ratio: 4/3;
     position: relative;
+    width: 100%;
+    max-width: 100%;
 }
 
 .ut-story-image .media-disclaimer {
