@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noizy - Boxey Dev</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/noizy.css">
+    <link rel="icon" type="image/png" href="assets/images/icon.png">
+</head>
+<body>
+    <canvas id="stars-canvas"></canvas>
+
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo-section" style="text-decoration:none;">
+                <img src="assets/images/icon.png" alt="Boxey Dev" class="logo">
+                <div class="logo-text"><h1>Boxey Dev</h1></div>
+            </a>
+            <nav class="nav">
+                <a href="#overview" class="nav-link">Overview</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#screenshots" class="nav-link">Screenshots</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="nz-main">
+
+        <!-- Hero -->
+        <section class="nz-hero">
+            <div class="nz-hero-content">
+                <p class="hero-eyebrow"><span></span>Boxey Dev</p>
+                <h1 class="nz-title">Noizy</h1>
+                <p class="nz-tagline">A visual node-based noise editor for Unity</p>
+                <div class="tags" style="justify-content:center; margin-bottom: 1.75rem;">
+                    <span class="tag">Unity</span>
+                    <span class="tag">Node-Based</span>
+                    <span class="tag">45+ Nodes</span>
+                    <span class="tag">FastNoise2</span>
+                </div>
+                <div class="nz-status-badge">
+                    <span class="nz-status-dot"></span>
+                    Available on the Unity Asset Store
+                </div>
+                <div class="nz-hero-actions">
+                    <a href="https://u3d.as/43vW" class="get-button" target="_blank">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        Get Noizy
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Overview -->
+        <section id="overview" class="nz-section">
+            <div class="nz-section-inner">
+                <p class="section-label">Overview</p>
+                <div class="nz-overview-grid">
+                    <div class="nz-overview-text">
+                        <h2 class="nz-section-title">Procedural noise, without the guesswork</h2>
+                        <p>Noizy is a visual node-based editor for Unity. It is built on top of FastNoise2. Instead of writing code by hand to control your noise in a way that you can't even see what you're doing or changing line by line, you make noise graphs using 45+ nodes in a dedicated editor window, dragging nodes together.</p>
+                        <p>Once you're done with your graph, you save it so that at runtime you can sample the asset through simple API calls to generate 2D or 3D grids of floats. It's useful for terrain generation, procedural textures, particle effects, and other gameplay systems. The compiled noise tree is cached internally, so repeated evaluations are fast.</p>
+                    </div>
+                    <div class="nz-overview-aside">
+                        <div class="nz-overview-image">
+                            <div class="app-chrome" data-title="Noizy"></div>
+                            <img src="assets/images/noizy-unity.png" alt="Noizy in Unity">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section id="features" class="nz-section">
+            <div class="nz-section-inner">
+                <p class="section-label">Features</p>
+                <h2 class="nz-section-title">Everything you need to build noise</h2>
+                <div class="nz-feature-list">
+                    <div class="nz-feature-row">
+                        <span class="nz-feature-num">01</span>
+                        <div class="nz-feature-body">
+                            <div class="nz-feature-head">
+                                <h3>Visual Node Graph</h3>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="12" r="2"/><line x1="8" y1="6" x2="16" y2="11"/><line x1="8" y1="18" x2="16" y2="13"/></svg>
+                            </div>
+                            <p>Wire together generator and operator nodes to build noise pipelines without writing code. Rearrange, rewire, and iterate freely.</p>
+                        </div>
+                    </div>
+                    <div class="nz-feature-row">
+                        <span class="nz-feature-num">02</span>
+                        <div class="nz-feature-body">
+                            <div class="nz-feature-head">
+                                <h3>45+ Nodes</h3>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                            </div>
+                            <p>Basic generators, coherent noise, cellular, fractals, domain warps, and modifiers & blends, covering everything from Perlin to Ridged FBm.</p>
+                        </div>
+                    </div>
+                    <div class="nz-feature-row">
+                        <span class="nz-feature-num">03</span>
+                        <div class="nz-feature-body">
+                            <div class="nz-feature-head">
+                                <h3>Simple Runtime API</h3>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            </div>
+                            <p>Sample your saved graph at runtime through a few API calls that return 2D or 3D grids of floats, ready to feed into terrain, textures, or gameplay systems.</p>
+                        </div>
+                    </div>
+                    <div class="nz-feature-row">
+                        <span class="nz-feature-num">04</span>
+                        <div class="nz-feature-body">
+                            <div class="nz-feature-head">
+                                <h3>Built on FastNoise2</h3>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                            </div>
+                            <p>Powered by the FastNoise2 library for fast, SIMD-accelerated noise generation at runtime and in the editor.</p>
+                        </div>
+                    </div>
+                    <div class="nz-feature-row">
+                        <span class="nz-feature-num">05</span>
+                        <div class="nz-feature-body">
+                            <div class="nz-feature-head">
+                                <h3>Cached Compilation</h3>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/></svg>
+                            </div>
+                            <p>The compiled noise tree is cached internally, so repeated evaluations skip recompilation and stay fast.</p>
+                        </div>
+                    </div>
+                    <div class="nz-feature-row">
+                        <span class="nz-feature-num">06</span>
+                        <div class="nz-feature-body">
+                            <div class="nz-feature-head">
+                                <h3>Cross-Platform</h3>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                            </div>
+                            <p>Works across macOS, Windows, and Linux, both in the editor and at runtime via bundled native binaries.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Screenshots -->
+        <section id="screenshots" class="nz-section">
+            <div class="nz-section-inner">
+                <p class="section-label">Screenshots</p>
+                <h2 class="nz-section-title">See it in action</h2>
+                <div class="nz-screenshot-grid">
+                    <div class="nz-ss-box">
+                        <div class="app-chrome" data-title="Noizy"></div>
+                        <img src="assets/images/noizy-nodes.png" alt="Noizy node graph" class="lightbox-trigger">
+                    </div>
+                    <div class="nz-ss-box">
+                        <div class="app-chrome" data-title="Noizy"></div>
+                        <img src="assets/images/noizy-unity.png" alt="Noizy in Unity" class="lightbox-trigger">
+                    </div>
+                    <div class="nz-ss-box">
+                        <div class="app-chrome" data-title="Noizy"></div>
+                        <img src="assets/images/noizy-img2.png" alt="Noizy screenshot" class="lightbox-trigger">
+                    </div>
+                    <div class="nz-ss-box">
+                        <div class="app-chrome" data-title="Noizy"></div>
+                        <img src="assets/images/noizy-img3.png" alt="Noizy screenshot" class="lightbox-trigger">
+                    </div>
+                    <div class="nz-ss-box">
+                        <div class="app-chrome" data-title="Noizy"></div>
+                        <img src="assets/images/noizy-img4.png" alt="Noizy screenshot" class="lightbox-trigger">
+                    </div>
+                    <div class="nz-ss-box">
+                        <div class="app-chrome" data-title="Noizy"></div>
+                        <img src="assets/images/noizy-img5.png" alt="Noizy screenshot" class="lightbox-trigger">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="nz-section">
+            <div class="nz-section-inner">
+                <div class="nz-cta">
+                    <h2 class="nz-cta-title">Get Noizy on the Unity Asset Store</h2>
+                    <p class="nz-cta-desc">Start building procedural noise graphs in your own project today.</p>
+                    <a href="https://u3d.as/43vW" class="get-button" target="_blank">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        Get Noizy
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>© 2026 Boxey Dev</p>
+    </footer>
+
+    <script src="assets/js/script.js"></script>
+</body>
+</html>

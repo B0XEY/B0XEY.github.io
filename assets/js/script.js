@@ -89,4 +89,38 @@ document.addEventListener('DOMContentLoaded', function () {
         dots.forEach((dot, i) => dot.addEventListener('click', () => show(i)));
         setInterval(() => show(idx + 1), 5000);
     });
+
+    // Lightbox — click any .lightbox-trigger image to enlarge it
+    const triggers = document.querySelectorAll('.lightbox-trigger');
+    if (triggers.length) {
+        const overlay = document.createElement('div');
+        overlay.className = 'lightbox-overlay';
+        overlay.innerHTML = `
+            <button class="lightbox-close" aria-label="Close">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>
+            </button>
+            <img src="" alt="">`;
+        document.body.appendChild(overlay);
+        const overlayImg = overlay.querySelector('img');
+
+        function open(src, alt) {
+            overlayImg.src = src;
+            overlayImg.alt = alt;
+            overlay.classList.add('active');
+        }
+
+        function close() {
+            overlay.classList.remove('active');
+        }
+
+        triggers.forEach(img => {
+            img.addEventListener('click', () => open(img.src, img.alt));
+        });
+        overlay.addEventListener('click', e => {
+            if (e.target === overlay || e.target.closest('.lightbox-close')) close();
+        });
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') close();
+        });
+    }
 });
