@@ -1,10 +1,7 @@
-/* ── Noizy page ── */
-
 .nz-main {
     overflow-x: hidden;
 }
 
-/* Hero */
 .nz-hero {
     position: relative;
     min-height: 70vh;
@@ -74,7 +71,6 @@
     50% { opacity: 0.4; }
 }
 
-/* Sections */
 .nz-section {
     padding: 5rem 2rem;
     position: relative;
@@ -102,7 +98,6 @@
     font-family: 'Space Mono', monospace;
 }
 
-/* Overview */
 .nz-overview-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -147,7 +142,6 @@
     object-fit: cover;
 }
 
-/* Feature list - numbered editorial style */
 .nz-feature-list {
     display: flex;
     flex-direction: column;
@@ -208,7 +202,6 @@
     max-width: 640px;
 }
 
-/* Screenshots */
 .nz-screenshot-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -238,7 +231,6 @@
     display: block;
 }
 
-/* Pricing / CTA */
 .nz-cta {
     display: flex;
     flex-direction: column;
@@ -280,7 +272,6 @@
     margin: 0;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .nz-hero { min-height: 60vh; padding: 6rem 1.25rem 3rem; }
     .nz-title { letter-spacing: -1px; }

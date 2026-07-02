@@ -1,4 +1,3 @@
-// Starfield
 (function () {
     const canvas = document.getElementById('stars-canvas');
     const ctx = canvas.getContext('2d');
@@ -42,7 +41,6 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    // OS-aware window chrome — applied to every .app-chrome element
     const isWindows = /Win/i.test(navigator.platform || navigator.userAgent);
 
     document.querySelectorAll('.app-chrome').forEach(el => {
@@ -72,7 +70,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Image carousels
     document.querySelectorAll('.image-carousel').forEach(carousel => {
         const images = carousel.querySelectorAll('.carousel-image');
         const dotsContainer = carousel.closest('.project-media').querySelector('.carousel-controls');
@@ -90,7 +87,6 @@ document.addEventListener('DOMContentLoaded', function () {
         setInterval(() => show(idx + 1), 5000);
     });
 
-    // Lightbox — click any .lightbox-trigger image to enlarge it
     const triggers = document.querySelectorAll('.lightbox-trigger');
     if (triggers.length) {
         const overlay = document.createElement('div');

@@ -1,10 +1,7 @@
-/* ── Untethered page ── */
-
 .ut-main {
     overflow-x: hidden;
 }
 
-/* Hero */
 .ut-hero {
     position: relative;
     min-height: 85vh;
@@ -104,7 +101,6 @@
     50% { opacity: 0.4; }
 }
 
-/* Sections */
 .ut-section {
     padding: 5rem 2rem;
     position: relative;
@@ -132,7 +128,6 @@
     font-family: 'Space Mono', monospace;
 }
 
-/* Story */
 .ut-story-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -184,7 +179,6 @@
     filter: brightness(1.15);
 }
 
-/* Placeholder */
 .ut-placeholder {
     width: 100%;
     border-radius: 12px;
@@ -222,7 +216,6 @@
     margin-bottom: 1.25rem;
 }
 
-/* Feature list — numbered editorial style */
 .ut-feature-list {
     display: flex;
     flex-direction: column;
@@ -284,7 +277,6 @@
     max-width: 640px;
 }
 
-/* Screenshots */
 .ut-screenshot-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -321,7 +313,6 @@
     gap: 0.875rem;
 }
 
-/* Dev status */
 .ut-devstatus {
     display: flex;
     flex-direction: column;
@@ -412,7 +403,6 @@
     background: rgba(88, 101, 242, 0.18);
 }
 
-/* Responsive */
 @media (max-width: 900px) {
     .ut-features-grid { grid-template-columns: repeat(2, 1fr); }
 }
