@@ -397,6 +397,7 @@ header {
     transform: translateY(-2px);
 }
 
+<<<<<<< HEAD
 .watch-button {
     display: inline-flex;
     align-items: center;
@@ -419,6 +420,9 @@ header {
     transform: translateY(-2px);
 }
 
+=======
+/* Windows: title left, buttons right */
+>>>>>>> parent of 7353643 (noizy update)
 .app-chrome.win {
     padding: 0 0 0 12px;
     justify-content: space-between;
