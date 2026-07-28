@@ -15,6 +15,25 @@
     var MD_BASE = '/docs/';
     var DEFAULT_SLUG = 'overview';
 
+    // Inner markup only (no <svg> wrapper) - buildNav() wraps every icon in
+    // the same viewBox/stroke attributes, so they stay a consistent set.
+    var ICONS = {
+        'overview': '<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/>',
+        'getting-started': '<path d="M4 21V3"/><path d="M4 4h13l-2.5 4L17 12H4"/>',
+        'graph-editor': '<circle cx="6" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="12" r="2"/><line x1="8" y1="6" x2="16" y2="11"/><line x1="8" y1="18" x2="16" y2="13"/>',
+        'nodes': '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+        'subgraphs': '<path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>',
+        'scripting': '<polyline points="16 6 22 12 16 18"/><polyline points="8 18 2 12 8 6"/>',
+        'threading-and-jobs': '<rect x="6" y="6" width="12" height="12" rx="2"/><line x1="6" y1="2" x2="6" y2="6"/><line x1="18" y1="2" x2="18" y2="6"/><line x1="6" y1="18" x2="6" y2="22"/><line x1="18" y1="18" x2="18" y2="22"/><line x1="2" y1="6" x2="6" y2="6"/><line x1="2" y1="18" x2="6" y2="18"/><line x1="18" y1="6" x2="22" y2="6"/><line x1="18" y1="18" x2="22" y2="18"/>',
+        'performance': '<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>',
+        'terrain': '<path d="M3 20 9 8l4 6 3-4 5 10z"/>',
+        'texture-export': '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>',
+        'api-reference': '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/>',
+        'examples': '<circle cx="12" cy="12" r="9"/><polygon points="10 8 16 12 10 16"/>',
+        'troubleshooting': '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+        'license-and-support': '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>'
+    };
+
     var NAV = [
         {
             group: '',
@@ -213,8 +232,13 @@
             if (section.group) html += '<p class="docs-nav-group">' + section.group + '</p>';
             html += '<ul class="docs-nav-list">';
             section.items.forEach(function (item) {
+                var icon = ICONS[item.slug] || '';
                 html += '<li><a class="docs-nav-link" data-slug="' + item.slug + '" href="' +
-                    pageUrl(item.slug) + '">' + item.title + '</a></li>';
+                    pageUrl(item.slug) + '">' +
+                    '<svg class="docs-nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" ' +
+                    'stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+                    icon + '</svg>' +
+                    '<span>' + item.title + '</span></a></li>';
             });
             html += '</ul>';
         });
@@ -348,9 +372,15 @@
     function go(url, replace) {
         var target = new URL(url, location.origin);
         var samePage = target.pathname === location.pathname;
+        var sameUrl = samePage && target.hash === location.hash;
 
-        if (replace) history.replaceState(null, '', target.pathname + target.hash);
-        else history.pushState(null, '', target.pathname + target.hash);
+        // Re-clicking a link back to exactly where you already are shouldn't
+        // stack a dead entry in history: the back button would then need an
+        // extra press before it visibly does anything.
+        if (!sameUrl) {
+            if (replace) history.replaceState(null, '', target.pathname + target.hash);
+            else history.pushState(null, '', target.pathname + target.hash);
+        }
 
         closeSearch();
         el.sidebar.classList.remove('open');
@@ -361,6 +391,18 @@
     }
 
     /* -------------------------------------------------------------- search */
+
+    // Reduces a line of markdown to plain, readable text for the search
+    // index: links and images collapse to their visible label, everything
+    // else that's pure syntax gets dropped.
+    function stripMd(text) {
+        return text
+            .replace(/!\[([^\]]*)\]\([^)]*\)/g, '$1')
+            .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+            .replace(/[`*_>|~]/g, '')
+            .replace(/\s{2,}/g, ' ')
+            .trim();
+    }
 
     function buildSearchIndex() {
         if (searchIndex) return Promise.resolve(searchIndex);
@@ -380,13 +422,13 @@
                     if (inCode) return;
                     var h = /^ {0,3}(#{1,6})\s+(.*?)\s*#*\s*$/.exec(line);
                     if (h) {
-                        section = h[2].replace(/[`*_]/g, '');
+                        section = stripMd(h[2]);
                         entries.push({ heading: section, text: section, isHeading: true });
                         return;
                     }
                     var text = line.trim();
                     if (text.length < 12) return;
-                    entries.push({ heading: section, text: text.replace(/[`*_>|]/g, '').trim(), isHeading: false });
+                    entries.push({ heading: section, text: stripMd(text), isHeading: false });
                 });
                 return { item: doc.item, entries: entries };
             });

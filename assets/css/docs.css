@@ -204,7 +204,9 @@
 }
 
 .docs-nav-link {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
     padding: 0.4rem 0.75rem;
     border-radius: 7px;
     font-size: 0.875rem;
@@ -213,15 +215,33 @@
     transition: color 0.15s, background 0.15s;
 }
 
+.docs-nav-icon {
+    flex-shrink: 0;
+    color: var(--text-dim);
+    opacity: 0.8;
+    transition: color 0.15s, opacity 0.15s, transform 0.15s;
+}
+
 .docs-nav-link:hover {
     color: var(--text);
     background: var(--bg-2);
+}
+
+.docs-nav-link:hover .docs-nav-icon {
+    color: var(--text-muted);
+    opacity: 1;
+    transform: translateY(-1px);
 }
 
 .docs-nav-link.active {
     color: var(--accent);
     background: var(--accent-glow);
     font-weight: 600;
+}
+
+.docs-nav-link.active .docs-nav-icon {
+    color: var(--accent);
+    opacity: 1;
 }
 
 /* ---------------------------------------------------------------- content */
