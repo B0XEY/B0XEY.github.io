@@ -87,6 +87,50 @@ document.addEventListener('DOMContentLoaded', function () {
         setInterval(() => show(idx + 1), 5000);
     });
 
+    document.querySelectorAll('.nz-gallery').forEach(gallery => {
+        const track = gallery.querySelector('.nz-gallery-track');
+        const items = track.querySelectorAll('.nz-ss-box');
+        const prevBtn = gallery.querySelector('.nz-gallery-arrow.prev');
+        const nextBtn = gallery.querySelector('.nz-gallery-arrow.next');
+        const dotsContainer = gallery.querySelector('.nz-gallery-dots');
+        if (!items.length) return;
+
+        dotsContainer.innerHTML = Array.from(items).map((_, i) =>
+            `<button class="nz-gallery-dot${i === 0 ? ' active' : ''}" aria-label="Go to screenshot ${i + 1}"></button>`
+        ).join('');
+        const dots = dotsContainer.querySelectorAll('.nz-gallery-dot');
+
+        function scrollToIndex(i) {
+            const clamped = Math.max(0, Math.min(items.length - 1, i));
+            items[clamped].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+        }
+
+        function currentIndex() {
+            const viewCenter = track.scrollLeft + track.clientWidth / 2;
+            let closest = 0;
+            let smallestDiff = Infinity;
+            items.forEach((item, i) => {
+                const itemCenter = item.offsetLeft + item.offsetWidth / 2;
+                const diff = Math.abs(itemCenter - viewCenter);
+                if (diff < smallestDiff) { smallestDiff = diff; closest = i; }
+            });
+            return closest;
+        }
+
+        let scrollTimeout;
+        track.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                const idx = currentIndex();
+                dots.forEach((dot, i) => dot.classList.toggle('active', i === idx));
+            }, 100);
+        });
+
+        prevBtn.addEventListener('click', () => scrollToIndex(currentIndex() - 1));
+        nextBtn.addEventListener('click', () => scrollToIndex(currentIndex() + 1));
+        dots.forEach((dot, i) => dot.addEventListener('click', () => scrollToIndex(i)));
+    });
+
     const triggers = document.querySelectorAll('.lightbox-trigger');
     if (triggers.length) {
         const overlay = document.createElement('div');

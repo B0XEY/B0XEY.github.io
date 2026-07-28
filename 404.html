@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page not found - Boxey Dev</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="icon" type="image/png" href="/assets/images/icon.png">
+    <script>
+        /*
+         * GitHub Pages serves this file for any path it has no file for, which
+         * includes every docs route below /noizy/docs/. Stash the requested
+         * path and bounce to the docs shell, which puts it back with
+         * history.replaceState so the URL the visitor typed still stands.
+         */
+        (function () {
+            var path = location.pathname;
+            if (/^\/noizy\/docs\/.+/.test(path)) {
+                try {
+                    sessionStorage.setItem('noizy-docs-path', path + location.search + location.hash);
+                } catch (e) {}
+                location.replace('/noizy/docs/');
+            }
+        })();
+    </script>
+    <style>
+        .nf-wrap {
+            min-height: calc(100vh - 64px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4rem 1.5rem;
+            gap: 1.25rem;
+        }
+        .nf-code {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+        .nf-title {
+            font-size: clamp(2rem, 6vw, 3.25rem);
+            font-weight: 700;
+            letter-spacing: -1.5px;
+            line-height: 1.05;
+        }
+        .nf-sub {
+            color: var(--text-muted);
+            max-width: 460px;
+            line-height: 1.7;
+        }
+        .nf-actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .nf-actions .get-button { margin-top: 0.5rem; }
+    </style>
+</head>
+<body>
+    <canvas id="stars-canvas"></canvas>
+
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo-section" style="text-decoration:none;">
+                <img src="/assets/images/icon.png" alt="Boxey Dev" class="logo">
+                <div class="logo-text"><h1>Boxey Dev</h1></div>
+            </a>
+            <nav class="nav">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/noizy.html" class="nav-link">Noizy</a>
+                <a href="/noizy/docs/" class="nav-link">Docs</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="nf-wrap">
+        <p class="nf-code">Error 404</p>
+        <h2 class="nf-title">This page drifted off<br>into the void</h2>
+        <p class="nf-sub">The link you followed doesn't point at anything here. It may have moved, or it may never have existed.</p>
+        <div class="nf-actions">
+            <a href="/" class="get-button">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/>
+                </svg>
+                Back home
+            </a>
+            <a href="/noizy/docs/" class="get-button">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                </svg>
+                Noizy docs
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2026 Boxey Dev</p>
+    </footer>
+
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>

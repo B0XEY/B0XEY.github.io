@@ -172,13 +172,28 @@
     max-width: 640px;
 }
 
-.nz-screenshot-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+.nz-gallery {
+    position: relative;
+}
+
+.nz-gallery-track {
+    display: flex;
     gap: 1.25rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    padding-bottom: 0.5rem;
+    margin-bottom: -0.5rem;
+    scrollbar-width: none;
+}
+
+.nz-gallery-track::-webkit-scrollbar {
+    display: none;
 }
 
 .nz-ss-box {
+    flex: 0 0 auto;
+    width: min(560px, 78%);
     aspect-ratio: 16/10;
     border-radius: 14px;
     overflow: hidden;
@@ -187,6 +202,7 @@
     display: flex;
     flex-direction: column;
     transition: border-color 0.2s, transform 0.2s;
+    scroll-snap-align: start;
 }
 
 .nz-ss-box:hover {
@@ -199,6 +215,56 @@
     flex: 1;
     object-fit: cover;
     display: block;
+}
+
+.nz-gallery-arrow {
+    position: absolute;
+    top: 45%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--bg-2);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    z-index: 2;
+}
+
+.nz-gallery-arrow:hover {
+    border-color: var(--border-hover);
+    background: var(--bg-3);
+}
+
+.nz-gallery-arrow.prev { left: -1.25rem; }
+.nz-gallery-arrow.next { right: -1.25rem; }
+
+.nz-gallery-dots {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.nz-gallery-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--bg-3);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.nz-gallery-dot.active {
+    background: var(--accent);
+    width: 20px;
+    border-radius: 3px;
 }
 
 .nz-cta {
@@ -248,7 +314,8 @@
 
     .nz-overview-grid { grid-template-columns: 1fr; gap: 2rem; }
 
-    .nz-screenshot-grid { grid-template-columns: 1fr; }
+    .nz-ss-box { width: 88%; }
+    .nz-gallery-arrow { display: none; }
 
     .nz-section { padding: 3rem 1.25rem; }
 }
