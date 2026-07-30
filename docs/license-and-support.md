@@ -1,4 +1,4 @@
-[← Back to the index](README.md)
+[← Back to Overview](README.md)
 
 # License and support
 
@@ -24,7 +24,7 @@ replacement for it.
 
 - **Redistribute, resell, sublicense or share** the asset's source files,
   binaries or documentation on their own, whether inside another asset, tool or
-  template, in a public repository, or anywhere else. The only way Noizy leaves
+  template, in a public repository, or anywhere else. The one way Noizy leaves
   your machine is as an embedded, integral part of a product you built with it.
 - Put it in a public repo. If your game's repo is public, exclude
   `Assets/Plugins/Noizy/` from it.
@@ -59,7 +59,7 @@ credits or third-party notices, the same as you would for any other MIT library.
 Before you write in, two things that answer most questions faster than a reply
 will:
 
-1. Check [Troubleshooting](troubleshooting.md). Nearly every error message Noizy
+1. Check [Troubleshooting](troubleshooting.md). Almost every error message Noizy
    can produce is listed there with its cause.
 2. Check the [demo scripts](examples.md). If you're trying to do something and
    aren't sure how, there's a decent chance one of them already does it.
@@ -96,14 +96,14 @@ A bug report is most useful with:
 |---|---|
 | **Unity** | 6.4 or newer |
 | **Platforms** | Windows x64, macOS (Intel + Apple Silicon), Linux x64 |
-| **Render pipelines** | Any. Only the demo materials are pipeline-specific |
+| **Render pipelines** | Any. Just the demo materials are pipeline-specific |
 | **Packages** | `com.unity.mathematics`, `com.unity.collections`, `com.unity.burst` |
 | **Noise engine** | FastNoise2 (bundled, MIT) |
 
 ## Thanks for reading
 
 That's the end of the docs. Thanks for reading them, and thanks for buying
-Noizy. Writing it was a lot of fun, and knowing people are actually building
+Noizy. Writing it was a lot of fun, and knowing people are building
 things with it is the best part.
 
 If you make something with it, I'd love to see it. Drop it in the

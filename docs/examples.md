@@ -1,4 +1,4 @@
-[← Back to the index](README.md)
+[← Back to Overview](README.md)
 
 # Examples and demos
 
@@ -9,13 +9,13 @@ Everything that ships with Noizy that you can open, run, or steal from.
 `Demo/Scene/DemoScene.unity`. Open it and press play.
 
 It's the quickest way to confirm the native library loaded on your machine, and
-the quickest way to see what changing a setting actually does, because most of
+the quickest way to see what changing a setting does, because most of
 the demo components regenerate live while you drag things in the Inspector.
 
 ## The demo scripts
 
-All in `Demo/Scripts/`. Each one is deliberately built around a **single** Noizy
-call, with the rest being ordinary Unity code, so it's obvious which line is the
+All in `Demo/Scripts/`. Each one is built around a **single** Noizy
+call on purpose, with the rest being ordinary Unity code, so it's obvious which line is the
 interesting one.
 
 ### NoizyDemoScript.cs: noise into a texture
@@ -40,7 +40,7 @@ something like this stutters.
 ### NoizyCaveDemo.cs: 3D noise
 
 `Evaluate3D`. Fills a cubic volume with 3D noise, treats everything above a
-threshold as rock, and meshes only the faces where rock meets open space. That
+threshold as rock, and meshes just the faces where rock meets open space. That
 carves a cave system out of a solid block, and it means faces buried inside the
 rock are never built at all.
 
@@ -57,7 +57,7 @@ Settings worth playing with: **Rock Threshold** (higher = bigger caves) and
 camera a chunk at a time. Each chunk is scheduled onto worker threads and meshed
 a frame or two later, when its handle reports it's done.
 
-Neighbouring chunks share their edge points, so the seams line up exactly.
+Neighbouring chunks share their edge points, so the seams line up just right.
 
 The **Use Async** tick box switches the same scene over to the blocking
 `Evaluate2D` path. Turn it off and you get a stutter every time you cross a
@@ -73,7 +73,7 @@ when a chunk gets unloaded while its noise is still in flight.
 density value for **all of them in one call**, and places a prop at every point
 above the threshold.
 
-That's why the props clump and leave clearings instead of sprinkling evenly,
+That's why the props clump and leave clearings instead of spreading out the same everywhere,
 which is what makes scattered objects look placed rather than random.
 
 Optional raycast snapping drops each prop onto whatever collider is underneath,
@@ -143,10 +143,10 @@ Double-click it, or use **Assets > Import Package > Custom Package**.
 
 It contains Built-in versions of the demo materials plus a copy of
 `DemoScene.unity` already wired to use them. Importing overwrites those assets
-in place, keeping the same GUIDs, so the demo renders correctly with no extra
+in place, keeping the same GUIDs, so the demo renders right with no extra
 setup and no console errors.
 
-Noise generation and sampling work exactly the same either way.
+Noise generation and sampling work just the same either way.
 
 ### On HDRP or a custom pipeline
 

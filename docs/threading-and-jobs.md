@@ -1,4 +1,4 @@
-[← Back to the index](README.md)
+[← Back to Overview](README.md)
 
 # Threading and jobs
 
@@ -20,14 +20,14 @@ background jobs. That just works.
 The first time you sample a graph, Noizy compiles it into a `NoizyTree` and
 keeps it on the asset. Every caller shares that one tree.
 
-A compiled tree holds only the graph's configuration. Generating from it reads
+A compiled tree holds just the graph's configuration. Generating from it reads
 that configuration and writes nothing back, so any number of threads can sample
 the same tree at the same time with nothing to coordinate. It's the same reason
 the parallel path inside a single `Evaluate2D` can hand one tree to every
 worker.
 
 - The tree is built **once per asset**, not once per thread.
-- Only that first build takes a lock. Two threads racing to be first just means
+- Just that first build takes a lock. Two threads racing to be first just means
   one waits for the other rather than both building.
 - Once the tree exists, reads of it are lock-free. Sampling threads never queue
   behind each other.
@@ -95,7 +95,7 @@ Worth separating, because they're easy to mix up:
 - **This page** is about *many independent callers* each making their own call
   at the same time.
 
-They stack, but you usually don't want them to. If you're already saturating
+They stack, but most of the time you don't want them to. If you're already saturating
 every core with your own parallel code, pass `NoizyEvalMode.forceSingle` so
 Noizy doesn't compete with you for workers.
 
@@ -115,7 +115,7 @@ using var densities = new NativeArray<float>(size * size * size, Allocator.TempJ
 // Main thread (or a background thread) fills the array.
 terrain.Evaluate3D(densities, new int3(size), corner, new float3(1f), seed, out _);
 
-// Your Burst job only ever sees the NativeArray.
+// Your Burst job just sees the NativeArray.
 new MyBurstMeshingJob { Densities = densities }.Schedule().Complete();
 ```
 
@@ -131,13 +131,13 @@ var meshing = new MyBurstMeshingJob { Densities = densities }
     .Schedule(noise.JobHandle);
 
 meshing.Complete();
-noise.Complete();   // still has to happen exactly once
+noise.Complete();   // still has to happen just once
 ```
 
 ### Option 2: sample from inside the job
 
 `NoizyTree` is a small blittable struct. You can pass it into a Burst job by
-value and call it directly, with no array to copy.
+value and call it there, with no array to copy.
 
 ```csharp
 using Noizy.Core;
@@ -181,7 +181,7 @@ public sealed class ChunkStreamer : IDisposable {
     private readonly NoizyTree _tree;
 
     public ChunkStreamer(NoizyAsset graph) {
-        // Compiled once, up front, owned solely by this object.
+        // Compiled once, up front, owned just by this object.
         _tree = graph.CreateTree();
     }
 
@@ -198,10 +198,10 @@ Things to know:
 
 - The tree stays valid until you `Dispose()` it. Don't dispose it while a
   scheduled job might still be using it.
-- Dispose it exactly once. Disposing twice is a double free.
+- Dispose it just once. Disposing twice is a double free.
 - `NoizyEvaluator` is the static, tree-taking version of everything on
   `NoizyAsset`: `Evaluate2D`, `Schedule3D`, `EvaluatePositions2D`, all of it.
-- `NoizyTree` also has the raw generation methods on it directly
+- `NoizyTree` also has the raw generation methods on it
   (`GenSingle2D`, `GenUniformGrid2D`, `GenTileable2D`, `GenPositionArray3D`).
   Those are the thin wrappers over the native calls, with no eval-mode logic.
 - Trees built with `CreateTree()` are **not** freed when the asset is re-baked
@@ -211,11 +211,11 @@ Things to know:
 ## A note on jobs vs. just calling it
 
 A single `Schedule().Complete()` is always a bit slower than calling
-`Evaluate2D` directly. The native work is identical, you've just added
+`Evaluate2D` straight up. The native work is identical, you've just added
 scheduling overhead.
 
-Jobs win when you actually go parallel, splitting the grid into slabs so all
-cores work at once. Which is exactly what `Evaluate2D` / `Evaluate3D` already do for
+Jobs win when you go parallel, splitting the grid into slabs so all
+cores work at once. Which is just what `Evaluate2D` / `Evaluate3D` already do for
 you with `NoizyEvalMode.auto`, and what `Schedule2D` / `Schedule3D` do without
 blocking.
 

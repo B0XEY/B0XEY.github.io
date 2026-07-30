@@ -1,4 +1,4 @@
-[← Back to the index](README.md)
+[← Back to Overview](README.md)
 
 # Subgraphs
 
@@ -10,7 +10,7 @@ times.
 
 **Create > Noizy > Noizy Subgraph** in the Project window.
 
-It opens in the same editor as a normal graph and works exactly the same way:
+It opens in the same editor as a normal graph and works just the same way:
 add nodes, wire them into the Output node, `Ctrl+S`. The window title says
 "Noizy (Subgraph)" so you know which one you're in.
 
@@ -37,7 +37,7 @@ any other graph.
 ## What a subgraph is not
 
 A subgraph is a **fixed, pre-baked chunk**. It has no exposed or overridable
-parameters. Every graph that references it gets exactly the same values.
+parameters. Every graph that references it gets just the same values.
 
 If you want a variant with different numbers, make a second subgraph asset.
 Select the original in the Project window and press `Ctrl+D` to duplicate it,
@@ -49,7 +49,7 @@ everywhere it's used, which is what makes it cheap to reuse.
 ## Saving a subgraph updates everything using it
 
 When you save a subgraph, Noizy finds every graph in the project that depends on
-it, directly or through another subgraph, and rebakes them. It also drops the
+it, on its own or through another subgraph, and rebakes them. It also drops the
 compiled tree of any loaded graph that uses it.
 
 So the next `Evaluate2D` call, or the next time you open a graph that uses it,
@@ -57,11 +57,11 @@ already reflects your edit. You don't have to go and re-save anything by hand.
 
 ## Rules and limits
 
-- **A subgraph can't contain itself**, directly or through a chain of other
+- **A subgraph can't contain itself**, on its own or through a chain of other
   subgraphs. Noizy detects this and throws a clear error rather than hanging.
 - **A subgraph can't be evaluated on its own.** There's no `Evaluate2D` on it,
-  and the Inspector's **Export Texture** button is only on full graphs. A
-  subgraph only exists to be referenced.
+  and the Inspector's **Export Texture** button is just on full graphs. A
+  subgraph just exists to be referenced.
 - **You can nest them.** A subgraph can use other subgraphs. It's checked for
   loops the same way.
 - **The same subgraph can be used any number of times**, in any number of
@@ -79,7 +79,7 @@ Good candidates:
 Not worth it:
 
 - A single node. Just add the node.
-- Something you'll want slightly different every time. Without exposed
+- Something you'll want a little different every time. Without exposed
   parameters you'll end up with six near-identical subgraph assets, which is
   worse than six copies of five nodes.
 

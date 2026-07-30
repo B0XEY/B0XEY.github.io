@@ -354,14 +354,29 @@
     function highlightToc() {
         var tocLinks = el.toc.querySelectorAll('a');
         if (!tocLinks.length) return;
-        var scrollPos = window.pageYOffset + 120;
+
+        // Scrolled to the bottom of the page: the last heading may never pass
+        // within 120px of the top if little content follows it, so force it
+        // active instead of leaving the tracker stuck on the second-to-last item.
+        var atBottom = window.innerHeight + window.pageYOffset >=
+            document.documentElement.scrollHeight - 2;
+
         var activeId = null;
-        for (var i = 0; i < tocLinks.length; i++) {
-            var heading = document.getElementById(tocLinks[i].dataset.id);
-            if (heading && heading.getBoundingClientRect().top + window.pageYOffset <= scrollPos) {
-                activeId = tocLinks[i].dataset.id;
+        if (atBottom) {
+            activeId = tocLinks[tocLinks.length - 1].dataset.id;
+        } else {
+            // Trigger line sits well toward the middle of the viewport, not
+            // hugging the header, so a section only lights up once it's
+            // actually the thing you're looking at.
+            var scrollPos = window.pageYOffset + window.innerHeight * 0.4;
+            for (var i = 0; i < tocLinks.length; i++) {
+                var heading = document.getElementById(tocLinks[i].dataset.id);
+                if (heading && heading.getBoundingClientRect().top + window.pageYOffset <= scrollPos) {
+                    activeId = tocLinks[i].dataset.id;
+                }
             }
         }
+
         for (var j = 0; j < tocLinks.length; j++) {
             tocLinks[j].classList.toggle('active', tocLinks[j].dataset.id === activeId);
         }

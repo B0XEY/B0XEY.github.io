@@ -1,4 +1,4 @@
-[← Back to the index](README.md)
+[← Back to Overview](README.md)
 
 # Troubleshooting
 
@@ -40,7 +40,7 @@ library didn't load there's nothing to list. Fix the library and restart Unity.
 
 ### `Cycle detected in noise graph at node '<name>'`
 
-Something in the graph eventually feeds back into itself. The message names the
+Something in the graph feeds back into itself somewhere down the chain. The message names the
 node it noticed the loop at, which is the fastest place to start looking.
 
 Reroute nodes count too. A chain of them going in a circle is still a circle.
@@ -62,7 +62,7 @@ The subgraph you're referencing was never saved. Open it and press `Ctrl+S`.
 
 ### `Subgraph '<name>' contains itself`
 
-A subgraph references itself, directly or through a chain of other subgraphs.
+A subgraph references itself, on its own or through a chain of other subgraphs.
 See [Subgraphs](subgraphs.md).
 
 ## Errors at runtime
@@ -75,7 +75,7 @@ never created.
 If you're using `CreateTree()`, check the disposal order. A tree disposed while
 a scheduled job is still using it will do this.
 
-If you're not using `CreateTree()`, this usually means the asset was re-baked or
+If you're not using `CreateTree()`, this is because the asset was re-baked or
 disabled while background work was still sampling it. Finish that work first.
 
 ### `Destination array is too small. Required: X, Provided: Y`
@@ -96,10 +96,10 @@ Your x, y (and z) arrays are different lengths.
 
 ## It works, but it's wrong
 
-### The result is all one value / completely flat
+### The result is all one value / dead flat
 
-Usually `step`. If `step` is very small relative to your grid, every sample lands
-in nearly the same place in the noise and you get a flat field. Try increasing
+Most of the time it's `step`. If `step` is very small relative to your grid, every sample lands
+in almost the same place in the noise and you get a flat field. Try increasing
 it by 10x and see if anything appears.
 
 Also worth checking: an Output node wired to a **Constant**, or a Multiply whose
@@ -110,27 +110,27 @@ other side is 0.
 `step` is too large. You're sampling further apart than the noise has features,
 so you're seeing individual grid cells. Make it smaller.
 
-### Terrain is completely flat
+### Terrain is dead flat
 
 `NoizyTerrain`'s **Height Scale** is smaller than people expect. With the default
-**Height Offset** of 0.5, you want roughly **200** to use the terrain's full
+**Height Offset** of 0.5, you want about **200** to use the terrain's full
 height range. The default of 0.5 is almost flat on purpose. See
 [Terrain component](terrain.md#about-height-scale).
 
 ### Tiles don't line up / there's a seam
 
-For `NoizyTerrain`, they should line up automatically, based on each terrain's
-world position. If they don't, check the terrain tiles are actually adjacent in
+For `NoizyTerrain`, they should line up on their own, based on each terrain's
+world position. If they don't, check the terrain tiles are adjacent in
 world space and are the same size.
 
 For your own chunked meshes: neighbouring chunks need to **share** their edge row
 of samples, not sit next to each other. `NoizyChunkStreamDemo` does this: a
 chunk overlaps the next one by one row of points.
 
-### `forceSingle` and `forceParallel` give slightly different numbers
+### `forceSingle` and `forceParallel` don't give quite the same numbers
 
-They do, by about 1e-7. That's expected and unavoidable. The two paths
-accumulate the sample position differently, so they round differently. It's far
+The gap is real, about 1e-7. That's expected and unavoidable. The two paths
+build up the sample position in a different order, so the rounding doesn't come out the same. It's far
 below the precision a heightmap or texture stores. Don't build a checksum or an
 equality test on it. Details in
 [Performance](performance.md#last-bit-note).
@@ -165,8 +165,8 @@ thought.
 ### The editor is sluggish while I drag a slider
 
 Node previews regenerate as you type. A graph with several 6-octave fractals in
-it will feel it. Collapse nodes you aren't working on, or temporarily drop the
-octave count while you tune the shape.
+it will feel it. Collapse nodes you aren't working on, or drop the
+octave count for now while you tune the shape.
 
 ### The first sample after entering play mode stalls
 
@@ -186,9 +186,9 @@ If you clicked **Discard** on that dialog, they're gone.
 ### Undo isn't undoing my graph changes
 
 Make sure the graph window has focus. Noizy has its own undo stack, separate
-from Unity's, and it only responds while the graph editor is the active window.
-That separation is deliberate. It means undoing in the graph never accidentally
-undoes something in your scene.
+from Unity's, and it just responds while the graph editor is the active window.
+That separation is on purpose. It means undoing in the graph never undoes
+something in your scene by mistake.
 
 ### `Export Texture` is greyed out
 
@@ -201,7 +201,7 @@ evaluated on their own.
 
 ### Noizy isn't in my build
 
-Check your build target. `Noizy.Core` only compiles for the Editor and for
+Check your build target. `Noizy.Core` just compiles for the Editor and for
 Windows x64, macOS and Linux x64 standalone. On any other target it's left out
 of the build rather than failing it, which is intentional, but it does mean
 your code referencing `NoizyAsset` won't compile there either.

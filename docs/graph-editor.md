@@ -1,4 +1,4 @@
-[← Back to the index](README.md)
+[← Back to Overview](README.md)
 
 # The graph editor
 
@@ -28,19 +28,19 @@ and hit enter. The node lands where your mouse was.
 Two shortcuts worth knowing:
 
 - **Drag a wire out of a port and drop it on empty space.** The search opens,
-  and whatever node you pick gets connected automatically.
+  and whatever node you pick gets connected on its own.
 - **Drag a Noizy Subgraph asset from the Project window onto the canvas.** It
   becomes a node, already pointed at that subgraph. See
   [Subgraphs](subgraphs.md).
 
 ## The Output node
 
-Every graph has exactly one **Output** node and you can't delete it. Whatever
+Every graph has just one **Output** node and you can't delete it. Whatever
 you wire into it is what the graph produces.
 
 It shows a live preview of the final result, so there's no separate preview node
 to add. Every other node shows its own preview too, which is the fastest way to
-work out what a node is actually doing to your noise.
+work out what a node is doing to your noise.
 
 ## Node fields
 
@@ -135,7 +135,7 @@ your scene by accident, and vice versa.
 
 The colour swatch in the toolbar controls how previews are coloured. Previews
 are grayscale by default; change the gradient and every preview in the window
-recolours instantly.
+recolours right away.
 
 This is per-asset and saved with it, so a graph you've set up as a lava map
 stays looking like a lava map next time you open it. It's a display setting. It
@@ -166,7 +166,7 @@ machine supports at load.
 | Double-click a wire | Insert a reroute node |
 
 Copy and paste work between graphs, and the clipboard checks that what you're
-pasting actually came from Noizy before it tries.
+pasting came from Noizy before it tries.
 
 ## Every menu item
 
@@ -181,4 +181,4 @@ pasting actually came from Noizy before it tries.
 | `Window > Noizy > Debug > Log Evaluations` | Logs every grid call and whether it ran parallel |
 
 The graph asset's Inspector also has **Open Graph Editor**, **Node List**, and,
-for full graphs only, **Export Texture**.
+just for full graphs, **Export Texture**.

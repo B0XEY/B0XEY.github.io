@@ -1,4 +1,4 @@
-[← Back to the index](README.md)
+[← Back to Overview](README.md)
 
 # Getting started
 
@@ -30,7 +30,7 @@ Two things worth doing right after:
 
 - **On the Built-in Render Pipeline**, double-click
   `Assets/Plugins/Noizy/Built-In.unitypackage` and import it. That swaps the
-  demo scene's materials for Built-in versions so the demo renders properly. If
+  demo scene's materials for Built-in versions so the demo renders the way it should. If
   you're on URP you can skip this. Either way, noise generation itself doesn't
   care what pipeline you use.
 - **Open `Demo/Scene/DemoScene.unity`** and press play, just to confirm the
@@ -53,7 +53,7 @@ Now add a generator:
 
 The Output node's preview fills in. You just made a noise graph.
 
-Try adding a fractal on top, because a bare Perlin is rarely what you want:
+Try adding a fractal on top, because a bare Perlin isn't what you want most of the time:
 
 1. `Space`, search `fbm`, add **Fractal FBm**.
 2. Wire **Perlin → Fractal FBm's Source** input.
@@ -99,7 +99,7 @@ public class NoiseTest : MonoBehaviour {
 
 Press play and you should see two lines in the console.
 
-## The four arguments that actually matter
+## The four arguments that matter
 
 Every call takes the same four ideas, so once you have these you have the whole
 API.
@@ -119,7 +119,7 @@ result.
 
 ## Where to go next
 
-- Want to understand the editor properly? → [The graph editor](graph-editor.md)
+- Want to understand the editor better? → [The graph editor](graph-editor.md)
 - Want to know what all those nodes do? → [Nodes](nodes.md)
 - Want a heightmap with no scripting? → [Terrain component](terrain.md)
 - Want a texture out of it? → [Texture export](texture-export.md)

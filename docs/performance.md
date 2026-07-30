@@ -1,4 +1,4 @@
-[← Back to the index](README.md)
+[← Back to Overview](README.md)
 
 # Performance
 
@@ -10,11 +10,11 @@ Before anything else: keep your graphs small and split them up by job. See
 
 ## The one rule
 
-Noizy compiles your graph exactly as you built it. Its cost is the cost of the
+Noizy compiles your graph just as you built it. Its cost is the cost of the
 nodes in it. Nothing is optimised away for you, and nothing is folded or
 removed behind your back.
 
-So if a graph is too slow, the only way down is **fewer nodes or cheaper nodes**.
+So if a graph is too slow, the one way down is **fewer nodes or cheaper nodes**.
 
 ## Many small graphs beat one big one
 
@@ -24,7 +24,7 @@ swamp nodes in the desert. It has no idea which biome the point belongs to.
 
 Give each biome its own graph instead. Keep each one as simple as that biome
 needs, and pick which graph to sample in your own code, before you call
-`Evaluate2D`. Every point then only pays for the nodes it actually uses. Where
+`Evaluate2D`. Every point then just pays for the nodes it uses. Where
 two biomes meet, sampling both small graphs and blending the results is still
 cheaper than running one graph that does everything everywhere.
 
@@ -42,7 +42,7 @@ thread, against a bare Perlin at 1.29 ms.
 
 **Per sample** is that time divided by the 1,048,576 samples, in nanoseconds.
 It's the number to multiply by when your grid is a different size: a 256x256
-grid is 65,536 samples, so a Perlin over it costs roughly
+grid is 65,536 samples, so a Perlin over it costs about
 `65,536 x 1.23 ns = 0.08 ms`.
 
 | Node | Time | Per sample | Added over a Perlin |
@@ -60,7 +60,7 @@ grid is 65,536 samples, so a Perlin over it costs roughly
 | Cellular Value / Distance | 6.10 ms | 5.82 ns | +4.80 ms |
 | Cellular Lookup | 6.97 ms | 6.65 ns | +5.67 ms |
 
-Per-sample cost holds steady across grid sizes, so it scales, but only down to a
+Per-sample cost holds steady across grid sizes, so it scales, but just down to a
 point: below about 32k samples the per-call overhead starts to matter more than
 the nodes do. See [Eval modes](#eval-modes).
 
@@ -69,11 +69,11 @@ The *ratios* are the useful part.
 
 ## Reading that list, in the order you should try things
 
-1. **Drop an octave.** Fractals are linear in octave count at roughly 1.4 ms
+1. **Drop an octave.** Fractals are linear in octave count at about 1.4 ms
    each, so they dominate almost every graph that has one. 8 octaves is
-   11.25 ms where 3 is 4.38 ms. This is usually the whole answer.
+   11.25 ms where 3 is 4.38 ms. Most of the time, this is the whole answer.
 2. **Reconsider Cellular.** It's the most expensive generator by a wide margin,
-   about 4.7x a Perlin. Sometimes it's exactly what you need. Often a Value
+   about 4.7x a Perlin. Sometimes it's just what you need. Often a Value
    noise with a Terrace on it gets you close for a fifth of the cost.
 3. **Swap the base generator.** Value is cheaper than Perlin, which is cheaper
    than Simplex, which is cheaper than Super Simplex.
@@ -87,8 +87,8 @@ Very little, and there isn't much left to squeeze.
 
 - One P/Invoke per evaluation.
 - **No allocation at all** when you reuse the destination buffer.
-- The multi-threaded path pins your `float[]` and has the workers write into it
-  directly. It doesn't stage a copy.
+- The multi-threaded path pins your `float[]` and has the workers write
+  straight into it. It doesn't stage a copy.
 - Chunking a single-threaded evaluation into smaller native calls was measured
   and makes no difference. The generator is compute-bound, not memory-bound, so
   there's no win hiding on the C# side.
@@ -104,7 +104,7 @@ system's workers.
 | Mode | What it does |
 |---|---|
 | **`auto`** (default) | Cuts the grid into one slab per worker thread, keeping each slab at 16k samples or more. Grids under about 32k samples (128x128) just run on one thread |
-| **`forceParallel`** | Splits across threads regardless of how little work each slab ends up with. Mainly a benchmarking control |
+| **`forceParallel`** | Splits across threads regardless of how little work each slab ends up with. Used for benchmarking |
 | **`forceSingle`** | Always one thread. Worth passing when you're already saturating the cores from your own parallel code and don't want Noizy competing for workers |
 
 ```csharp
@@ -140,13 +140,13 @@ Slabs follow whichever axis has room:
 - **3D:** z-planes, falling back to bands of rows within a plane.
 
 Both fallbacks keep each slab a single contiguous run, so they cost no extra
-copying. Without them, a 65536x2 grid would only ever split two ways, and a
+copying. Without them, a 65536x2 grid would split just two ways, and a
 256x256x1 volume wouldn't parallelize at all.
 
 ### Last-bit note
 
 A slab generates with its own offset, so it computes `start * step + i * step`
-where one big call accumulates `(start + i) * step`. Those round differently.
+where one big call accumulates `(start + i) * step`. Those come out different.
 
 Which means the same graph at the same seed can differ between `forceSingle` and
 `forceParallel` by around 1e-7, up to about 1e-6 on very wide grids, where the
@@ -165,7 +165,7 @@ Open **Window > Noizy > Graph Benchmark**, run it, and if parallel is at least
 available. Turning it on makes every `auto` call on that graph behave as
 `forceParallel`.
 
-Explicit `forceSingle` calls still win. The setting only changes what `auto`
+Explicit `forceSingle` calls still win. The setting just changes what `auto`
 resolves to.
 
 ## The benchmark window
@@ -184,7 +184,7 @@ It also tells you when parallel *isn't* paying off at that size, which is worth
 seeing at least once. It's the reason `auto` keeps small grids on one thread.
 
 3D always benchmarks a cube, so depth matches resolution. It asks you to confirm
-before running very large 3D benchmarks, because those can genuinely run you out
+before running very large 3D benchmarks, because those can run you out
 of memory.
 
 ## Finding it in the Profiler
@@ -204,21 +204,21 @@ Profiler timeline instead of as an anonymous native block. Nothing to turn on.
 The markers sit on `NoizyEvaluator`, so they cover both the `NoizyAsset` calls
 and your own `CreateTree()` sampling.
 
-Work that actually runs on worker threads shows up under its job name
+Work that runs on worker threads shows up under its job name
 (`Grid2DSlabJob` and friends) on those threads' rows. That's why a
-`Noizy.Schedule2D` marker is short even when the grid is huge. It only measures
+`Noizy.Schedule2D` marker is short even when the grid is huge. It just measures
 the dispatch.
 
-`SampleSingle2D` and `SampleSingle3D` are deliberately unmarked. One point costs
+`SampleSingle2D` and `SampleSingle3D` are left unmarked on purpose. One point costs
 about as little as a marker does, and a per-object placement loop would flood the
 timeline with millions of them. Profile your own loop around it, or batch the
 points into `EvaluatePositions2D`.
 
-## Logging what actually ran
+## Logging what ran
 
 **Window > Noizy > Debug > Log Evaluations** toggles a console log for every grid
 and scattered-point call: the size, the sample count, the mode you asked for, and
-what it actually did.
+what it did.
 
 ```
 [Noizy] Evaluate2D 1024x1024 = 1,048,576 samples | auto -> parallel across 8 slabs
@@ -233,8 +233,7 @@ sessions, so turn it back off when you're done.
 
 Two things happen once, and both can be moved off your critical path.
 
-**Loading the native library's node metadata.** Done for you, automatically,
-before the first scene loads
+**Loading the native library's node metadata.** Done for you before the first scene loads
 (`RuntimeInitializeOnLoadMethod(BeforeSceneLoad)`). You don't need to do
 anything.
 
@@ -255,7 +254,8 @@ doing the whole job on the first sample. Open and save them, or run
 The stored graph records a fingerprint of every subgraph that went into it. If
 one of those changes without the parent being rebuilt, say a version control
 revert, a reimported package, or an edit made while the parent wasn't loaded,
-the fingerprints stop matching and the graph quietly falls back to compiling itself.
+the fingerprints stop matching and the graph falls back to compiling itself
+without telling you.
 
 Output stays correct either way. You just pay the old cost until it's rebuilt.
 
@@ -271,4 +271,4 @@ Output stays correct either way. You just pay the old cost until it's rebuilt.
    not 2x.
 7. If it's on the main thread and it doesn't have to be, move it to
    [`Schedule2D`](threading-and-jobs.md).
-8. Only then start thinking about eval modes.
+8. Think about eval modes last.

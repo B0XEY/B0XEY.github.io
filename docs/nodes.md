@@ -1,4 +1,4 @@
-[← Back to the index](README.md)
+[← Back to Overview](README.md)
 
 # Nodes
 
@@ -37,7 +37,7 @@ The ones that make noise from nothing. Every graph needs at least one.
 | Node | What it does |
 |---|---|
 | **Perlin** | The classic. Smooth gradient noise on a grid. Ken Perlin, 1983. Your default choice. |
-| **Simplex** | Smooth gradient noise on a simplex grid. Ken Perlin again, 2001. Slightly different character to Perlin, slightly slower. |
+| **Simplex** | Smooth gradient noise on a simplex grid. Ken Perlin again, 2001. A bit different in character to Perlin, and a bit slower. |
 | **Super Simplex** | An extra-smooth simplex variant. The nicest looking of the three and the slowest. |
 | **Value** | Value noise. Blockier than Perlin and the cheapest of the smooth generators. |
 | **Gradient** | Plain gradient noise on an N-dimensional grid. |
@@ -50,7 +50,7 @@ The ones that make noise from nothing. Every graph needs at least one.
 ### Cellular
 
 Also generators, but worth their own section because they're the expensive ones
-and they behave differently from the rest.
+and they don't behave like the rest.
 
 | Node | What it does |
 |---|---|
@@ -69,7 +69,7 @@ Cellular Distance also has a **Return Type** that combines the nearest and
 second-nearest distances (`Index0`, `Index0Sub1`, and friends). `Index0Sub1` is
 the one that gives you clean cell borders.
 
-Cellular is roughly **4-5x the cost of a Perlin**. Worth it when you need it,
+Cellular is about **4-5x the cost of a Perlin**. Worth it when you need it,
 worth checking twice when you don't. See [Performance](performance.md).
 
 ## Fractal
@@ -87,7 +87,7 @@ The controls are shared:
 
 | Setting | What it does |
 |---|---|
-| **Octaves** | How many layers. More detail, linearly more cost. Floored at 1. |
+| **Octaves** | How many layers. More detail, more cost, in a straight line. Floored at 1. |
 | **Lacunarity** | How much finer each layer is than the last. `2.0` means each layer is twice as detailed. |
 | **Gain** | How much each layer contributes. Lower is smoother and more uniform, higher keeps more of the fine detail. |
 | **Weighted Strength** | Scales later octaves by how strong earlier ones were. Smooths the flat areas while keeping detail in the busy ones. |
@@ -132,7 +132,7 @@ your code.
 
 | Node | What it does |
 |---|---|
-| **Domain Scale** | Scales input coordinates evenly on every axis. Zoom in or out. |
+| **Domain Scale** | Scales input coordinates the same amount on every axis. Zoom in or out. |
 | **Domain Axis Scale** | Same, but per axis. Squash the noise flat, stretch it into streaks. |
 | **Domain Offset** | Shifts input coordinates. Move the noise without moving the world. |
 | **Domain Rotate** | Rotates coordinates around the origin using Yaw / Pitch / Roll. Good for breaking up axis-aligned artifacts. |
@@ -140,7 +140,7 @@ your code.
 | **Add Dimension** | Adds an extra dimension at a fixed position. Lets you feed a 2D lookup a fixed third coordinate. |
 | **Remove Dimension** | Drops a dimension before passing coordinates on. |
 
-A Domain Scale of exactly `1` still costs a full node. If it isn't doing
+A Domain Scale of just `1` still costs a full node. If it isn't doing
 anything, delete it.
 
 ## Modifiers
@@ -155,7 +155,7 @@ Things done to the value that comes out.
 | **Abs** | Absolute value. Folds negatives up into positives, the quick way to get creases. |
 | **Ping Pong** | Multiplies values by a strength and bounces them back when they'd go past -1 or 1, instead of clipping. Flowing, contour-line patterns. |
 | **Signed Square Root** | Square root of the absolute value, with the original sign put back. Compresses big values, keeps small ones. |
-| **Generator Cache** | Remembers its Source's last result for a given position and seed. Only earns its place when the same expensive branch is sampled more than once. |
+| **Generator Cache** | Remembers its Source's last result for a given position and seed. It pays off once the same expensive branch gets sampled more than once. |
 | **Convert RGBA8** | Packs the value into an RGBA8 colour stored in a float. For feeding texture pipelines that expect that format. |
 
 ## Blends and operators
@@ -174,8 +174,8 @@ plain number on each side, so `Multiply` by `0.5` needs one node, not two.
 | **Min Smooth** | Like Min, but the join between them is rounded off instead of creased |
 | **Max Smooth** | Like Max, with the same rounding |
 | **Modulus** | Remainder. Wraps values into a band, which makes stripes and rings |
-| **Pow Float** | A to the power of B. Contrast, basically. |
-| **Pow Int** | Same, integer powers only, and quite a bit faster |
+| **Pow Float** | A to the power of B. It's a contrast control. |
+| **Pow Int** | Same, just integer powers, and quite a bit faster |
 | **Fade** | Crossfades between two inputs. **Fade Min** is 100% A, **Fade Max** is 100% B, with Linear / Hermite / Quintic easing |
 
 `Min Smooth` and `Max Smooth` are underrated. They're how you join two terrain

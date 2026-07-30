@@ -2,18 +2,23 @@
     const canvas = document.getElementById('stars-canvas');
     const ctx = canvas.getContext('2d');
     let stars = [];
+    let shootingStars = [];
+    let parallaxOffset = 0;
+    let parallaxBuffer = 0;
 
     function resize() {
         canvas.width  = window.innerWidth;
         canvas.height = window.innerHeight;
+        parallaxBuffer = canvas.height * 0.15;
         generate();
     }
 
     function generate() {
-        const count = Math.floor((canvas.width * canvas.height) / 3500);
+        const fieldHeight = canvas.height + parallaxBuffer * 2;
+        const count = Math.floor((canvas.width * fieldHeight) / 3500);
         stars = Array.from({ length: count }, () => ({
             x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
+            y: Math.random() * fieldHeight - parallaxBuffer,
             r: Math.random() * 1.1 + 0.15,
             base: Math.random() * 0.6 + 0.1,
             phase: Math.random() * Math.PI * 2,
@@ -21,8 +26,68 @@
         }));
     }
 
+    function spawnShootingStar() {
+        const fromLeft = Math.random() < 0.5;
+        const dir = fromLeft ? 1 : -1;
+        const angle = (Math.random() * 20 + 25) * (Math.PI / 180);
+        const speed = Math.random() * 6 + 9;
+        shootingStars.push({
+            x: fromLeft ? Math.random() * canvas.width * 0.4 : canvas.width - Math.random() * canvas.width * 0.4,
+            y: Math.random() * canvas.height * 0.8 - 30,
+            vx: Math.cos(angle) * speed * dir,
+            vy: Math.sin(angle) * speed,
+            len: Math.random() * 70 + 60,
+            life: 1,
+        });
+    }
+
+    function scheduleShootingStar() {
+        const delay = Math.random() * 3500 + 1500;
+        setTimeout(() => {
+            spawnShootingStar();
+            scheduleShootingStar();
+        }, delay);
+    }
+
+    function drawShootingStars() {
+        shootingStars.forEach(s => {
+            s.x += s.vx;
+            s.y += s.vy;
+            s.life -= 0.012;
+        });
+        shootingStars = shootingStars.filter(s =>
+            s.life > 0 && s.y < canvas.height + 50 && s.x > -50 && s.x < canvas.width + 50
+        );
+
+        shootingStars.forEach(s => {
+            const alpha = s.life * 0.5;
+            const mag = Math.hypot(s.vx, s.vy) || 1;
+            const tailX = s.x - (s.vx / mag) * s.len;
+            const tailY = s.y - (s.vy / mag) * s.len;
+
+            const gradient = ctx.createLinearGradient(s.x, s.y, tailX, tailY);
+            gradient.addColorStop(0, `rgba(255, 255, 255, ${alpha})`);
+            gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+            ctx.beginPath();
+            ctx.strokeStyle = gradient;
+            ctx.lineWidth = 1.2;
+            ctx.lineCap = 'round';
+            ctx.moveTo(s.x, s.y);
+            ctx.lineTo(tailX, tailY);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, 1.1, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+            ctx.fill();
+        });
+    }
+
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.save();
+        ctx.translate(0, parallaxOffset);
         stars.forEach(s => {
             s.phase += s.speed;
             const a = s.base * (0.65 + 0.35 * Math.sin(s.phase));
@@ -31,12 +96,26 @@
             ctx.fillStyle = `rgba(200, 215, 255, ${a})`;
             ctx.fill();
         });
+        drawShootingStars();
+        ctx.restore();
         requestAnimationFrame(draw);
     }
 
+    let ticking = false;
+    function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+            parallaxOffset = Math.max(-parallaxBuffer, Math.min(parallaxBuffer, window.scrollY * -0.06));
+            ticking = false;
+        });
+    }
+
     window.addEventListener('resize', resize);
+    window.addEventListener('scroll', onScroll, { passive: true });
     resize();
     draw();
+    scheduleShootingStar();
 })();
 
 document.addEventListener('DOMContentLoaded', function () {

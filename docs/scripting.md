@@ -1,4 +1,4 @@
-[← Back to the index](README.md)
+[← Back to Overview](README.md)
 
 # Scripting
 
@@ -95,17 +95,17 @@ hasn't been baked. Open it in the editor and press `Ctrl+S`.
 
 The native library works out the minimum and maximum while it's generating,
 whether you ask for it or not. So every grid call hands it back, and there's
-deliberately no overload that skips it. Skipping it wouldn't save any work, and
-it would only tempt you into a second pass over the buffer to recover something
-you already had.
+no overload that skips it, and that's on purpose. Skipping it wouldn't save
+any work, and it would just tempt you into a second pass over the buffer to
+recover something you already had.
 
 Use it any time you'd otherwise loop over the results just to find the range,
-normalising for a texture, say. Pass `out _` when you genuinely don't need it.
+normalising for a texture, say. Pass `out _` when you don't need it.
 
 ### Reusing the buffer
 
-The `dest` you pass is reused whenever it's **big enough**, not only when it's
-exactly the right size. So one pooled buffer can serve calls of different sizes
+The `dest` you pass is reused whenever it's **big enough**, not just when it's
+the exact right size. So one pooled buffer can serve calls of different sizes
 without reallocating.
 
 That means the array you get back can be **longer** than the number of values
@@ -117,7 +117,7 @@ written. Always read `size.x * size.y` (or the point count), never
 private readonly float[] _scratch = new float[512 * 512];
 
 void SmallGrid() {
-    // Reuses _scratch. Only the first 64 * 64 entries are meaningful.
+    // Reuses _scratch. Just the first 64 * 64 entries are meaningful.
     graph.Evaluate2D(new int2(64, 64), float2.zero, new float2(0.1f), 1337,
                      out _, _scratch);
 }
@@ -128,7 +128,7 @@ writing into the same array.
 
 ## One point at a time
 
-If you only need one value, like a placement check or a biome lookup, use
+If you just need one value, like a placement check or a biome lookup, use
 `SampleSingle2D` / `SampleSingle3D` rather than asking for a 1x1 grid. The grid
 path does extra work (destination array, minimum/maximum tracking) that a single
 point doesn't need.
@@ -176,7 +176,7 @@ make it worth it. So a big foliage pass uses every core instead of one.
 
 Every grid and position call has a `NativeArray<float>` overload.
 
-The `float[]` version pins your array and writes into it directly, so it doesn't
+The `float[]` version pins your array and writes straight into it, so it doesn't
 copy. But if your destination is *already* native memory, like a mesh buffer, a
 `Texture2D.SetPixelData` upload, or the input to another job, you'd still be
 copying out of the `float[]` afterwards. Use the native overload and skip the
@@ -198,7 +198,7 @@ the size it needed.
 
 `Evaluate2D` and `Evaluate3D` wait for the whole grid before they return, so a
 large volume stalls whatever thread asked for it. `Schedule2D` / `Schedule3D`
-hand the same work to the job system and return immediately.
+hand the same work to the job system and return right away.
 
 This is what you want for chunk streaming: kick it off, carry on with the frame,
 collect it later.
@@ -208,7 +208,7 @@ collect it later.
 _dest = new NativeArray<float>(64 * 64 * 64, Allocator.Persistent);
 _eval = graph.Schedule3D(_dest, new int3(64, 64, 64), offset, step, seed: 1337);
 
-// A frame or two later, when you actually want the values:
+// A frame or two later, when you want the values:
 if (_eval.IsCompleted) {
     var range = _eval.Complete();   // waits, frees its scratch, gives you the range
     BuildMesh(_dest);
@@ -217,7 +217,7 @@ if (_eval.IsCompleted) {
 
 Rules, and they're the same rules as a `NativeArray`:
 
-- **Complete (or Dispose) each handle exactly once.** `Dispose()` just calls
+- **Complete (or Dispose) each handle just once.** `Dispose()` just calls
   `Complete()`.
 - **The destination array stays yours.** The handle never touches it. Don't read
   it before completing, and don't free it before then either, including when
@@ -253,7 +253,7 @@ off your critical path:
 graph.Warmup();
 ```
 
-The native library's node metadata is warmed up for you automatically before the
+The native library's node metadata is warmed up for you on its own before the
 first scene loads, so that one you don't need to think about. Full details in
 [Performance](performance.md#startup-cost).
 

@@ -1,4 +1,4 @@
-[← Back to the index](README.md)
+[← Back to Overview](README.md)
 
 # The terrain component
 
@@ -18,7 +18,7 @@ The terrains fill in straight away. The Inspector tells you how many Terrain
 children it found, and warns you if it found none or if no asset is assigned.
 
 Position your terrain tiles in the world as normal. Noizy samples each one based
-on where it actually sits, so neighbouring tiles line up on their own. There's
+on where it sits, so neighbouring tiles line up on their own. There's
 no seam to fix.
 
 ## The settings
@@ -26,7 +26,7 @@ no seam to fix.
 | Field | What it does |
 |---|---|
 | **Asset** | The graph to sample. Has to be baked. |
-| **Seed** | The noise seed. Change it for a completely different landscape. |
+| **Seed** | The noise seed. Change it for a whole new landscape. |
 | **Step** | How much world one patch of noise covers. Bigger = bigger, smoother features. |
 | **Offset** | Slides the whole landscape around in noise space, without moving anything in the scene. |
 | **Height Scale** | How tall the hills are. See the note below. This number is smaller than you'd expect. |
@@ -54,9 +54,9 @@ into that range with a small internal factor (`0.0025`), so:
 normalised height = Height Offset + noiseValue * Height Scale * 0.0025
 ```
 
-Most noise lands roughly in -1..1. So with the default **Height Offset** of
+Most noise lands about in -1..1. So with the default **Height Offset** of
 `0.5`, a **Height Scale** of about **200** uses the terrain's full height range.
-The default of `0.5` is deliberately almost flat, so you don't get a wall of
+The default of `0.5` is almost flat on purpose, so you don't get a wall of
 spikes the moment you assign an asset.
 
 Rule of thumb: start at `200` and go from there. Heights are clamped to 0..1, so
@@ -64,9 +64,9 @@ overshooting flattens the tops rather than breaking anything.
 
 ## Regenerating
 
-- **Change any setting** and it regenerates immediately.
+- **Change any setting** and it regenerates right away.
 - **Change a terrain's heightmap resolution** and it notices within a couple of
-  seconds and re-samples that tile. Edit mode only.
+  seconds and re-samples that tile. Just in Edit mode.
 - **The "Generate All Terrains" button** in the Inspector rebuilds every tile by
   hand. There's a matching **Generate All Terrains** entry on the component's
   context menu (the ⋮ button).

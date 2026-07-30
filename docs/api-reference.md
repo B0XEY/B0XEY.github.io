@@ -1,4 +1,4 @@
-[← Back to the index](README.md)
+[← Back to Overview](README.md)
 
 # API reference
 
@@ -136,7 +136,7 @@ void SetReroutes(List<RerouteNodeSave> nodes, List<RerouteEdgeSave> edges);
 void SetPreviewGradient(Gradient gradient);
 ```
 
-The setters are what the editor uses when it saves. You almost certainly don't
+The setters are what the editor uses when it saves. Chances are you don't
 want to call them yourself.
 
 ---
@@ -144,7 +144,7 @@ want to call them yourself.
 ## NoizySubgraph
 
 `ScriptableObject`, derives from `NoizyGraphAsset`. Adds nothing of its own. A
-subgraph has no `Evaluate` methods, because it only exists to be referenced from
+subgraph has no `Evaluate` methods, because it just exists to be referenced from
 another graph.
 
 Created with **Create > Noizy > Noizy Subgraph**. See [Subgraphs](subgraphs.md).
@@ -174,7 +174,7 @@ FastNoise.OutputMinMax Complete();     // waits, frees scratch, returns the rang
 void Dispose();                        // calls Complete()
 ```
 
-Complete or dispose exactly once, same as a `NativeArray`.
+Complete or dispose it just once, same as a `NativeArray`.
 
 ---
 
@@ -294,7 +294,7 @@ void Merge(OutputMinMax other);
 
 ## Supporting types
 
-You'll rarely touch these directly, but they're public.
+You won't touch these much, but they're public.
 
 | Type | What it is |
 |---|---|
@@ -304,7 +304,7 @@ You'll rarely touch these directly, but they're public.
 | `NoizyGraphValidator` | `ValidateNoCycles(NoizySnapshotBake)`. Throws with the offending node's name |
 | `NoizyPrecompiler` | `TryPrecompile(NoizySnapshotBake, out string error)`. Expands subgraphs ahead of time |
 | `NoizyGradientDefaults` | `BlackToWhite()`. The default preview and export gradient |
-| `NoizyReloadGuard` | Editor only. Register a cleanup callback to run before Unity reloads scripts |
+| `NoizyReloadGuard` | Just for the Editor. Register a cleanup callback to run before Unity reloads scripts |
 | `NodeLayoutEntry`, `RerouteNodeSave`, `RerouteEdgeSave`, `StringFloatPair` and friends | Small serialisable structs the editor uses to save graph state |
 
 ---
