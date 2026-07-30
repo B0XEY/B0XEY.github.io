@@ -41,12 +41,27 @@
         });
     }
 
+    let shootingTimer = null;
+
     function scheduleShootingStar() {
         const delay = Math.random() * 3500 + 1500;
-        setTimeout(() => {
+        shootingTimer = setTimeout(() => {
             spawnShootingStar();
             scheduleShootingStar();
         }, delay);
+    }
+
+    function onVisibilityChange() {
+        if (document.hidden) {
+            clearTimeout(shootingTimer);
+        } else {
+            // The tab could've been hidden for a while: requestAnimationFrame
+            // paused, so nothing drew or aged out, but the setTimeout above
+            // would've kept firing and piling shooting stars up unseen. Drop
+            // that backlog instead of dumping it all on screen at once.
+            shootingStars = [];
+            scheduleShootingStar();
+        }
     }
 
     function drawShootingStars() {
@@ -113,6 +128,7 @@
 
     window.addEventListener('resize', resize);
     window.addEventListener('scroll', onScroll, { passive: true });
+    document.addEventListener('visibilitychange', onVisibilityChange);
     resize();
     draw();
     scheduleShootingStar();
