@@ -46,8 +46,8 @@ using Noizy.Core;
 using Unity.Mathematics;
 
 public async Task<float[]> GenerateChunkAsync(NoizyAsset terrain, int3 corner, int size, int seed) {
-    // Runs on a ThreadPool worker. Nothing special is needed here - it's the
-    // same call you'd make on the main thread.
+    // Runs on a ThreadPool worker. Nothing special is needed here.
+    // It's the same call you'd make on the main thread.
     return await Task.Run(() =>
         terrain.Evaluate3D(new int3(size), corner, new float3(1f), seed, out _));
 }
@@ -160,7 +160,7 @@ private struct SampleNoiseJob : IJob {
 // Main thread: get a tree and hand it to the job.
 var job = new SampleNoiseJob { Tree = terrain.CreateTree(), Dest = dest };
 job.Schedule().Complete();
-// Dispose that tree once the job - and anything else using it - is done.
+// Dispose that tree once the job, and anything else using it, is done.
 ```
 
 ## Owning your own tree: `CreateTree()`

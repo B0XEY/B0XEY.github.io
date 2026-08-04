@@ -178,9 +178,6 @@ plain number on each side, so `Multiply` by `0.5` needs one node, not two.
 | **Pow Int** | Same, just integer powers, and quite a bit faster |
 | **Fade** | Crossfades between two inputs. **Fade Min** is 100% A, **Fade Max** is 100% B, with Linear / Hermite / Quintic easing |
 
-`Min Smooth` and `Max Smooth` are underrated. They're how you join two terrain
-types without a visible seam.
-
 ## Subgraph nodes
 
 Any [subgraph](subgraphs.md) asset in your project also shows up in the node

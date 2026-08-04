@@ -67,7 +67,7 @@ public class Heightmap : MonoBehaviour {
 
 ```csharp
 float[] volume = graph.Evaluate3D(
-    size:   new int3(32, 32, 32),   // 32,768 samples - 3D adds up fast
+    size:   new int3(32, 32, 32),   // 32,768 samples
     offset: float3.zero,
     step:   new float3(0.1f),
     seed:   1337,

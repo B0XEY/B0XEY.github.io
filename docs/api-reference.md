@@ -168,7 +168,7 @@ enum NoizyEvalMode {
 `struct`, `IDisposable`. What `Schedule*` gives you back.
 
 ```csharp
-JobHandle JobHandle;                   // public field - chain your own jobs onto it
+JobHandle JobHandle;                   // public field, chain your own jobs onto it
 bool IsCompleted { get; }              // a peek, not a wait
 FastNoise.OutputMinMax Complete();     // waits, frees scratch, returns the range
 void Dispose();                        // calls Complete()

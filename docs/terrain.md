@@ -89,8 +89,8 @@ public class RandomTerrainAtStart : MonoBehaviour {
 
     private void Start() {
         // Fills every Terrain child from the assigned graph, right now.
-        // Do this on a loading screen, not mid-gameplay - SetHeights on a
-        // large terrain is not cheap.
+        // Do this on a loading screen, not mid-gameplay.
+        // SetHeights on a large terrain is not cheap.
         terrain.GenerateAll();
     }
 }

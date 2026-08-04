@@ -45,7 +45,7 @@ public class Example : MonoBehaviour {
     [SerializeField] private NoizyAsset noise;
 
     // Kept as a field so we reuse the same array every frame instead of
-    // making a new one. This is the difference between smooth and stuttery.
+    // making a new one.
     private float[] _buffer;
 
     private void Update() {
