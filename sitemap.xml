@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url><loc>https://boxey.dev/</loc></url>
+    <url><loc>https://boxey.dev/untethered/</loc></url>
+    <url><loc>https://boxey.dev/noizy/</loc></url>
+    <url><loc>https://boxey.dev/noizy/docs/overview</loc></url>
+    <url><loc>https://boxey.dev/noizy/docs/getting-started</loc></url>
+    <url><loc>https://boxey.dev/noizy/docs/graph-editor</loc></url>
+    <url><loc>https://boxey.dev/noizy/docs/nodes</loc></url>
+    <url><loc>https://boxey.dev/noizy/docs/subgraphs</loc></url>
+    <url><loc>https://boxey.dev/noizy/docs/scripting</loc></url>
+    <url><loc>https://boxey.dev/noizy/docs/threading-and-jobs</loc></url>
+    <url><loc>https://boxey.dev/noizy/docs/performance</loc></url>
+    <url><loc>https://boxey.dev/noizy/docs/terrain</loc></url>
+    <url><loc>https://boxey.dev/noizy/docs/texture-export</loc></url>
+    <url><loc>https://boxey.dev/noizy/docs/api-reference</loc></url>
+    <url><loc>https://boxey.dev/noizy/docs/examples</loc></url>
+    <url><loc>https://boxey.dev/noizy/docs/troubleshooting</loc></url>
+    <url><loc>https://boxey.dev/noizy/docs/license-and-support</loc></url>
+</urlset>

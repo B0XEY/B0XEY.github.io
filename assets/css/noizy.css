@@ -60,14 +60,6 @@
     color: var(--text);
 }
 
-.nz-section-sub {
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    margin-top: -1.25rem;
-    margin-bottom: 2.5rem;
-    font-family: 'Space Mono', monospace;
-}
-
 .nz-overview-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
