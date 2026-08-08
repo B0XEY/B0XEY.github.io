@@ -3,22 +3,18 @@
     const ctx = canvas.getContext('2d');
     let stars = [];
     let shootingStars = [];
-    let parallaxOffset = 0;
-    let parallaxBuffer = 0;
 
     function resize() {
         canvas.width  = window.innerWidth;
         canvas.height = window.innerHeight;
-        parallaxBuffer = canvas.height * 0.15;
         generate();
     }
 
     function generate() {
-        const fieldHeight = canvas.height + parallaxBuffer * 2;
-        const count = Math.floor((canvas.width * fieldHeight) / 3500);
+        const count = Math.floor((canvas.width * canvas.height) / 3500);
         stars = Array.from({ length: count }, () => ({
             x: Math.random() * canvas.width,
-            y: Math.random() * fieldHeight - parallaxBuffer,
+            y: Math.random() * canvas.height,
             r: Math.random() * 1.1 + 0.15,
             base: Math.random() * 0.6 + 0.1,
             phase: Math.random() * Math.PI * 2,
@@ -101,8 +97,6 @@
 
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.save();
-        ctx.translate(0, parallaxOffset);
         stars.forEach(s => {
             s.phase += s.speed;
             const a = s.base * (0.65 + 0.35 * Math.sin(s.phase));
@@ -112,22 +106,10 @@
             ctx.fill();
         });
         drawShootingStars();
-        ctx.restore();
         requestAnimationFrame(draw);
     }
 
-    let ticking = false;
-    function onScroll() {
-        if (ticking) return;
-        ticking = true;
-        requestAnimationFrame(() => {
-            parallaxOffset = Math.max(-parallaxBuffer, Math.min(parallaxBuffer, window.scrollY * -0.06));
-            ticking = false;
-        });
-    }
-
     window.addEventListener('resize', resize);
-    window.addEventListener('scroll', onScroll, { passive: true });
     document.addEventListener('visibilitychange', onVisibilityChange);
     resize();
     draw();
