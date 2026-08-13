@@ -9,7 +9,7 @@ about five minutes.
 
 - **Unity 6.4 or newer.** Noizy uses editor APIs that don't exist before that,
   so older versions won't compile it.
-- **Windows x64, macOS, or Linux x64** as your build target. The noise itself
+- **Windows x64, macOS (Apple Silicon), or Linux x64** as your build target. The noise itself
   runs in a native library, and those are the builds that ship with it.
 
 Noizy also uses three Unity packages. Most projects already have all three, and
@@ -26,16 +26,16 @@ Unity will pull them in if you don't:
 Import Noizy from the Package Manager like any other Asset Store purchase. It
 lands in `Assets/Plugins/Noizy/`.
 
-Two things worth doing right after:
+One thing worth doing right after:
 
-- **On the Built-in Render Pipeline**, double-click
-  `Assets/Plugins/Noizy/Built-In.unitypackage` and import it. That swaps the
-  demo scene's materials for Built-in versions so the demo renders the way it should. If
-  you're on URP you can skip this. Either way, noise generation itself doesn't
-  care what pipeline you use.
-- **Open `Demo/Scene/DemoScene.unity`** and press play, just to confirm the
-  native library loaded on your machine. If you see noise scrolling on a plane,
-  you're good.
+- **Open a scene in `Demo/Scenes/`** (`2D Demo.unity` is a good first pick) and
+  press play, just to confirm the native library loaded on your machine. If you
+  see noise moving, you're good.
+
+The demo materials are built for URP. If your project uses a different render
+pipeline, noise generation still works the same, but you will need your own
+material for the demo objects. See [Examples and demos](examples.md) for more
+on that.
 
 ## Making your first graph
 

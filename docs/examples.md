@@ -4,9 +4,18 @@
 
 Everything that ships with Noizy that you can open, run, or steal from.
 
-## The demo scene
+## The demo scenes
 
-`Demo/Scene/DemoScene.unity`. Open it and press play.
+`Demo/Scenes/` has four scenes, one for each of the main demo scripts:
+
+| Scene | Script | Shows |
+|---|---|---|
+| `2D Demo.unity` | `Noizy2DDemo.cs` | Noise turned into a scrolling terrain mesh |
+| `3D Demo.unity` | `NoizyCaveDemo.cs` | Noise carved into a cave system |
+| `Streaming Demo.unity` | `NoizyChunkStreamDemo.cs` | Streaming chunks with no stutter |
+| `Terrain Demo.unity` | `NoizyScatterDemo.cs` and `NoizyTerrain` | Prop scattering on a filled `Terrain` |
+
+Open any of them and press play.
 
 It's the quickest way to confirm the native library loaded on your machine, and
 the quickest way to see what changing a setting does, because most of
@@ -27,6 +36,9 @@ looks like it's scrolling.
 Has a `NoizyEvalMode` field on it, so you can flip between `auto`,
 `forceParallel` and `forceSingle` in the Inspector and see the difference
 without writing anything.
+
+This one isn't wired into any of the four demo scenes. To try it, see
+"Wiring the extra demo up" below.
 
 ### Noizy2DDemo.cs: noise into a mesh
 
@@ -87,16 +99,18 @@ Shared helpers the texture demo uses to create and destroy textures and write a
 noise buffer into one as grayscale. Small, and a decent starting point if you
 want textures at runtime.
 
-## Wiring the extra demos up
+## Wiring the extra demo up
 
-`NoizyCaveDemo`, `NoizyChunkStreamDemo` and `NoizyScatterDemo` aren't in
-`DemoScene.unity`. To try one:
+`NoizyDemoScript` is the only demo script that isn't already wired into one of
+the four demo scenes. To try it:
 
 1. Make an empty GameObject.
-2. Add the component.
+2. Add the component, plus a `Renderer` (a plane or quad works well).
 3. Assign a Noizy graph asset. The graphs in `Examples/` all work, and there are
    purpose-built ones in `Demo/` (`Caves.asset`, `Terrain.asset`,
    `Texture.asset`).
+4. Give the renderer any material with a `_BaseMap` or `_MainTex` property.
+   The package doesn't ship one for this script anymore, so bring your own.
 
 ## Example graphs
 
@@ -114,42 +128,25 @@ Double-click any of the graphs to open them in the editor and see how the effect
 is built. The two texture assets are there so you can see the result without
 opening anything.
 
-The `Demo/` folder has more graphs used by the demo scene itself: `Caves.asset`,
-`Terrain.asset`, `Texture.asset`, `UnityTerrain.asset` and
-`Scene/DemoTerrain.asset`.
+The `Demo/` folder has more graphs used by the demo scenes themselves:
+`Caves.asset`, `Terrain.asset`, `Texture.asset`, `UnityTerrain.asset` and
+`Scenes/DemoTerrain.asset`.
 
 ## Render pipelines
 
-**The Noizy runtime and editor work with any render pipeline.** The demo scene's
-materials are a different matter, and the package defaults to URP.
-
-### On URP (the default)
+**The Noizy runtime and editor work with any render pipeline.** The demo
+scenes' materials are a different matter, and the package only ships URP ones.
 
 `Demo/Materials/` contains:
 
 - `Surface.shadergraph` / `Surface.mat`: a terrain material built with Shader
   Graph. Colours by height and slope: ground, steep, sand.
-- `texture.mat`: used by the texture-plane object, which shows whatever texture
-  `NoizyDemoScript` writes each frame. Uses URP's own Unlit shader.
 
-Those need the URP package (`com.unity.render-pipelines.universal`) and, for the
-Shader Graph one, the Shader Graph package. Both come installed in any project
-made from the URP template.
+That needs the URP package (`com.unity.render-pipelines.universal`) and the
+Shader Graph package. Both come installed in any project made from the URP
+template.
 
-### On the Built-in Render Pipeline
-
-Import `Assets/Plugins/Noizy/Built-In.unitypackage` right after importing Noizy.
-Double-click it, or use **Assets > Import Package > Custom Package**.
-
-It contains Built-in versions of the demo materials plus a copy of
-`DemoScene.unity` already wired to use them. Importing overwrites those assets
-in place, keeping the same GUIDs, so the demo renders right with no extra
-setup and no console errors.
-
-Noise generation and sampling work just the same either way.
-
-### On HDRP or a custom pipeline
-
-Noizy itself is fine. The demo materials won't be. Either make your own
-materials for the demo objects, or just read the demo scripts. The noise part of
-them has nothing to do with rendering.
+On HDRP or a custom pipeline, noise generation and sampling work just the
+same. The shipped material won't render right though, so make your own for
+the demo objects, or just read the demo scripts. The noise part of them has
+nothing to do with rendering.

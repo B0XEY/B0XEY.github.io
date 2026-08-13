@@ -20,13 +20,13 @@ which state it's in. Look for **✓ Baked**.
 
 Unity couldn't load the native binary for your platform. Check:
 
-1. The files under `Assets/Plugins/Noizy/Windows/`, `MacOS/` and `Linux/` are
-   still there. If your version control ignores binaries, they may not have come
-   across.
+1. The files under `Assets/Plugins/Noizy/Core/Platforms/Windows/`, `MacOS/`
+   and `Linux/` are still there. If your version control ignores binaries,
+   they may not have come across.
 2. Select the binary for your platform in the Project window and check its
    importer settings. It needs to be enabled for the Editor and your platform.
-3. You're on a supported platform: Windows x64, macOS (Intel or Apple Silicon),
-   or Linux x64.
+3. You're on a supported platform: Windows x64, macOS (Apple Silicon), or
+   Linux x64.
 
 On macOS you may also need to allow the library through Gatekeeper the first
 time.

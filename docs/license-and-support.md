@@ -44,9 +44,9 @@ the actual noise generation. It's MIT licensed:
 
 > Copyright (c) 2020 Jordan Peck, Copyright (c) 2020 Contributors
 
-It's included as native binaries (`Windows/FastNoise.dll`,
-`Linux/libFastNoise.so`, `MacOS/libFastNoise.dylib`) and C# bindings
-(`Core/FastNoise2.cs`).
+It's included as native binaries under `Core/Platforms/`
+(`Windows/FastNoise.dll`, `Linux/libFastNoise.so`, `MacOS/libFastNoise.dylib`)
+and C# bindings (`Core/FastNoise2.cs`).
 
 The required notice ships with the asset in `Third-Party Notices.txt`. Nothing in
 Noizy's own license restricts the rights FastNoise2's MIT license grants you.
@@ -86,7 +86,7 @@ A bug report is most useful with:
 - A description of what you expected and what you got instead.
 - The graph it happens with, if it's graph-specific. A small graph that
   reproduces it beats a big one that also does.
-- Whether it happens in the demo scene too.
+- Whether it happens in the demo scenes too.
 - Whether it happens with `NoizyEvalMode.forceSingle`. If a problem goes away on
   one thread, that's a very useful thing to know up front.
 
@@ -95,8 +95,8 @@ A bug report is most useful with:
 | | |
 |---|---|
 | **Unity** | 6.4 or newer |
-| **Platforms** | Windows x64, macOS (Intel + Apple Silicon), Linux x64 |
-| **Render pipelines** | Any. Just the demo materials are pipeline-specific |
+| **Platforms** | Windows x64, macOS (Apple Silicon), Linux x64 |
+| **Render pipelines** | Any. The demo materials are built for URP only |
 | **Packages** | `com.unity.mathematics`, `com.unity.collections`, `com.unity.burst` |
 | **Noise engine** | FastNoise2 (bundled, MIT) |
 
