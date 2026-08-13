@@ -75,7 +75,7 @@ That turns a three-message back-and-forth into one reply.
 
 ### Where to ask
 
-- **Asset Store page:** [Noizy on the Unity Asset Store](https://u3d.as/43vW)
+- **Asset Store page:** [Noizy on the Unity Asset Store](https://assetstore.unity.com/packages/slug/390376)
 - **Support email:** [boxeydev@gmail.com](mailto:boxeydev@gmail.com)
 - **Community:** [Boxey Dev on Discord](https://discord.com/invite/gya2UxAexc)
 
