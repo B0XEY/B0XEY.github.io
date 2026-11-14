@@ -44,9 +44,10 @@ the actual noise generation. It's MIT licensed:
 
 > Copyright (c) 2020 Jordan Peck, Copyright (c) 2020 Contributors
 
-It's included as native binaries under `Core/Platforms/`
-(`Windows/FastNoise.dll`, `Linux/libFastNoise.so`, `MacOS/libFastNoise.dylib`)
-and C# bindings (`Core/FastNoise2.cs`).
+It's included as native libraries under `Core/Platforms/` (a `.dll`, `.so`,
+`.dylib` or static `.a` file for each platform), built from FastNoise2 commit
+`c35d604` (November 2026), and C# bindings (`Core/FastNoise2.cs`,
+`Core/NoizyTree.cs`).
 
 The required notice ships with the asset in `Third-Party Notices.txt`. Nothing in
 Noizy's own license restricts the rights FastNoise2's MIT license grants you.
@@ -95,7 +96,7 @@ A bug report is most useful with:
 | | |
 |---|---|
 | **Unity** | 6.4 or newer |
-| **Platforms** | Windows x64, macOS (Apple Silicon), Linux x64 |
+| **Platforms** | Windows (x64, ARM64), macOS, Linux (x64, ARM64), Android, iOS, WebGL (experimental) |
 | **Render pipelines** | Any. The demo materials are built for URP only |
 | **Packages** | `com.unity.mathematics`, `com.unity.collections`, `com.unity.burst` |
 | **Noise engine** | FastNoise2 (bundled, MIT) |

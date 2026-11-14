@@ -9,8 +9,19 @@ about five minutes.
 
 - **Unity 6.4 or newer.** Noizy uses editor APIs that don't exist before that,
   so older versions won't compile it.
-- **Windows x64, macOS (Apple Silicon), or Linux x64** as your build target. The noise itself
-  runs in a native library, and those are the builds that ship with it.
+- **A supported build target.** The noise itself runs in a native library, so
+  Noizy covers the platforms that library is built for:
+  - **Windows**: x64 and ARM64
+  - **macOS**: Intel and Apple Silicon, macOS 11 or newer
+  - **Linux**: x64 and ARM64
+  - **Android**: ARM64 and x86_64, Android 6 (API 23) or newer. 32-bit ARM isn't supported.
+  - **iOS**: devices, iOS 13 or newer. The iOS Simulator isn't supported.
+  - **WebGL**: experimental, Unity 6.5 or newer. See
+    [Troubleshooting](troubleshooting.md#webgl-the-build-fails-to-link-or-complains-about-simd).
+
+  Anything else (consoles, tvOS, visionOS) leaves Noizy out of the build instead
+  of failing it. **Window > Noizy > Native Libraries** shows which platforms have
+  a library in your project.
 
 Noizy also uses three Unity packages. Most projects already have all three, and
 Unity will pull them in if you don't:

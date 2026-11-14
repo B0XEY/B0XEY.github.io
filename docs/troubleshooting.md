@@ -29,15 +29,18 @@ catches most of these when you save.
 
 ### `Could not load the FastNoise2 native library. Noise generation will not work.`
 
-Unity couldn't load the native binary for your platform. Check:
+Unity couldn't load the native library for your platform. Check:
 
-1. The files under `Assets/Plugins/Noizy/Core/Platforms/Windows/`, `MacOS/`
-   and `Linux/` are still there. If your version control ignores binaries,
-   they may not have come across.
-2. Select the binary for your platform in the Project window and check its
-   importer settings. It needs to be enabled for the Editor and your platform.
-3. You're on a supported platform: Windows x64, macOS (Intel or Apple
-   Silicon), or Linux x64.
+1. The files under `Assets/Plugins/Noizy/Core/Platforms/` (`Windows/`, `Linux/`,
+   `MacOS/`, `Android/`, `iOS/` and `WebGL/`) are still there. If your version
+   control ignores binaries, they may not have come across.
+2. Open **Window > Noizy > Native Libraries**. It lists every platform and
+   whether its library is in the project, and warns you if your active build
+   target has none. If a library is there but misbehaves, click **Apply
+   Settings** to give every library the right platform and CPU settings.
+3. You're on a supported platform: Windows (x64 or ARM64), macOS (Intel or Apple
+   Silicon), Linux (x64 or ARM64), Android (ARM64 or x86_64), iOS devices, or
+   WebGL.
 
 On macOS you may also need to allow the library through Gatekeeper the first
 time.
@@ -138,6 +141,16 @@ For your own chunked meshes: neighbouring chunks need to **share** their edge ro
 of samples, not sit next to each other. `NoizyChunkStreamDemo` does this: a
 chunk overlaps the next one by one row of points.
 
+### My noise changed after updating Noizy
+
+The bundled FastNoise2 library was updated. It fixes bugs in Cellular Value (2D),
+Minkowski distance and Pow Float, so graphs that use those nodes can generate
+different noise than before. Graphs that don't are unchanged.
+
+If a graph with one of those nodes looks different after you update, that's the
+fix, not a problem with your graph. Everything else in your project keeps
+generating the same values.
+
 ### `forceSingle` and `forceParallel` don't give quite the same numbers
 
 The gap is real, about 1e-7. That's expected and unavoidable. The two paths
@@ -216,10 +229,40 @@ evaluated on their own.
 
 ### Noizy isn't in my build
 
-Check your build target. `Noizy.Core` just compiles for the Editor and for
-Windows x64, macOS and Linux x64 standalone. On any other target it's left out
-of the build rather than failing it, which is intentional, but it does mean
-your code referencing `NoizyAsset` won't compile there either.
+Check your build target. `Noizy.Core` compiles for the Editor, Windows, macOS,
+Linux, Android, iOS and WebGL. On any other target (consoles, tvOS, visionOS)
+it's left out of the build rather than failing it, which is intentional, but it
+does mean your code referencing `NoizyAsset` won't compile there either.
+
+## Platform notes
+
+### The iOS Simulator isn't supported
+
+The iOS library is built for physical devices. A build for the Simulator will fail
+to link, or fail to find the library. Test on a device.
+
+### Android: my build can't find the library, or crashes on an old phone
+
+Noizy ships 64-bit libraries only (ARM64 for phones and tablets, x86_64 for
+emulators), and needs Android 6 (API 23) or newer. A 32-bit ARM device or build
+target isn't covered. In **Player Settings > Other Settings**, make sure
+**ARM64** is ticked under **Target Architectures**. The libraries are aligned
+for 16 KB memory pages, which current Google Play rules require.
+
+### WebGL: the build fails to link, or complains about SIMD
+
+WebGL support is experimental. The library uses WebAssembly SIMD, which Unity's
+default WebGL settings may not accept. Try turning on **Target WebAssembly 2023**
+in **Edit > Project Settings > Player > Publishing Settings**. It also needs Unity 6.5 or newer,
+because the library is built with the Emscripten version that Unity uses from
+then on.
+
+If the build still fails, please [get in touch](license-and-support.md) with your
+Unity version and the full link error.
+
+On WebGL, Unity runs jobs on the main thread unless your Unity version and build
+settings provide worker threads, so `Schedule` calls and parallel mode may run on
+one thread there.
 
 ## Still stuck
 

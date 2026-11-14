@@ -13,7 +13,8 @@ None of this needs turning on. Threaded sampling is the default behaviour.
 number of threads at once, including the same graph asset from all of them.**
 
 A common case: several chunk streamers all sampling one shared biome graph from
-background jobs. That just works.
+background jobs. That just works. (The exception is WebGL, where Unity doesn't
+support C# threads at all, so you sample from the main thread there.)
 
 ## Why it works
 

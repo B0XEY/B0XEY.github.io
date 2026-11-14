@@ -1,4 +1,4 @@
-<div class="docs-hero-head"><h1>Noizy</h1><div class="docs-hero-badges"><span class="docs-badge">Unity 6.4+</span><span class="docs-badge">Windows / macOS / Linux</span><span class="docs-badge">Powered by FastNoise2</span></div></div>
+<div class="docs-hero-head"><h1>Noizy</h1><div class="docs-hero-badges"><span class="docs-badge">Unity 6.4+</span><span class="docs-badge">Windows / macOS / Linux / Android / iOS / WebGL</span><span class="docs-badge">Powered by FastNoise2</span></div></div>
 
 Noizy is a node-based noise generator for Unity. You build a graph in an editor
 window, save it, and sample it from your scripts. The noise math comes from
@@ -66,8 +66,10 @@ public class Example : MonoBehaviour {
 ## What you need
 
 - **Unity 6.4 or newer.** Older editors are not supported.
-- **Windows x64, macOS (Apple Silicon), or Linux x64.** Noise runs
-  through native FastNoise2 binaries, so those are the platforms it covers.
-  Building for anything else leaves Noizy out of the build instead of failing it.
+- **Windows, macOS, Linux, Android, iOS, or WebGL** (WebGL is experimental).
+  Noise runs through native FastNoise2 libraries, so those are the platforms it
+  covers. [Getting started](getting-started.md#what-you-need-first) lists the
+  exact CPU types. Building for anything else leaves Noizy out of the build
+  instead of failing it.
 - Any render pipeline. Just the demo scenes' materials care, and those are
   built for URP only. See [Examples and demos](examples.md).

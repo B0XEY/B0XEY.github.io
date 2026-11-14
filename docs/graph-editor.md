@@ -216,6 +216,7 @@ pasting came from Noizy before it tries.
 | `Window > Noizy > Node List` | A searchable reference of every node type |
 | `Window > Noizy > Graph Benchmark` | [Single vs. multi-threaded timings](performance.md#the-benchmark-window) |
 | `Window > Noizy > Rebuild Compiled Graphs` | Re-bakes the pre-compiled data on every graph in the project |
+| `Window > Noizy > Native Libraries` | Which platforms have a FastNoise2 library in the project, with a button to apply the right import settings |
 | `Window > Noizy > Debug > Log Evaluations` | Logs every grid call and whether it ran parallel |
 
 The graph asset's Inspector also has **Open Graph Editor**, **Node List**, and,

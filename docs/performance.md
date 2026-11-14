@@ -116,6 +116,11 @@ float[] heights = graph.Evaluate2D(
 `auto` is right almost every time. The thresholds exist because dispatching a
 job costs more than splitting a small grid saves.
 
+On **WebGL**, Unity runs jobs on the main thread unless your Unity version and
+build settings provide worker threads, so parallel mode may not speed anything up
+there. `auto` looks at the real number of workers, so it does the right thing
+either way.
+
 ### Why slabs are big, not small
 
 Slabs are sized by *work*, not by thread count, and `auto` aims for one slab per
