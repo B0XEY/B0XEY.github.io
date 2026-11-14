@@ -28,7 +28,7 @@ lands in `Assets/Plugins/Noizy/`.
 
 One thing worth doing right after:
 
-- **Open a scene in `Demo/Scenes/`** (`2D Demo.unity` is a good first pick) and
+- **Open a scene in `Demo/Scene/`** (`2D Demo.unity` is a good first pick) and
   press play, just to confirm the native library loaded on your machine. If you
   see noise moving, you're good.
 

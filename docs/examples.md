@@ -6,16 +6,18 @@ Everything that ships with Noizy that you can open, run, or steal from.
 
 ## The demo scenes
 
-`Demo/Scenes/` has four scenes, one for each of the main demo scripts:
+`Demo/Scene/` has one scene for each of the demo scripts:
 
 | Scene | Script | Shows |
 |---|---|---|
 | `2D Demo.unity` | `Noizy2DDemo.cs` | Noise turned into a scrolling terrain mesh |
+| `Texture Demo.unity` | `NoizyDemoScript.cs` | Noise painted into a scrolling texture |
 | `3D Demo.unity` | `NoizyCaveDemo.cs` | Noise carved into a cave system |
-| `Streaming Demo.unity` | `NoizyChunkStreamDemo.cs` | Streaming chunks with no stutter |
+| `Streaming Demo.unity` | `NoizyChunkStreamDemo.cs` | Chunks streaming in as a camera flies over them |
 | `Terrain Demo.unity` | `NoizyScatterDemo.cs` and `NoizyTerrain` | Prop scattering on a filled `Terrain` |
 
-Open any of them and press play.
+Open any of them and press play. Each scene has its demo switched on and its own
+camera, so there's nothing to enable or assign first.
 
 It's the quickest way to confirm the native library loaded on your machine, and
 the quickest way to see what changing a setting does, because most of
@@ -37,8 +39,7 @@ Has a `NoizyEvalMode` field on it, so you can flip between `auto`,
 `forceParallel` and `forceSingle` in the Inspector and see the difference
 without writing anything.
 
-This one isn't wired into any of the four demo scenes. To try it, see
-"Wiring the extra demo up" below.
+It has its own scene, `Texture Demo.unity`.
 
 ### Noizy2DDemo.cs: noise into a mesh
 
@@ -71,6 +72,11 @@ a frame or two later, when its handle reports it's done.
 
 Neighbouring chunks share their edge points, so the seams line up just right.
 
+In the scene, a small `NoizyDemoFlyover` script on the camera flies it slowly
+forward, so new chunks keep loading without you touching anything. It reads no
+input, so it works with either input system. Change its **Speed**, or give it a
+**Turn Degrees Per Second**, to change the route.
+
 The **Use Async** tick box switches the same scene over to the blocking
 `Evaluate2D` path. Turn it off and you get a stutter every time you cross a
 chunk border, which is the whole argument for `Schedule2D` in one toggle.
@@ -100,19 +106,6 @@ Small shared helpers: writing a noise buffer into a texture as grayscale, and
 destroying objects the right way in both edit mode and Play mode (every demo
 uses that one). A decent starting point if you want textures at runtime.
 
-## Wiring the extra demo up
-
-`NoizyDemoScript` is the only demo script that isn't already wired into one of
-the four demo scenes. To try it:
-
-1. Make an empty GameObject.
-2. Add the component, plus a `Renderer` (a plane or quad works well).
-3. Assign a Noizy graph asset. The graphs in `Examples/` all work, and there are
-   purpose-built ones in `Demo/` (`Caves.asset`, `Terrain.asset`,
-   `Texture.asset`).
-4. Give the renderer any material with a `_BaseMap` or `_MainTex` property.
-   The package doesn't ship one for this script anymore, so bring your own.
-
 ## Example graphs
 
 `Examples/` has ready-made graphs to open, tweak, or start from:
@@ -131,7 +124,7 @@ opening anything.
 
 The `Demo/` folder has more graphs used by the demo scenes themselves:
 `Caves.asset`, `Terrain.asset`, `Texture.asset`, `UnityTerrain.asset` and
-`Scenes/DemoTerrain.asset`.
+`Scene/DemoTerrain.asset`.
 
 ## Render pipelines
 
