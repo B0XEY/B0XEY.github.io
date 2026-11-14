@@ -9,12 +9,23 @@ for it.
 
 ## Nothing generates at all
 
-### `Cannot build tree: asset has no valid baked snapshot`
+### `'<asset>' has nothing to sample yet`
 
-The graph was never saved. Open it in the graph editor and press `Ctrl+S`.
+The graph was never saved, or it was saved with nothing wired into its Output
+node. Open it in the graph editor (double-click the asset), connect something to
+Output, and press `Ctrl+S`.
 
 A graph asset is empty until you save it once. The asset's Inspector tells you
 which state it's in. Look for **✓ Baked**.
+
+### `Could not build '<asset>': <reason>`
+
+The graph is saved, but it can't be turned into noise. The part after the colon
+is the actual problem, and it's one of the save-time errors below (a cycle, a
+missing input, a broken subgraph). Open the named graph, fix it, and save.
+
+You'll usually see this from a script or a component, since the graph editor
+catches most of these when you save.
 
 ### `Could not load the FastNoise2 native library. Noise generation will not work.`
 
@@ -25,8 +36,8 @@ Unity couldn't load the native binary for your platform. Check:
    they may not have come across.
 2. Select the binary for your platform in the Project window and check its
    importer settings. It needs to be enabled for the Editor and your platform.
-3. You're on a supported platform: Windows x64, macOS (Apple Silicon), or
-   Linux x64.
+3. You're on a supported platform: Windows x64, macOS (Intel or Apple
+   Silicon), or Linux x64.
 
 On macOS you may also need to allow the library through Gatekeeper the first
 time.
@@ -165,8 +176,8 @@ thought.
 ### The editor is sluggish while I drag a slider
 
 Node previews regenerate as you type. A graph with several 6-octave fractals in
-it will feel it. Collapse nodes you aren't working on, or drop the
-octave count for now while you tune the shape.
+it will feel it. Mute the heavy nodes you aren't working on (select them, press
+`M`), or drop the octave count for now while you tune the shape.
 
 ### The first sample after entering play mode stalls
 
@@ -185,10 +196,14 @@ If you clicked **Discard** on that dialog, they're gone.
 
 ### Undo isn't undoing my graph changes
 
-Make sure the graph window has focus. Noizy has its own undo stack, separate
-from Unity's, and it just responds while the graph editor is the active window.
-That separation is on purpose. It means undoing in the graph never undoes
-something in your scene by mistake.
+Graph edits go on Unity's normal undo history (you can see them as
+**Noizy Graph Edit** in **Edit > Undo History**), so `Ctrl+Z` undoes whatever
+you did most recently, in the graph or anywhere else. If your last action was
+in the scene, that's what gets undone first.
+
+Edits are grouped: a burst of changes within about a quarter of a second
+becomes one undo step. Opening a different graph clears the previous graph's
+undo steps, so you can't undo back into a graph you've closed.
 
 ### `Export Texture` is greyed out
 

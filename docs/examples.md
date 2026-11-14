@@ -65,7 +65,7 @@ Settings worth playing with: **Rock Threshold** (higher = bigger caves) and
 
 ### NoizyChunkStreamDemo.cs: streaming without stutter
 
-`Schedule2D` and `NoizyEvalHandle`. An endless landscape that loads in around the
+`Schedule2D` and `NoizyHandle`. An endless landscape that loads in around the
 camera a chunk at a time. Each chunk is scheduled onto worker threads and meshed
 a frame or two later, when its handle reports it's done.
 
@@ -82,8 +82,9 @@ when a chunk gets unloaded while its noise is still in flight.
 ### NoizyScatterDemo.cs: placing objects
 
 `EvaluatePositions2D`. Lays out jittered candidate points across an area, gets a
-density value for **all of them in one call**, and places a prop at every point
-above the threshold.
+density value for **all of them in one call** (plus their lowest and highest
+value, via `out var range`, to measure the threshold against), and places a
+prop at every point above the threshold.
 
 That's why the props clump and leave clearings instead of spreading out the same everywhere,
 which is what makes scattered objects look placed rather than random.
@@ -95,9 +96,9 @@ so render magenta under URP.
 
 ### NoizyDemoTextureUtil.cs
 
-Shared helpers the texture demo uses to create and destroy textures and write a
-noise buffer into one as grayscale. Small, and a decent starting point if you
-want textures at runtime.
+Small shared helpers: writing a noise buffer into a texture as grayscale, and
+destroying objects the right way in both edit mode and Play mode (every demo
+uses that one). A decent starting point if you want textures at runtime.
 
 ## Wiring the extra demo up
 

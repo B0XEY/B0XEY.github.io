@@ -87,8 +87,8 @@ Very little, and there isn't much left to squeeze.
 
 - One P/Invoke per evaluation.
 - **No allocation at all** when you reuse the destination buffer.
-- The multi-threaded path pins your `float[]` and has the workers write
-  straight into it. It doesn't stage a copy.
+- Every `float[]` call pins your array and generation writes straight into
+  it, single-threaded or not. It doesn't stage a copy.
 - Chunking a single-threaded evaluation into smaller native calls was measured
   and makes no difference. The generator is compute-bound, not memory-bound, so
   there's no win hiding on the C# side.

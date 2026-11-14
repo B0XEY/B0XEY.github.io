@@ -94,8 +94,9 @@ If you just saved a **subgraph**, Noizy also rebakes every graph in the project
 that uses it, so nothing is left stale.
 
 **Until you save, the asset is empty.** Scripts calling `Evaluate2D` on an
-unbaked graph throw an `InvalidOperationException`. The graph asset's Inspector
-tells you which state it's in:
+unsaved graph throw an `InvalidOperationException` that names the asset and
+tells you to open and save it. The graph asset's Inspector tells you which state
+it's in:
 
 | Status line | What it means |
 |---|---|
@@ -122,14 +123,16 @@ the graph from disk. It asks first.
 
 ## Undo and redo
 
-Noizy keeps its own undo stack, separate from Unity's. It holds up to 50 steps
-and it's per-graph.
+Graph edits go on Unity's own undo history, so they show up as
+**Noizy Graph Edit** in **Edit > Undo History** and interleave with everything
+else you do in the editor.
 
 - `Ctrl+Z` undo
 - `Ctrl+Y` or `Ctrl+Shift+Z` redo
 
-Because it's separate, undoing in the graph editor never undoes something in
-your scene by accident, and vice versa.
+A quick burst of changes (dragging a value, say) is grouped into one step.
+Opening a different graph clears the undo steps for the one you left, so you
+can't undo back into a graph you've closed.
 
 ## The preview gradient
 
@@ -142,12 +145,45 @@ stays looking like a lava map next time you open it. It's a display setting. It
 does not change the numbers your graph produces. The
 [texture exporter](texture-export.md) has its own separate gradient.
 
-## The SIMD label
+## The status dot
 
-The small grey text on the right of the toolbar (`SIMD: AVX2` or similar) is the
-instruction set FastNoise2 picked for your CPU. It's informational. Wider is
-faster, and there's nothing to configure. The library picks the best one your
-machine supports at load.
+On the right of the toolbar is the graph's name and a small dot: green when
+everything is saved, red while you have unsaved edits. Hover the dot for a
+status panel:
+
+- When it was last saved.
+- Whether it's **Precompiled** or will compile at runtime (see
+  [Performance](performance.md#startup-cost)).
+- The SIMD level (`SIMD: AVX2` or similar), the instruction set FastNoise2
+  picked for your CPU. It's informational. Wider is faster, and there's nothing
+  to configure.
+- How many nodes the graph has, and how many have warnings.
+- A rough cost estimate at 1024², single-threaded.
+
+## Muting nodes
+
+Select one or more nodes and press `M` (or right-click > **Mute**) to switch
+them off without deleting anything. A muted node is drawn faded and is skipped
+when the graph is compiled: it passes its first input straight through, so you
+can compare the result with and without it. Press `M` again to unmute.
+
+A muted node with no inputs has nothing to pass through, so it still generates
+as normal. Subgraph nodes can't be muted.
+
+## Turning a selection into a subgraph
+
+Right-click a selection and choose **Convert Selection to Subgraph**. Noizy asks
+where to save the new [subgraph](subgraphs.md) asset, moves the selected nodes
+into it, and puts a single subgraph node where they were, wired the same way.
+
+The selection has to be self-contained:
+
+- Every node it depends on must be selected too. A subgraph can't take inputs
+  from outside itself.
+- Exactly one selected node may feed something outside the selection. That
+  becomes the subgraph's output.
+
+If either rule isn't met, Noizy tells you which one and nothing changes.
 
 ## Shortcuts
 
@@ -160,10 +196,12 @@ machine supports at load.
 | `Ctrl+C` / `Ctrl+V` | Copy / paste selected nodes |
 | `Ctrl+D` | Duplicate selected nodes |
 | `Delete` | Delete selection (reroutes heal their wires) |
+| `M` | Mute / unmute the selected nodes |
 | `F` | Frame the selection, or everything if nothing's selected |
 | `A` | Frame everything |
 | `H` / `Home` | Jump back to the origin |
 | Double-click a wire | Insert a reroute node |
+| Drag a wire onto empty canvas | Open the node search, then connect what you pick |
 
 Copy and paste work between graphs, and the clipboard checks that what you're
 pasting came from Noizy before it tries.

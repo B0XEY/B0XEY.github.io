@@ -20,7 +20,8 @@ more.
 | A grid of values | `Evaluate2D` / `Evaluate3D` |
 | One value at one point | `SampleSingle2D` / `SampleSingle3D` |
 | Values at a scattered list of points | `EvaluatePositions2D` / `EvaluatePositions3D` |
-| ...written into native memory instead of a `float[]` | the same call, with a `NativeArray<float>` as the destination |
+| ...written into native memory instead of a `float[]` | the same call, with your `NativeArray<float>` as the first argument |
+| ...plus the lowest/highest value, without scanning the results | add `out var range` (every grid and point call has it) |
 | ...started now and picked up later | `Schedule2D` / `Schedule3D` / `SchedulePositions2D` / `SchedulePositions3D` |
 | A Unity Terrain filled in, with no code | the [`NoizyTerrain` component](terrain.md) |
 
@@ -88,8 +89,10 @@ float[] volume = graph.Evaluate3D(
 | `dest` (optional) | A buffer to write into. A new one is made if it's `null` or too small |
 | `mode` (optional) | Single- or multi-threaded. Defaults to `auto` |
 
-`Evaluate2D` and `Evaluate3D` throw `InvalidOperationException` if the graph
-hasn't been baked. Open it in the editor and press `Ctrl+S`.
+Every sampling call throws an `InvalidOperationException` if the graph has never
+been saved (or nothing is wired into its Output), or if it can't be built, for
+example a node with an empty required input. The message names the asset and
+tells you what to do: open it in the editor, fix it, and press `Ctrl+S`.
 
 ### Why `range` isn't optional
 
@@ -164,6 +167,15 @@ for (int i = 0; i < xs.Length; i++) {
 }
 ```
 
+Want the lowest and highest density too, to normalise against? Add
+`out var range` after the seed, same as a grid call:
+
+```csharp
+float[] density = graph.EvaluatePositions2D(xs, ys, float2.zero, 1337,
+                                            out var range, _densityBuffer);
+float t = (density[0] - range.Min) / (range.Max - range.Min);
+```
+
 The x, y (and z) arrays must all be the same length, or you get an
 `ArgumentException`.
 
@@ -215,10 +227,11 @@ if (_eval.IsCompleted) {
 }
 ```
 
-Rules, and they're the same rules as a `NativeArray`:
+Rules:
 
-- **Complete (or Dispose) each handle just once.** `Dispose()` just calls
-  `Complete()`.
+- **Complete (or Dispose) every handle.** That's what frees its scratch.
+  `Dispose()` just calls `Complete()`, so a `using` works. Calling it again, or
+  on a copy of the handle, is safe and returns the same range.
 - **The destination array stays yours.** The handle never touches it. Don't read
   it before completing, and don't free it before then either, including when
   the thing that wanted it gets cancelled halfway through.
@@ -261,12 +274,13 @@ first scene loads, so that one you don't need to think about. Full details in
 
 | Message | What went wrong |
 |---|---|
-| `Cannot build tree: asset has no valid baked snapshot` | The graph was never saved. Open it and press `Ctrl+S` |
+| `'<asset>' has nothing to sample yet` | The graph was never saved, or nothing is wired into its Output. Open it, connect the Output, and press `Ctrl+S` |
+| `Could not build '<asset>': <reason>` | The graph is saved but broken. The reason says what's wrong, for example a missing input |
 | `Tree is not valid` | You're evaluating a `NoizyTree` you already disposed |
 | `Destination array is too small` | A `NativeArray` overload got a buffer smaller than `size.x * size.y (* size.z)` |
 | `Destination array has not been allocated` | The `NativeArray` you passed was `default` / already disposed |
 | `Position arrays must have the same length` | Your x / y / z arrays aren't the same size |
-| `'<node>' node is missing a required '<input>' input` | A node in the graph has an unconnected Source. Fix it in the editor |
+| `'<node>' node (id <id>) is missing a required '<input>' input` | A node in the graph has an unconnected Source. Fix it in the editor. When you hit this while sampling, it's inside a `Could not build` message |
 | `Cycle detected in noise graph at node '<name>'` | Something in the graph feeds back into itself |
 
 More on all of these in [Troubleshooting](troubleshooting.md).

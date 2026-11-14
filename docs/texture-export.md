@@ -50,7 +50,8 @@ This gradient is separate from the preview gradient in the
 | **EXR** | A 32-bit float EXR anywhere on disk | Heightmaps and displacement, where 8-bit banding shows |
 
 If your export is going to drive geometry rather than colour, use EXR. 256 steps
-of grey is fine for a texture and very obvious on a hillside.
+of grey is fine for a texture and very obvious on a hillside. EXR applies your
+gradient in full float precision, so there are no 8-bit steps in the file.
 
 3D always exports as a `Texture3D` asset in the project, because PNG and EXR are
 2D formats. Use the **Slice** slider to look through the volume before you commit.

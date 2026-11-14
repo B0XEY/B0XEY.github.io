@@ -131,7 +131,7 @@ var meshing = new MyBurstMeshingJob { Densities = densities }
     .Schedule(noise.JobHandle);
 
 meshing.Complete();
-noise.Complete();   // still has to happen just once
+noise.Complete();   // still needed: frees the handle's scratch (safe to repeat)
 ```
 
 ### Option 2: sample from inside the job

@@ -50,15 +50,15 @@ back can be longer than the grid.
 ### Grids, without blocking
 
 ```csharp
-NoizyEvalHandle Schedule2D(NativeArray<float> dest, int2 size, float2 offset,
-                           float2 step, int seed,
-                           NoizyEvalMode mode = NoizyEvalMode.auto,
-                           JobHandle dependsOn = default);
+NoizyHandle Schedule2D(NativeArray<float> dest, int2 size, float2 offset,
+                       float2 step, int seed,
+                       NoizyEvalMode mode = NoizyEvalMode.auto,
+                       JobHandle dependsOn = default);
 
-NoizyEvalHandle Schedule3D(NativeArray<float> dest, int3 size, float3 offset,
-                           float3 step, int seed,
-                           NoizyEvalMode mode = NoizyEvalMode.auto,
-                           JobHandle dependsOn = default);
+NoizyHandle Schedule3D(NativeArray<float> dest, int3 size, float3 offset,
+                       float3 step, int seed,
+                       NoizyEvalMode mode = NoizyEvalMode.auto,
+                       JobHandle dependsOn = default);
 ```
 
 ### Single points
@@ -81,6 +81,19 @@ float[] EvaluatePositions3D(float[] xPositions, float[] yPositions, float[] zPos
                             float[] dest = null,
                             NoizyEvalMode mode = NoizyEvalMode.auto);
 
+// Same as above, plus the lowest/highest value, like the grid calls.
+float[] EvaluatePositions2D(float[] xPositions, float[] yPositions,
+                            float2 offset, int seed,
+                            out FastNoise.OutputMinMax range,
+                            float[] dest = null,
+                            NoizyEvalMode mode = NoizyEvalMode.auto);
+
+float[] EvaluatePositions3D(float[] xPositions, float[] yPositions, float[] zPositions,
+                            float3 offset, int seed,
+                            out FastNoise.OutputMinMax range,
+                            float[] dest = null,
+                            NoizyEvalMode mode = NoizyEvalMode.auto);
+
 void EvaluatePositions2D(NativeArray<float> dest,
                          NativeArray<float> xPositions, NativeArray<float> yPositions,
                          float2 offset, int seed,
@@ -94,28 +107,29 @@ void EvaluatePositions3D(NativeArray<float> dest,
                          out FastNoise.OutputMinMax range,
                          NoizyEvalMode mode = NoizyEvalMode.auto);
 
-NoizyEvalHandle SchedulePositions2D(NativeArray<float> dest,
-                                    NativeArray<float> xPositions, NativeArray<float> yPositions,
-                                    float2 offset, int seed,
-                                    NoizyEvalMode mode = NoizyEvalMode.auto,
-                                    JobHandle dependsOn = default);
+NoizyHandle SchedulePositions2D(NativeArray<float> dest,
+                                NativeArray<float> xPositions, NativeArray<float> yPositions,
+                                float2 offset, int seed,
+                                NoizyEvalMode mode = NoizyEvalMode.auto,
+                                JobHandle dependsOn = default);
 
-NoizyEvalHandle SchedulePositions3D(NativeArray<float> dest,
-                                    NativeArray<float> xPositions, NativeArray<float> yPositions,
-                                    NativeArray<float> zPositions,
-                                    float3 offset, int seed,
-                                    NoizyEvalMode mode = NoizyEvalMode.auto,
-                                    JobHandle dependsOn = default);
+NoizyHandle SchedulePositions3D(NativeArray<float> dest,
+                                NativeArray<float> xPositions, NativeArray<float> yPositions,
+                                NativeArray<float> zPositions,
+                                float3 offset, int seed,
+                                NoizyEvalMode mode = NoizyEvalMode.auto,
+                                JobHandle dependsOn = default);
 ```
 
-Note: the `float[]` position overloads don't hand back a range. The
-`NativeArray` ones do.
+Every position call can hand back the range. For the `float[]` ones, use the
+overload with `out range`; the one without it is still there for older code.
 
 ### Lifetime and settings
 
 ```csharp
 void Warmup();                 // compile the tree now, not on the first sample
 NoizyTree CreateTree();        // a new tree you own and must dispose
+                               // (throws, naming the asset, if it can't be built)
 
 bool ForceParallelEval { get; }        // does auto behave as forceParallel?
 void SetForceParallelEval(bool value); // set by the Graph Benchmark window
@@ -163,7 +177,7 @@ enum NoizyEvalMode {
 
 ---
 
-## NoizyEvalHandle
+## NoizyHandle
 
 `struct`, `IDisposable`. What `Schedule*` gives you back.
 
@@ -174,7 +188,9 @@ FastNoise.OutputMinMax Complete();     // waits, frees scratch, returns the rang
 void Dispose();                        // calls Complete()
 ```
 
-Complete or dispose it just once, same as a `NativeArray`.
+Calling `Complete()` or `Dispose()` again, or on a copy of the handle, is safe
+and just returns the same range. So `using var handle = ...` plus an explicit
+`Complete()` is fine.
 
 ---
 
@@ -249,16 +265,17 @@ instead of building one for you. Use it with `CreateTree()`.
 ```csharp
 static bool LogEvaluations;   // toggled by Window > Noizy > Debug > Log Evaluations
 
-static NoizyTree BuildTree(NoizySnapshotBake snapshot, string rootNodeId);
-
 static float[] Evaluate2D(NoizyTree tree, int2 size, float2 offset, float2 step,
                           int seed, out FastNoise.OutputMinMax range,
                           float[] dest = null,
                           NoizyEvalMode mode = NoizyEvalMode.auto);
 // ...and Evaluate3D, the NativeArray overloads, Schedule2D/3D,
-//    SampleSingle2D/3D, EvaluatePositions2D/3D, SchedulePositions2D/3D,
-//    all with a NoizyTree as the first argument.
+//    SampleSingle2D/3D, EvaluatePositions2D/3D (with or without `out range`),
+//    SchedulePositions2D/3D, all with a NoizyTree as the first argument.
 ```
+
+The `float[]` calls pin your arrays and go through the same code as the
+`NativeArray` calls, so both behave identically.
 
 The profiler markers live here, so they cover both these calls and the
 `NoizyAsset` ones.
@@ -271,8 +288,10 @@ The profiler markers live here, so they cover both these calls and the
 graph. See [Terrain component](terrain.md).
 
 ```csharp
+void GenerateAll();             // re-sample every Terrain child, right now
+
 [ContextMenu("Generate All Terrains")]
-void GenerateAll();     // re-sample every Terrain child, right now
+void GenerateAllWithUndo();     // the same, recorded as one Undo step
 ```
 
 Everything else is `[SerializeField]` and set in the Inspector: **Asset**,
@@ -299,6 +318,8 @@ You won't touch these much, but they're public.
 | Type | What it is |
 |---|---|
 | `NoizyGraphAsset` | Abstract base of `NoizyAsset` and `NoizySubgraph`. Holds the saved graph data |
+| `NoizyCompiler` | `BuildTree(NoizySnapshotBake, string rootNodeId)`. Builds a `NoizyTree` straight from a snapshot. `CreateTree()` calls this for you |
+| `FastNoise` | The low-level FastNoise2 bindings: building native nodes, setting their values, and the node metadata the editor shows. It has no sampling methods; sample through `NoizyAsset`, `NoizyEvaluator` or `NoizyTree` |
 | `NoizySnapshotBake` | The saved form of a graph: an output node id plus a list of nodes. `IsValid` tells you whether it's been baked |
 | `NoizyNodeEntry` | One node in a baked graph: its id, its type name, and its parameter values |
 | `NoizyGraphValidator` | `ValidateNoCycles(NoizySnapshotBake)`. Throws with the offending node's name |
@@ -313,7 +334,7 @@ You won't touch these much, but they're public.
 
 | Exception | Thrown when |
 |---|---|
-| `InvalidOperationException` | The graph hasn't been baked, the graph has a cycle, a node is missing a required input, or a subgraph is unassigned / contains itself |
+| `InvalidOperationException` | The graph hasn't been saved yet, or it can't be built: a cycle, a node missing a required input, or a subgraph that's unassigned / contains itself. When it comes from sampling a `NoizyAsset`, the message names the asset and says what to fix |
 | `ArgumentException` | A tree isn't valid, a destination buffer is too small or unallocated, or position arrays are different lengths |
 
 All Noizy messages are prefixed `[Noizy]`, so they're easy to filter for in the

@@ -14,6 +14,12 @@ It opens in the same editor as a normal graph and works just the same way:
 add nodes, wire them into the Output node, `Ctrl+S`. The window title says
 "Noizy (Subgraph)" so you know which one you're in.
 
+Already built the nodes inside a graph? Select them, right-click, and choose
+**Convert Selection to Subgraph**. Noizy saves them as a new subgraph asset and
+swaps in a single subgraph node. See
+[The graph editor](graph-editor.md#turning-a-selection-into-a-subgraph) for the
+rules.
+
 ## Using one
 
 Two ways, both fine:
