@@ -96,7 +96,7 @@ A bug report is most useful with:
 | | |
 |---|---|
 | **Unity** | 6.4 or newer |
-| **Platforms** | Windows (x64, ARM64), macOS, Linux (x64, ARM64), Android, iOS, WebGL (experimental) |
+| **Platforms** | Windows (x64, ARM64), macOS, Linux (x64, ARM64), Android, iOS (devices and Simulator), WebGL |
 | **Render pipelines** | Any. The demo materials are built for URP only |
 | **Packages** | `com.unity.mathematics`, `com.unity.collections`, `com.unity.burst` |
 | **Noise engine** | FastNoise2 (bundled, MIT) |

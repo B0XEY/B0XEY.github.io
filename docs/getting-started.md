@@ -15,9 +15,13 @@ about five minutes.
   - **macOS**: Intel and Apple Silicon, macOS 11 or newer
   - **Linux**: x64 and ARM64
   - **Android**: ARM64 and x86_64, Android 6 (API 23) or newer. 32-bit ARM isn't supported.
-  - **iOS**: devices, iOS 13 or newer. The iOS Simulator isn't supported.
-  - **WebGL**: experimental, Unity 6.5 or newer. See
-    [Troubleshooting](troubleshooting.md#webgl-the-build-fails-to-link-or-complains-about-simd).
+  - **iOS**: devices, iOS 13 or newer.
+  - **iOS Simulator**: Apple Silicon and Intel Macs, iOS 13 or newer. Set
+    **Target SDK** to **Simulator SDK** and build as usual. See
+    [Troubleshooting](troubleshooting.md#ios-simulator-building-for-the-simulator).
+  - **WebGL**: Unity 6.5 or newer. Tested with Unity's default WebGL settings. See
+    [Troubleshooting](troubleshooting.md#webgl-the-build-fails-to-link-or-complains-about-simd)
+    if your build complains about SIMD.
 
   Anything else (consoles, tvOS, visionOS) leaves Noizy out of the build instead
   of failing it. **Window > Noizy > Native Libraries** shows which platforms have

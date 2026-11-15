@@ -19,12 +19,6 @@ Everything that ships with Noizy that you can open, run, or steal from.
 Open any of them and press play. Each scene has its demo switched on and its own
 camera, so there's nothing to enable or assign first.
 
-You only need to open one. Press play and a **Next Demo >** button shows up at the
-bottom of the screen. Click it to jump to the next demo scene. After the last one
-it goes back to the first. The scenes need to be in your Build Settings scene list
-for this to work. The Noizy project already has them added. If you import the demos
-into your own project, add them there too.
-
 It's the quickest way to confirm the native library loaded on your machine, and
 the quickest way to see what changing a setting does, because most of
 the demo components regenerate live while you drag things in the Inspector.
@@ -105,12 +99,6 @@ Optional raycast snapping drops each prop onto whatever collider is underneath,
 like the demo terrain. Assign a prefab for a proper result; leave the field empty
 and it falls back to primitive cubes, which use the built-in default material and
 so render magenta under URP.
-
-### NoizyDemoNavigator.cs
-
-The **Next Demo >** button. It adds itself when you press play in any demo scene, so
-you don't put it in a scene. Change the `Scenes` array in the script to change the
-order or add a scene.
 
 ### NoizyDemoTextureUtil.cs
 

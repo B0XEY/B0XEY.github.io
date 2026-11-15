@@ -32,18 +32,19 @@ catches most of these when you save.
 Unity couldn't load the native library for your platform. Check:
 
 1. The files under `Assets/Plugins/Noizy/Core/Platforms/` (`Windows/`, `Linux/`,
-   `MacOS/`, `Android/`, `iOS/` and `WebGL/`) are still there. If your version
-   control ignores binaries, they may not have come across.
+   `MacOS/`, `Android/`, `iOS/`, `iOS/Simulator/` and `WebGL/`) are still there.
+   If your version control ignores binaries, they may not have come across.
 2. Open **Window > Noizy > Native Libraries**. It lists every platform and
    whether its library is in the project, and warns you if your active build
-   target has none. If a library is there but misbehaves, click **Apply
-   Settings** to give every library the right platform and CPU settings.
+   target (or, for iOS, your Target SDK) has none. If a library is there but
+   misbehaves, click **Apply Settings** to give every library the right
+   platform and CPU settings.
 3. You're on a supported platform: Windows (x64 or ARM64), macOS (Intel or Apple
-   Silicon), Linux (x64 or ARM64), Android (ARM64 or x86_64), iOS devices, or
-   WebGL.
+   Silicon), Linux (x64 or ARM64), Android (ARM64 or x86_64), iOS devices, the
+   iOS Simulator, or WebGL.
 
 On macOS you may also need to allow the library through Gatekeeper the first
-time.
+time. See [macOS: the library can't be opened](#macos-the-library-cant-be-opened).
 
 ### The node search is empty
 
@@ -230,16 +231,54 @@ evaluated on their own.
 ### Noizy isn't in my build
 
 Check your build target. `Noizy.Core` compiles for the Editor, Windows, macOS,
-Linux, Android, iOS and WebGL. On any other target (consoles, tvOS, visionOS)
+Linux, Android, iOS (devices and the Simulator) and WebGL. On any other target (consoles, tvOS, visionOS)
 it's left out of the build rather than failing it, which is intentional, but it
 does mean your code referencing `NoizyAsset` won't compile there either.
 
 ## Platform notes
 
-### The iOS Simulator isn't supported
+### macOS: the library can't be opened
 
-The iOS library is built for physical devices. A build for the Simulator will fail
-to link, or fail to find the library. Test on a device.
+If macOS shows a popup saying `libFastNoise.dylib` "can't be opened because Apple
+cannot check it for malicious software" (or says it's damaged), the library has
+been flagged as downloaded from the internet. This mostly happens when Noizy comes
+from a zip downloaded in a browser. Noise generation won't work until the library
+is allowed.
+
+Either fix works, and you only need to do it once:
+
+- **Terminal:** from your Unity project folder, run
+  ```bash
+  xattr -dr com.apple.quarantine Assets/Plugins/Noizy/Core/Platforms/MacOS/libFastNoise.dylib
+  ```
+  then restart Unity.
+- **System Settings:** after the popup appears, open **System Settings > Privacy &
+  Security**, scroll down to the message about `libFastNoise.dylib` and click
+  **Allow Anyway**. Restart Unity, and click **Open** if macOS asks again.
+
+If you moved the Noizy folder, change the path in the command to match.
+
+### iOS Simulator: building for the Simulator
+
+In **Edit > Project Settings > Player > iOS > Other Settings**, set **Target SDK**
+to **Simulator SDK** and build as usual. The Simulator library covers both Apple
+Silicon and Intel Macs.
+
+Unity can't tell a device library from a Simulator one, and the two share a file
+name, so the Simulator library (`Core/Platforms/iOS/Simulator/libFastNoise.a`) is
+enabled for no platform. After a Simulator SDK build, Noizy copies it over the
+device library in the generated Xcode project, and the Console shows
+`[Noizy] iOS Simulator SDK build: linked the Simulator FastNoise library`. Device
+builds are left alone.
+
+- **The build stops before it starts, saying the Simulator library is missing:**
+  `Core/Platforms/iOS/Simulator/libFastNoise.a` isn't in the project. Add it back,
+  or set **Target SDK** to **Device SDK**.
+- **Xcode says it's linking a library "built for iOS" while building for the
+  Simulator:** the swap didn't happen. Open **Window > Noizy > Native Libraries**,
+  click **Apply Settings**, and build again with **Replace** rather than **Append**.
+- **"Plugin is used from several locations":** the Simulator library has been
+  enabled for iOS by hand. **Apply Settings** switches it back off.
 
 ### Android: my build can't find the library, or crashes on an old phone
 
@@ -251,9 +290,10 @@ for 16 KB memory pages, which current Google Play rules require.
 
 ### WebGL: the build fails to link, or complains about SIMD
 
-WebGL support is experimental. The library uses WebAssembly SIMD, which Unity's
-default WebGL settings may not accept. Try turning on **Target WebAssembly 2023**
-in **Edit > Project Settings > Player > Publishing Settings**. It also needs Unity 6.5 or newer,
+Noizy has been tested in a WebGL build with Unity's default WebGL settings. The
+library uses WebAssembly SIMD, so if your build reports a SIMD or WebAssembly
+feature error, turn on **Target WebAssembly 2023** in **Edit > Project Settings >
+Player > Publishing Settings**. It also needs Unity 6.5 or newer,
 because the library is built with the Emscripten version that Unity uses from
 then on.
 

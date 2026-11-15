@@ -66,7 +66,7 @@ public class Example : MonoBehaviour {
 ## What you need
 
 - **Unity 6.4 or newer.** Older editors are not supported.
-- **Windows, macOS, Linux, Android, iOS, or WebGL** (WebGL is experimental).
+- **Windows, macOS, Linux, Android, iOS (devices and the Simulator), or WebGL.**
   Noise runs through native FastNoise2 libraries, so those are the platforms it
   covers. [Getting started](getting-started.md#what-you-need-first) lists the
   exact CPU types. Building for anything else leaves Noizy out of the build
